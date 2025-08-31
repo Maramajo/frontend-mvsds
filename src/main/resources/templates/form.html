@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulário</title>
+</head>
+<body>
+<h1>Formulário de Parâmetros</h1>
+<form method="post" action="/enviar">
+    <label>Usuário: <input type="text" name="usuario" required></label><br>
+    <label>Senha: <input type="password" name="senha" required></label><br><br>
+
+    <label>Dataset: <input type="text" name="dataset" required></label><br>
+    <label>Member: <input type="text" name="member" required></label><br><br>
+
+    <label>ID do Usuário: <input type="text" name="D02ID" required></label><br>
+    <label>IP: <input type="text" name="D03IP" required></label><br>
+    <label>Nome do PC: <input type="text" name="D04PC" required></label><br>
+    <label>DNS: <input type="text" name="D05DN" required></label><br>
+    <label>Tipo: <input type="text" name="D06TP" required></label><br>
+
+    <button type="submit">Enviar</button>
+</form>
+</body>
+</html>
