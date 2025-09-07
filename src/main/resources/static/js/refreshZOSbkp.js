@@ -54,20 +54,8 @@ var translations = {
       if (!isInitialLoad) {
         var currentUrl = window.location.href;
         var pageName = currentUrl.split('/').pop(); // Pega o último segmento da URL
-        // Infere o idioma atual da página
-		if (pageName.startsWith("SAL")){
-			var currentLang = pageName === 'SALDODE' ? 'de' : pageName === 'SALDOEN' ? 'en' : 'pt';
-			// Define a página alvo com base no idioma
-			var targetPageName = lang === 'de' ? 'SALDODE' : lang === 'en' ? 'SALDOEN' : 'SALDO';
-
-		}
- 
-		if (pageName.startsWith("EXT")){
-		var currentLang = pageName === 'EXTRATODE' ? 'de' : pageName === 'EXTRATOEN' ? 'en' : 'pt';
-		 // Define a página alvo com base no idioma
-		 var targetPageName = lang === 'de' ? 'EXTRATODE' : lang === 'en' ? 'EXTRATOEN' : 'EXTRATO';
-		}
-				console.log("Como ficou targetPageName "+targetPageName);
+        var currentLang = pageName === 'SALDODE' ? 'de' : 'pt'; // Infere o idioma atual da página
+        var targetPageName = lang === 'de' ? 'SALDODE' : 'SALDO'; // Página alvo com base no idioma
 
         // Verifica se o idioma selecionado é diferente do idioma atual da página
         if (lang !== currentLang) {
@@ -94,7 +82,7 @@ var translations = {
       return;
     }
     console.log("Parâmetro name: " + name);
-    console.log("Nova URL "+ newUrl);
+
     // Envia a requisição POST
     fetch(newUrl, {
       method: 'POST',
@@ -123,21 +111,7 @@ var translations = {
     });
   }
 
-  // Função para atualizar a página atual (refresh)
-  window.refreshPage = function() {
-    console.log("Atualizando a página atual...");
-    var currentUrl = window.location.href;
-    var pageName = currentUrl.split('/').pop(); // Pega o último segmento da URL
-
-    // Verifica se está em uma página válida
-    if (['SALDO', 'SALDODE', 'SALDOEN'].includes(pageName)) {
-      sendPostRequest(currentUrl, pageName);
-    } else {
-      console.error("Página atual não suporta refresh: " + pageName);
-    }
-  };
-
-  console.log("window.changeLang e window.refreshPage definidos.");
+  console.log("window.changeLang definido.");
 
   document.addEventListener("DOMContentLoaded", function() {
     try {

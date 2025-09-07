@@ -55,19 +55,10 @@ var translations = {
         var currentUrl = window.location.href;
         var pageName = currentUrl.split('/').pop(); // Pega o último segmento da URL
         // Infere o idioma atual da página
-		if (pageName.startsWith("SAL")){
-			var currentLang = pageName === 'SALDODE' ? 'de' : pageName === 'SALDOEN' ? 'en' : 'pt';
-			// Define a página alvo com base no idioma
-			var targetPageName = lang === 'de' ? 'SALDODE' : lang === 'en' ? 'SALDOEN' : 'SALDO';
-
-		}
- 
-		if (pageName.startsWith("EXT")){
-		var currentLang = pageName === 'EXTRATODE' ? 'de' : pageName === 'EXTRATOEN' ? 'en' : 'pt';
-		 // Define a página alvo com base no idioma
-		 var targetPageName = lang === 'de' ? 'EXTRATODE' : lang === 'en' ? 'EXTRATOEN' : 'EXTRATO';
-		}
-				console.log("Como ficou targetPageName "+targetPageName);
+        var currentLang = pageName === 'SALDODE' ? 'de' : pageName === 'SALDOEN' ? 'en' : 'pt';
+        // Define a página alvo com base no idioma
+        var targetPageName = lang === 'de' ? 'SALDODE' : lang === 'en' ? 'SALDOEN' : 'SALDO';
+		console.log("Como ficou targetPageName "+targetPageName);
 
         // Verifica se o idioma selecionado é diferente do idioma atual da página
         if (lang !== currentLang) {

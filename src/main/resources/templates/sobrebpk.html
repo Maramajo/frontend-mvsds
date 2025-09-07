@@ -106,24 +106,8 @@
         #figura {
             margin-left: 35%;
         }
-
-        .footer-note {
-            font-size: 0.85rem;
-            color: #666;
-            margin-top: 30px;
-            padding-top: 10px;
-            border-top: 1px solid #eee;
-        }
-
-        .nav-link {
-            color: #0d6efd;
-            /* Cor padrão do Bootstrap */
-        }
-
-        .nav-link.active {
-            color: #a50037 !important;
-            /* Cor para o link selecionado */
-        }
+		.footer-note { font-size:0.85rem; color:#666; margin-top:30px; padding-top:10px;
+		  border-top:1px solid #eee; }
     </style>
 </head>
 
@@ -210,9 +194,9 @@
             </ul>
         </div>
     </div><br><br><br>
-    <footer>
-        <p>&copy; <span id="rodape">2001 Maramajo. Todos os direitos reservados.</span></p>
-    </footer>
+	<footer>
+	  <p >&copy; <span id="rodape">2001 Maramajo. Todos os direitos reservados.</span></p>
+	</footer>
     <!-- Scripts -->
     <script>
         // Tabela de traduções (menu + colunas)
@@ -237,7 +221,7 @@
                 ],
                 dropdownLabel: "Brasil | PT",
                 dropdownFlag: "br",
-                rodaṕeTxt: '2001 Maramajo. Todos os direitos reservados.'
+				rodaṕeTxt: '2001 Maramajo. Todos os direitos reservados.'
 
             },
             en: {
@@ -247,7 +231,7 @@
                 about: "📄 About",
                 contactNav: "📬 Contact us",
                 quemSomos: "Why choose us",
-                quemSomosText: 'A <span class="marca">Maramajo</span> has grown over 21 years thanks to the teamwork and leadership of its experienced management team. <br><br> This continuity of management has contributed to long-lasting and mutually beneficial relationships with customers and partners. <br><br>The accumulated experience of <span class="marca">Maramajos</span> management team in the areas of product development and project execution uniquely positions it to understand customer needs and provide superior solutions at competitive prices.',
+                quemSomosText:'A <span class="marca">Maramajo</span> has grown over 21 years thanks to the teamwork and leadership of its experienced management team. <br><br> This continuity of management has contributed to long-lasting and mutually beneficial relationships with customers and partners. <br><br>The accumulated experience of <span class="marca">Maramajos</span> management team in the areas of product development and project execution uniquely positions it to understand customer needs and provide superior solutions at competitive prices.',
                 solucoes: "Innovative and economical solutions",
                 solucoesList: [
                     "- Development and maintenance of systems on Mainframe, Windows, and Unix/Linux platforms.",
@@ -260,7 +244,7 @@
                 ],
                 dropdownLabel: "US | EN",
                 dropdownFlag: "us",
-                rodaṕeTxt: '2001 Maramajo. All rights reserved.'
+				rodaṕeTxt: '2001 Maramajo. All rights reserved.'
             },
             de: {
                 solutions: "Lösungen",
@@ -269,7 +253,7 @@
                 about: "📄 Über uns",
                 contactNav: "📬 Kontakt",
                 quemSomos: "Wer wir sind",
-                quemSomosText: 'A <span class="marca">Maramajo</span> ist in 21 Jahren dank der Teamarbeit und Führung seines erfahrenen Managementteams gewachsen. <br><br> Diese Kontinuität im Management hat zu langjährigen und für beide Seiten vorteilhaften Beziehungen mit Kunden und Partnern beigetragen. <br><br>Die gesammelte Erfahrung des <span class="marca">Maramajo</span>-Managementteams in den Bereichen Produktentwicklung und Projektabwicklung versetzt es in die einzigartige Lage, die Kundenbedürfnisse zu verstehen und erstklassige Lösungen zu wettbewerbsfähigen Preisen anzubieten.',
+                quemSomosText:'A <span class="marca">Maramajo</span> ist in 21 Jahren dank der Teamarbeit und Führung seines erfahrenen Managementteams gewachsen. <br><br> Diese Kontinuität im Management hat zu langjährigen und für beide Seiten vorteilhaften Beziehungen mit Kunden und Partnern beigetragen. <br><br>Die gesammelte Erfahrung des <span class="marca">Maramajo</span>-Managementteams in den Bereichen Produktentwicklung und Projektabwicklung versetzt es in die einzigartige Lage, die Kundenbedürfnisse zu verstehen und erstklassige Lösungen zu wettbewerbsfähigen Preisen anzubieten.',
                 solucoes: "Innovative und wirtschaftliche Lösungen",
                 solucoesList: [
                     "- Entwicklung und Wartung von Systemen auf Mainframe-, Windows- und Unix/Linux-Plattformen.",
@@ -282,11 +266,12 @@
                 ],
                 dropdownLabel: "Germany | DE",
                 dropdownFlag: "de",
-                rodaṕeTxt: '2001 Maramajo. All rights reserved.'
+				rodaṕeTxt: '2001 Maramajo. All rights reserved.'
 
             }
         };
-        // Helper para setar texto com segurança
+
+        // Helper para setar texto com segurança (evita quebra se elemento não existir)
         function setText(id, text) {
             const el = document.getElementById(id);
             if (el) el.textContent = text;
@@ -299,54 +284,44 @@
         }
 
         function changeLang(lang) {
-            localStorage.setItem('lang', lang);
+            localStorage.setItem('lang', lang); // <-- salva escolha
             const t = translations[lang] || translations['pt'];
 
+            // Atualiza <html lang="...">
             document.documentElement.setAttribute('lang', lang);
+
+            // Menu / Cabeçalho
             setText('solutions-title', t.solutions);
             setText('home-link', t.home);
             setText('propostas-link', t.propostas);
             setText('about-link', t.about);
             setText('contact-link', t.contactNav);
+
+            // Colunas
             setText('quem-somos', t.quemSomos);
-            setText('rodape', t.rodaṕeTxt);
+			setText('rodape', t.rodaṕeTxt);
+
+            //setText('quem-somos-text', t.quemSomosText);
             document.getElementById('quem-somos-text').innerHTML = t.quemSomosText;
             setText('solucoes', t.solucoes);
+
+          //  setText('propostas-txt', t.propostasTxt);
+           // setText('zos-txt', t.zosTxt);
 
             const ul = document.getElementById('solucoes-list');
             if (ul) ul.innerHTML = t.solucoesList.map(item => `<li>${item}</li>`).join('');
 
+            // Botão do dropdown (bandeira + label)
             updateDropdownButton(t.dropdownFlag, t.dropdownLabel);
         }
 
-        // Função para gerenciar o estado ativo dos links
-        function setActiveLink() {
-            const navLinks = document.querySelectorAll('.nav-link');
-
-            navLinks.forEach(link => {
-                link.addEventListener('click', function () {
-                    navLinks.forEach(l => l.classList.remove('active'));
-                    this.classList.add('active');
-                });
-            });
-
-            // Define o link ativo com base na URL atual
-            const currentPath = window.location.pathname;
-            navLinks.forEach(link => {
-                const href = link.getAttribute('href');
-                if (href === currentPath || (currentPath === '/' && href === '/')) {
-                    link.classList.add('active');
-                }
-            });
-        }
-
-        // Inicializa idioma e links ativos
+        // Inicializa no idioma indicado pelo atributo <html lang="..."> (fallback: pt)
         document.addEventListener('DOMContentLoaded', () => {
             const savedLang = localStorage.getItem('lang');
             const initial = savedLang || document.documentElement.lang || 'pt';
-            changeLang(initial); // Inicializa o idioma
-            setActiveLink(); // Inicializa os links ativos
+            changeLang(initial);
         });
+
     </script>
 
     <!-- Bootstrap bundle -->

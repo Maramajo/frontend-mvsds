@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap" rel="stylesheet" />
-  <title>Contatos</title>
+  <title>CWS - Middleware Simplification</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
@@ -76,43 +76,20 @@
       background-image: url("data:image/svg+xml;base64,PHN2ZyBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgdmlld0JveD0iMCAwIDY0IDY0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxjaXJjbGUgY3g9IjMyIiBjeT0iMTIiIHI9IjgiIGZpbGw9IiM4MGMxMzMiLz48Y2lyY2xlIGN4PSIyNCIgY3k9IjI0IiByPSI4IiBmaWxsPSIjOGMwYjMzIi8+PGNpcmNsZSBjeD0iNDAiIGN5PSIyNCIgcj0iOCIgZmlsbD0iIzgwOTMzMyIvPjxjaXJjbGUgY3g9IjMyIiBjeT0iMzYiIHI9IjgiIGZpbGw9IiM4YzBiMzMiLz48cGF0aCBkPSJNMzIgNGw0LTMiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjNjk1YzI4Ii8+PHBhdGggZD0iTTM2IDFsNS01IiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZT0iIzY5NWMyOCIvPjwvc3ZnPg==");
       background-size: contain;
       background-repeat: no-repeat;
-      color: purple;
+      color:purple;
       position: relative;
       top: 11px;
       /* desce o cacho ~3 mm */
     }
+	.footer-note { font-size:0.85rem; color:#666; margin-top:30px; padding-top:10px;
+	  border-top:1px solid #eee; }
+	  .nav-link {
+	      color: #0d6efd; /* Cor padrão do Bootstrap */
+	  }
 
-    .whatsapp-contact {
-      text-align: center;
-      font-size: 24px;
-      color: #075e54;
-      /* Cor verde do WhatsApp */
-      font-weight: bold;
-    }
-
-    .whatsapp-logo {
-      width: 40px;
-      vertical-align: middle;
-      margin-right: 10px;
-    }
-
-    .footer-note {
-      font-size: 0.85rem;
-      color: #666;
-      margin-top: 30px;
-      padding-top: 10px;
-      border-top: 1px solid #eee;
-    }
-
-    .nav-link {
-      color: #0d6efd;
-      /* Cor padrão do Bootstrap */
-    }
-
-    .nav-link.active {
-      color: #a50037 !important;
-      /* Cor para o link selecionado */
-    }
+	  .nav-link.active {
+	      color: #a50037 !important; /* Cor para o link selecionado */
+	  }
 
 
     /* keep JIT tailwind from interfering in non-tailwind environments */
@@ -168,12 +145,12 @@
 
   <!-- Conteúdo -->
   <div class="mx-auto px-4 py-8 max-w-4xl">
-    <!-- Header 
+    <!-- Header -->
     <header class="text-center mb-12">
       <h1 id="main-title" class="text-4xl md:text-5xl font-extrabold text-blue-600">CWS</h1>
       <h2 id="sub-title" class="text-2xl md:text-3xl font-semibold text-gray-700 mt-2"></h2>
       <p id="intro-text" class="text-lg md:text-xl text-gray-600 mt-4"></p>
-    </header>-->
+    </header>
 
     <!-- Overview -->
     <section>
@@ -227,16 +204,6 @@
     <section>
       <h3 id="contact-title" class="section-header"></h3>
       <p id="contact-text" class="text-base md:text-lg leading-relaxed"></p>
-      <p id="contact-text1" class="text-base md:text-lg leading-relaxed"></p>
-      <div class="whatsapp-contact">
-        <table>
-          <tr>
-            <td><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp Logo"
-                class="whatsapp-logo"></td>
-            <td><a href="https://wa.me/5511976533798" class="text-base hover:underline"> +55 (11) 97653-3798</a></td>
-          </tr>
-        </table>
-      </div>
     </section>
 
     <!-- Tags (adicionado) -->
@@ -247,7 +214,7 @@
 
   </div>
   <footer>
-    <p>&copy; <span id="rodape">2001 Maramajo. Todos os direitos reservados.</span></p>
+    <p >&copy; <span id="rodape">2001 Maramajo. Todos os direitos reservados.</span></p>
   </footer>
   <script>
     const translations = {
@@ -291,13 +258,11 @@
         relatedTitle: "📄 Conteúdo Relacionado",
         relatedText: 'Este repositório suporta as ideias discutidas neste artigo:<br><span class="markdown-emoji">📚</span> <a href="#" class="text-blue-600 hover:underline">Artigo no Medium em breve...</a>',
         contactTitle: "📬 Contato",
-        contactText: 'E-mail - <a href="mailto:maramajo.inf@gmail.com?subject=Contato" class="text-blue-600 hover:underline">Maramajo</a>',
-        contactText1: 'Linkedin - <a href="https://www.linkedin.com/in/jose-teixeira-672ba3b/" class="text-blue-600 hover:underline">Maramajo</a>',
-
+        contactText: 'Sinta-se à vontade para abrir issues ou conectar via <a href="https://www.linkedin.com/in/jose-teixeira-672ba3b/" class="text-blue-600 hover:underline">LinkedIn</a> para compartilhar feedback ou discutir implementações.',
         tagsTitle: "🏷️ Tags",
-        tagsList: ["#mainframe", "#softwarearchitecture", "#legacyModernization", "#efficiency", "#simplify", "#COBOL", "#zOS", "#SpringBoot", "#middleware"],
-        rodaṕeTxt: '2001 Maramajo. Todos os direitos reservados.'
-
+		contactText: 'Sinta-se à vontade para abrir issues ou conectar via <a href="https://www.linkedin.com/in/jose-teixeira-672ba3b/" class="text-blue-600 hover:underline">LinkedIn</a> para compartilhar feedback ou discutir implementações.',
+		rodaṕeTxt: '2001 Maramajo. Todos os direitos reservados.',
+        tagsList: ["#mainframe", "#softwarearchitecture", "#legacyModernization", "#efficiency", "#simplify", "#COBOL", "#zOS", "#SpringBoot", "#middleware"]
       },
 
       en: {
@@ -340,13 +305,10 @@
         relatedTitle: "📄 Related Content",
         relatedText: 'This repository supports the ideas discussed in this article:<br><span class="markdown-emoji">📚</span> <a href="#" class="text-blue-600 hover:underline">Medium article coming soon...</a>',
         contactTitle: "📬 Contact",
-        contactText: 'E-mail - <a href="mailto:maramajo.inf@gmail.com?subject=Contato" class="text-blue-600 hover:underline">Maramajo</a>',
-        contactText1: 'Linkedin - <a href="https://www.linkedin.com/in/jose-teixeira-672ba3b/" class="text-blue-600 hover:underline">Maramajo</a>',
-
-        tagsTitle: "🏷️ Tags",
-        tagsList: ["#mainframe", "#softwarearchitecture", "#legacyModernization", "#efficiency", "#simplify", "#COBOL", "#zOS", "#SpringBoot", "#middleware"],
-        rodaṕeTxt: '2001 Maramajo. All rights reserved.'
-
+        contactText: 'Feel free to open issues or connect via <a href="https://www.linkedin.com/in/jose-teixeira-672ba3b/" class="text-blue-600 hover:underline">LinkedIn</a> to share feedback or discuss implementations.',
+		rodaṕeTxt: '2001 Maramajo. All rights reserved.',
+		tagsTitle: "🏷️ Tags",
+        tagsList: ["#mainframe", "#softwarearchitecture", "#legacyModernization", "#efficiency", "#simplify", "#COBOL", "#zOS", "#SpringBoot", "#middleware"]
       },
 
       de: {
@@ -389,12 +351,10 @@
         relatedTitle: "📄 Verwandte Inhalte",
         relatedText: 'Dieses Repository unterstützt die in diesem Artikel diskutierten Ideen:<br><span class="markdown-emoji">📚</span> <a href="#" class="text-blue-600 hover:underline">Medium-Artikel kommt bald...</a>',
         contactTitle: "📬 Kontakt",
-        contactText: 'E-mail - <a href="mailto:maramajo.inf@gmail.com?subject=Contato" class="text-blue-600 hover:underline">Maramajo</a>',
-        contactText1: 'LinkedIn - <a href="https://www.linkedin.com/in/jose-teixeira-672ba3b/" class="text-blue-600 hover:underline">Maramajo</a>',
-        tagsTitle: "🏷️ Tags",
-        tagsList: ["#mainframe", "#softwarearchitecture", "#legacyModernization", "#efficiency", "#simplify", "#COBOL", "#zOS", "#SpringBoot", "#middleware"],
-        rodaṕeTxt: '2001 Maramajo. Alle Rechte vorbehalten.'
-
+        contactText: 'Sie können gerne Issues öffnen oder sich über <a href="https://www.linkedin.com/in/jose-teixeira-672ba3b/" class="text-blue-600 hover:underline">LinkedIn</a> verbinden, um Feedback zu teilen oder Implementierungen zu diskutieren.',
+		rodaṕeTxt: '2001 Maramajo. Alle Rechte vorbehalten.',
+		tagsTitle: "🏷️ Tags",
+        tagsList: ["#mainframe", "#softwarearchitecture", "#legacyModernization", "#efficiency", "#simplify", "#COBOL", "#zOS", "#SpringBoot", "#middleware"]
       }
     };
 
@@ -410,54 +370,53 @@
       document.getElementById('contact-link').textContent = t.contactNav;
 
       // main header
-      //document.getElementById('main-title').textContent = t.mainTitle;
-      //document.getElementById('sub-title').textContent = t.subTitle;
-      //document.getElementById('intro-text').textContent = t.intro;
+      document.getElementById('main-title').textContent = t.mainTitle;
+      document.getElementById('sub-title').textContent = t.subTitle;
+      document.getElementById('intro-text').textContent = t.intro;
 
       // overview
-      //document.getElementById('overview-title').textContent = t.overviewTitle;
-      //document.getElementById('overview-text1').textContent = t.overviewText1;
-      //document.getElementById('overview-quote').textContent = t.overviewQuote;
+      document.getElementById('overview-title').textContent = t.overviewTitle;
+      document.getElementById('overview-text1').textContent = t.overviewText1;
+      document.getElementById('overview-quote').textContent = t.overviewQuote;
 
       // problem
-      //document.getElementById('problem-title').textContent = t.problemTitle;
-      //document.getElementById('problem-text1').textContent = t.problemText1;
-      //document.getElementById('problem-list').innerHTML = t.problemList.map(i => `<li>${i}</li>`).join('');
+      document.getElementById('problem-title').textContent = t.problemTitle;
+      document.getElementById('problem-text1').textContent = t.problemText1;
+      document.getElementById('problem-list').innerHTML = t.problemList.map(i => `<li>${i}</li>`).join('');
 
       // solution
-      //document.getElementById('solution-title').textContent = t.solutionTitle;
-      //document.getElementById('solution-text1').textContent = t.solutionText1;
-      //document.getElementById('solution-list').innerHTML = t.solutionList.map(i => `<li>${i}</li>`).join('');
-      //document.getElementById('solution-text2').textContent = t.solutionText2;
+      document.getElementById('solution-title').textContent = t.solutionTitle;
+      document.getElementById('solution-text1').textContent = t.solutionText1;
+      document.getElementById('solution-list').innerHTML = t.solutionList.map(i => `<li>${i}</li>`).join('');
+      document.getElementById('solution-text2').textContent = t.solutionText2;
+	  document.getElementById('rodape').textContent = t.rodaṕeTxt;
 
       // why
-      //document.getElementById('why-title').textContent = t.whyTitle;
-      //document.getElementById('why-quote').textContent = t.whyQuote;
-      //document.getElementById('why-text1').textContent = t.whyText1;
-      //document.getElementById('why-list').innerHTML = t.whyList.map(i => `<li>${i}</li>`).join('');
+      document.getElementById('why-title').textContent = t.whyTitle;
+      document.getElementById('why-quote').textContent = t.whyQuote;
+      document.getElementById('why-text1').textContent = t.whyText1;
+      document.getElementById('why-list').innerHTML = t.whyList.map(i => `<li>${i}</li>`).join('');
 
       // who should care
-      //document.getElementById('who-title').textContent = t.whoTitle;
-      //document.getElementById('who-list').innerHTML = t.whoList.map(i => `<li>${i}</li>`).join('');
+      document.getElementById('who-title').textContent = t.whoTitle;
+      document.getElementById('who-list').innerHTML = t.whoList.map(i => `<li>${i}</li>`).join('');
 
       // files
-      //document.getElementById('files-title').textContent = t.filesTitle;
-      //document.getElementById('files-list').innerHTML = t.filesList.map(i => `<li>${i}</li>`).join('');
+      document.getElementById('files-title').textContent = t.filesTitle;
+      document.getElementById('files-list').innerHTML = t.filesList.map(i => `<li>${i}</li>`).join('');
 
       // related
-      //document.getElementById('related-title').textContent = t.relatedTitle;
-      //document.getElementById('related-text').innerHTML = t.relatedText;
+      document.getElementById('related-title').textContent = t.relatedTitle;
+      document.getElementById('related-text').innerHTML = t.relatedText;
 
       // contact
       document.getElementById('contact-title').textContent = t.contactTitle;
       document.getElementById('contact-text').innerHTML = t.contactText;
-      document.getElementById('contact-text1').innerHTML = t.contactText1;
-      document.getElementById('rodape').innerHTML = t.rodaṕeTxt;
 
       // tags
-      //document.getElementById('tags-title').textContent = t.tagsTitle;
-      //document.getElementById('tags-container').innerHTML =
-      //  t.tagsList.map(tag => `<span class="tag-pill">${tag}</span>`).join(' ');
+      document.getElementById('tags-title').textContent = t.tagsTitle;
+      document.getElementById('tags-container').innerHTML =
+        t.tagsList.map(tag => `<span class="tag-pill">${tag}</span>`).join(' ');
 
       // atualizar o botão do dropdown (mostra bandeirinha + label)
       let flag = 'br', label = 'Brasil | PT';
@@ -469,33 +428,12 @@
     }
 
     // inicia em português (PT Brasil)
-    document.addEventListener('DOMContentLoaded', () => {
-      const savedLang = localStorage.getItem('lang');
-      const initial = savedLang || document.documentElement.lang || 'pt';
-      changeLang(initial);
-      setActiveLink(); // Inicializa os links ativos
-
-    });
-    // Função para gerenciar o estado ativo dos links
-    function setActiveLink() {
-      const navLinks = document.querySelectorAll('.nav-link');
-
-      navLinks.forEach(link => {
-        link.addEventListener('click', function () {
-          navLinks.forEach(l => l.classList.remove('active'));
-          this.classList.add('active');
+           document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('lang');
+            const initial = savedLang || document.documentElement.lang || 'pt';
+            changeLang(initial);
         });
-      });
 
-      // Define o link ativo com base na URL atual
-      const currentPath = window.location.pathname;
-      navLinks.forEach(link => {
-        const href = link.getAttribute('href');
-        if (href === currentPath || (currentPath === '/' && href === '/')) {
-          link.classList.add('active');
-        }
-      });
-    }
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

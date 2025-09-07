@@ -76,11 +76,30 @@
       background-image: url("data:image/svg+xml;base64,PHN2ZyBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgdmlld0JveD0iMCAwIDY0IDY0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxjaXJjbGUgY3g9IjMyIiBjeT0iMTIiIHI9IjgiIGZpbGw9IiM4MGMxMzMiLz48Y2lyY2xlIGN4PSIyNCIgY3k9IjI0IiByPSI4IiBmaWxsPSIjOGMwYjMzIi8+PGNpcmNsZSBjeD0iNDAiIGN5PSIyNCIgcj0iOCIgZmlsbD0iIzgwOTMzMyIvPjxjaXJjbGUgY3g9IjMyIiBjeT0iMzYiIHI9IjgiIGZpbGw9IiM4YzBiMzMiLz48cGF0aCBkPSJNMzIgNGw0LTMiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjNjk1YzI4Ii8+PHBhdGggZD0iTTM2IDFsNS01IiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZT0iIzY5NWMyOCIvPjwvc3ZnPg==");
       background-size: contain;
       background-repeat: no-repeat;
-      color:purple;
+      color: purple;
       position: relative;
       top: 11px;
       /* desce o cacho ~3 mm */
     }
+
+    .footer-note {
+      font-size: 0.85rem;
+      color: #666;
+      margin-top: 30px;
+      padding-top: 10px;
+      border-top: 1px solid #eee;
+    }
+
+    .nav-link {
+      color: #0d6efd;
+      /* Cor padrão do Bootstrap */
+    }
+
+    .nav-link.active {
+      color: #a50037 !important;
+      /* Cor para o link selecionado */
+    }
+
 
     /* keep JIT tailwind from interfering in non-tailwind environments */
   </style>
@@ -203,7 +222,9 @@
     </section>
 
   </div>
-
+  <footer>
+    <p>&copy; <span id="rodape">2001 Maramajo. Todos os direitos reservados.</span></p>
+  </footer>
   <script>
     const translations = {
       pt: {
@@ -248,6 +269,8 @@
         contactTitle: "📬 Contato",
         contactText: 'Sinta-se à vontade para abrir issues ou conectar via <a href="https://www.linkedin.com/in/jose-teixeira-672ba3b/" class="text-blue-600 hover:underline">LinkedIn</a> para compartilhar feedback ou discutir implementações.',
         tagsTitle: "🏷️ Tags",
+        contactText: 'Sinta-se à vontade para abrir issues ou conectar via <a href="https://www.linkedin.com/in/jose-teixeira-672ba3b/" class="text-blue-600 hover:underline">LinkedIn</a> para compartilhar feedback ou discutir implementações.',
+        rodaṕeTxt: '2001 Maramajo. Todos os direitos reservados.',
         tagsList: ["#mainframe", "#softwarearchitecture", "#legacyModernization", "#efficiency", "#simplify", "#COBOL", "#zOS", "#SpringBoot", "#middleware"]
       },
 
@@ -292,6 +315,7 @@
         relatedText: 'This repository supports the ideas discussed in this article:<br><span class="markdown-emoji">📚</span> <a href="#" class="text-blue-600 hover:underline">Medium article coming soon...</a>',
         contactTitle: "📬 Contact",
         contactText: 'Feel free to open issues or connect via <a href="https://www.linkedin.com/in/jose-teixeira-672ba3b/" class="text-blue-600 hover:underline">LinkedIn</a> to share feedback or discuss implementations.',
+        rodaṕeTxt: '2001 Maramajo. All rights reserved.',
         tagsTitle: "🏷️ Tags",
         tagsList: ["#mainframe", "#softwarearchitecture", "#legacyModernization", "#efficiency", "#simplify", "#COBOL", "#zOS", "#SpringBoot", "#middleware"]
       },
@@ -301,7 +325,7 @@
         home: "🏠 Startseite",
         propostas: "💼 Vorschläge",
         about: "📄 Über uns",
-        contactNav: "📬 Kontaktieren Sie uns",
+        contactNav: "📬 Kontakt",
         mainTitle: "CWS",
         subTitle: "Middleware-Vereinfachung in kritischen Systemen",
         intro: "Beseitigung unnötiger Middleware-Schichten für einfachere, schnellere und sicherere Unternehmensarchitekturen.",
@@ -337,13 +361,14 @@
         relatedText: 'Dieses Repository unterstützt die in diesem Artikel diskutierten Ideen:<br><span class="markdown-emoji">📚</span> <a href="#" class="text-blue-600 hover:underline">Medium-Artikel kommt bald...</a>',
         contactTitle: "📬 Kontakt",
         contactText: 'Sie können gerne Issues öffnen oder sich über <a href="https://www.linkedin.com/in/jose-teixeira-672ba3b/" class="text-blue-600 hover:underline">LinkedIn</a> verbinden, um Feedback zu teilen oder Implementierungen zu diskutieren.',
+        rodaṕeTxt: '2001 Maramajo. Alle Rechte vorbehalten.',
         tagsTitle: "🏷️ Tags",
         tagsList: ["#mainframe", "#softwarearchitecture", "#legacyModernization", "#efficiency", "#simplify", "#COBOL", "#zOS", "#SpringBoot", "#middleware"]
       }
     };
 
     function changeLang(lang) {
-      localStorage.setItem('preferredLang', lang); // <-- salva escolha
+      localStorage.setItem('lang', lang); // <-- salva escolha
       const t = translations[lang] || translations['pt'];
 
       // nav / header
@@ -373,6 +398,7 @@
       document.getElementById('solution-text1').textContent = t.solutionText1;
       document.getElementById('solution-list').innerHTML = t.solutionList.map(i => `<li>${i}</li>`).join('');
       document.getElementById('solution-text2').textContent = t.solutionText2;
+      document.getElementById('rodape').textContent = t.rodaṕeTxt;
 
       // why
       document.getElementById('why-title').textContent = t.whyTitle;
@@ -411,12 +437,32 @@
     }
 
     // inicia em português (PT Brasil)
-           document.addEventListener('DOMContentLoaded', () => {
-            const savedLang = localStorage.getItem('preferredLang');
-            const initial = savedLang || document.documentElement.lang || 'pt';
-            changeLang(initial);
-        });
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('lang');
+      const initial = savedLang || document.documentElement.lang || 'pt';
+      changeLang(initial);
+      setActiveLink(); // Inicializa os links ativos
+    });
+    // Função para gerenciar o estado ativo dos links
+    function setActiveLink() {
+      const navLinks = document.querySelectorAll('.nav-link');
 
+      navLinks.forEach(link => {
+        link.addEventListener('click', function () {
+          navLinks.forEach(l => l.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+
+      // Define o link ativo com base na URL atual
+      const currentPath = window.location.pathname;
+      navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === currentPath || (currentPath === '/' && href === '/')) {
+          link.classList.add('active');
+        }
+      });
+    }
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

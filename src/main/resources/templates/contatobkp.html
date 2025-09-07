@@ -83,36 +83,25 @@
     }
 
     .whatsapp-contact {
-      text-align: center;
-      font-size: 24px;
-      color: #075e54;
-      /* Cor verde do WhatsApp */
-      font-weight: bold;
-    }
+            text-align: center;
+            font-size: 24px;
+            color: #075e54; /* Cor verde do WhatsApp */
+            font-weight: bold;
+        }
+        .whatsapp-logo {
+            width: 40px;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+		.footer-note { font-size:0.85rem; color:#666; margin-top:30px; padding-top:10px;
+		  border-top:1px solid #eee; }
+		  .nav-link {
+		      color: #0d6efd; /* Cor padrão do Bootstrap */
+		  }
 
-    .whatsapp-logo {
-      width: 40px;
-      vertical-align: middle;
-      margin-right: 10px;
-    }
-
-    .footer-note {
-      font-size: 0.85rem;
-      color: #666;
-      margin-top: 30px;
-      padding-top: 10px;
-      border-top: 1px solid #eee;
-    }
-
-    .nav-link {
-      color: #0d6efd;
-      /* Cor padrão do Bootstrap */
-    }
-
-    .nav-link.active {
-      color: #a50037 !important;
-      /* Cor para o link selecionado */
-    }
+		  .nav-link.active {
+		      color: #a50037 !important; /* Cor para o link selecionado */
+		  }
 
 
     /* keep JIT tailwind from interfering in non-tailwind environments */
@@ -228,15 +217,10 @@
       <h3 id="contact-title" class="section-header"></h3>
       <p id="contact-text" class="text-base md:text-lg leading-relaxed"></p>
       <p id="contact-text1" class="text-base md:text-lg leading-relaxed"></p>
-      <div class="whatsapp-contact">
-        <table>
-          <tr>
-            <td><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp Logo"
-                class="whatsapp-logo"></td>
-            <td><a href="https://wa.me/5511976533798" class="text-base hover:underline"> +55 (11) 97653-3798</a></td>
-          </tr>
-        </table>
-      </div>
+    <div class="whatsapp-contact">
+      <table><tr><td><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp Logo" class="whatsapp-logo"></td>
+      <td><a href="https://wa.me/5511976533798" class="text-base hover:underline"> +55 (11) 97653-3798</a></td></tr></table>
+    </div>
     </section>
 
     <!-- Tags (adicionado) -->
@@ -247,7 +231,7 @@
 
   </div>
   <footer>
-    <p>&copy; <span id="rodape">2001 Maramajo. Todos os direitos reservados.</span></p>
+    <p >&copy; <span id="rodape">2001 Maramajo. Todos os direitos reservados.</span></p>
   </footer>
   <script>
     const translations = {
@@ -296,9 +280,9 @@
 
         tagsTitle: "🏷️ Tags",
         tagsList: ["#mainframe", "#softwarearchitecture", "#legacyModernization", "#efficiency", "#simplify", "#COBOL", "#zOS", "#SpringBoot", "#middleware"],
-        rodaṕeTxt: '2001 Maramajo. Todos os direitos reservados.'
+		rodaṕeTxt: '2001 Maramajo. Todos os direitos reservados.'
 
-      },
+		   },
 
       en: {
         solutions: "Solutions",
@@ -345,9 +329,9 @@
 
         tagsTitle: "🏷️ Tags",
         tagsList: ["#mainframe", "#softwarearchitecture", "#legacyModernization", "#efficiency", "#simplify", "#COBOL", "#zOS", "#SpringBoot", "#middleware"],
-        rodaṕeTxt: '2001 Maramajo. All rights reserved.'
+		rodaṕeTxt: '2001 Maramajo. All rights reserved.'
 
-      },
+		      },
 
       de: {
         solutions: "Lösungen",
@@ -393,9 +377,9 @@
         contactText1: 'LinkedIn - <a href="https://www.linkedin.com/in/jose-teixeira-672ba3b/" class="text-blue-600 hover:underline">Maramajo</a>',
         tagsTitle: "🏷️ Tags",
         tagsList: ["#mainframe", "#softwarearchitecture", "#legacyModernization", "#efficiency", "#simplify", "#COBOL", "#zOS", "#SpringBoot", "#middleware"],
-        rodaṕeTxt: '2001 Maramajo. Alle Rechte vorbehalten.'
+		rodaṕeTxt: '2001 Maramajo. Alle Rechte vorbehalten.'
 
-      }
+		      }
     };
 
     function changeLang(lang) {
@@ -452,7 +436,7 @@
       document.getElementById('contact-title').textContent = t.contactTitle;
       document.getElementById('contact-text').innerHTML = t.contactText;
       document.getElementById('contact-text1').innerHTML = t.contactText1;
-      document.getElementById('rodape').innerHTML = t.rodaṕeTxt;
+	  document.getElementById('rodape').innerHTML = t.rodaṕeTxt;
 
       // tags
       //document.getElementById('tags-title').textContent = t.tagsTitle;
@@ -473,29 +457,8 @@
       const savedLang = localStorage.getItem('lang');
       const initial = savedLang || document.documentElement.lang || 'pt';
       changeLang(initial);
-      setActiveLink(); // Inicializa os links ativos
-
     });
-    // Função para gerenciar o estado ativo dos links
-    function setActiveLink() {
-      const navLinks = document.querySelectorAll('.nav-link');
 
-      navLinks.forEach(link => {
-        link.addEventListener('click', function () {
-          navLinks.forEach(l => l.classList.remove('active'));
-          this.classList.add('active');
-        });
-      });
-
-      // Define o link ativo com base na URL atual
-      const currentPath = window.location.pathname;
-      navLinks.forEach(link => {
-        const href = link.getAttribute('href');
-        if (href === currentPath || (currentPath === '/' && href === '/')) {
-          link.classList.add('active');
-        }
-      });
-    }
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
