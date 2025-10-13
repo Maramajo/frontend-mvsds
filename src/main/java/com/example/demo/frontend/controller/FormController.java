@@ -9,7 +9,11 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -19,6 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +37,7 @@ import com.example.demo.frontend.model.TemplateForm;
 @Controller
 public class FormController {
 //	"comeco.txt", "sobre.txt", "propostas.txt", "contato.txt", "aatm004p.txt",
- //   "saldo.txt", "extrato.txt"
+	// "saldo.txt", "extrato.txt"
 
 	private final HttpClient client = HttpClient.newHttpClient();
 	private final int COMECO = 0;
@@ -47,30 +52,106 @@ public class FormController {
 	@Autowired
 	private AccessCounter counter;
 
-	@GetMapping("/")
+	@GetMapping("/original")
+	@CrossOrigin(origins = "*")
 	public String showForm() {
 		counter.increment(COMECO);
-		return "comeco";
+		return "spaMesmaAba3";
+	}
+//	@GetMapping("/original/home")
+//	@CrossOrigin(origins = "*")
+//	public String showFormHome() {
+//		counter.increment(COMECO);
+//		return "spaMesmaAba3";
+//	}
+	@GetMapping("/")
+	@CrossOrigin(origins = "*")
+	public String soZOS(HttpServletResponse servletResp) throws Exception {
+		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATM004P"))
+				.header("Content-Type", "application/x-www-form-urlencoded; charset=ISO-8859-1").header("passo", "1")
+				.GET().build();
+
+		HttpResponse<String> response = client.send(req,
+				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
+
+		// 1) Pegar os headers do mainframe
+		Map<String, List<String>> zosHeaders = response.headers().map();
+
+		// 2) Passar para a view (ex.: Thymeleaf) para exibir no HTML
+		// model.addAttribute("zosHeaders", zosHeaders);
+		// model.addAttribute("zosBody", response.body());
+		// model.addAttribute("zosStatus", response.statusCode());
+
+		// 3) Copiar os headers para a resposta HTTP enviada ao browser,
+		// exceto headers "hop-by-hop" que não devem ser propagados
+		Set<String> skip = Set.of("content-length", "transfer-encoding", "connection", "keep-alive",
+				"proxy-authenticate", "proxy-authorization", "te", "trailer", "upgrade");
+
+		for (Map.Entry<String, List<String>> e : zosHeaders.entrySet()) {
+			String name = e.getKey();
+			if (skip.contains(name.toLowerCase()))
+				continue;
+			for (String value : e.getValue()) {
+				// use addHeader para permitir múltiplos valores
+				servletResp.addHeader(name, value);
+				System.out.println("SOZOS COMEÇO : " + name + "  " + value);
+			}
+		}
+
+		// Opcional: definir status do servlet response igual ao do ZOS (cuidado com
+		// páginas)
+		// servletResp.setStatus(response.statusCode());
+
+		return "spaChamazOS"; // sua view/template
 	}
 
 	@GetMapping("/sobre")
+	@CrossOrigin(origins = "*")
 	public String showSobre() {
 		counter.increment(SOBRE);
 		return "sobre";
 	}
 
+	@GetMapping("/original/sobre")
+	@CrossOrigin(origins = "*")
+	public String showSobr1() {
+		counter.increment(SOBRE);
+		System.out.println("Em original/sobre");
+		return "sobreOriginal";
+	}
+
 	@GetMapping("/propostas")
+	@CrossOrigin(origins = "*")
 	public String showPropostas() {
 		counter.increment(PROPOSTAS);
+		System.out.println("Em /propostas");
 		return "propostas";
 	}
 
+	@GetMapping("/original/propostas")
+	@CrossOrigin(origins = "*")
+	public String showProposta1() {
+		counter.increment(PROPOSTAS);
+		System.out.println("Em /original/propostas");
+		return "propostasOriginal";
+	}
+
 	@GetMapping("/contato")
+	@CrossOrigin(origins = "*")
 	public String showContato() {
 		counter.increment(CONTATO);
 		return "contato";
 	}
 
+	@GetMapping("/original/contato")
+	@CrossOrigin(origins = "*")
+	public String showContat1() {
+		counter.increment(CONTATO);
+		System.out.println("Em original/contato");
+		return "contatoOriginal";
+	}
+
+	@CrossOrigin(origins = "*")
 	@GetMapping(value = "/zOS", produces = MediaType.TEXT_HTML_VALUE)
 	@ResponseBody
 	public String showZOS() throws IOException, InterruptedException {
@@ -78,54 +159,104 @@ public class FormController {
 		System.out.println("Dentro de z/OS");
 
 		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATM004P"))
-				.header("Content-Type", "application/x-www-form-urlencoded; charset=ISO-8859-1")
-				.build();
+				.header("Content-Type", "application/x-www-form-urlencoded; charset=ISO-8859-1").build();
 
 		HttpResponse<String> response = client.send(req,
 				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
 //				HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
 
+		return response.body();
+	}
+
+	@CrossOrigin(origins = "*")
+	@GetMapping(value = "/original/zOS", produces = MediaType.TEXT_HTML_VALUE)
+	@ResponseBody
+	public String showZO1() throws IOException, InterruptedException {
+		counter.increment(AATM004P);
+		System.out.println("Dentro de original z/OS");
+
+		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATM004P"))
+				.header("Content-Type", "application/x-www-form-urlencoded; charset=ISO-8859-1").build();
+
+		HttpResponse<String> response = client.send(req,
+				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
+//				HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
 
 		return response.body();
 	}
+
+	@GetMapping(value = "/original/zOE", produces = MediaType.TEXT_HTML_VALUE)
+	@CrossOrigin(origins = "*")
+	@ResponseBody
+	public String showZO2() throws IOException, InterruptedException {
+		counter.increment(AATM004P);
+		System.out.println("Dentro de original z/OE");
+
+		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATM004I"))
+				.header("Content-Type", "application/x-www-form-urlencoded; charset=ISO-8859-1").build();
+
+		HttpResponse<String> response = client.send(req,
+				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
+//				HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+
+		return response.body();
+	}
+
 	@GetMapping(value = "/zOE", produces = MediaType.TEXT_HTML_VALUE)
+	@CrossOrigin(origins = "*")
 	@ResponseBody
 	public String showZOE() throws IOException, InterruptedException {
 		counter.increment(AATM004P);
-		System.out.println("Dentro de z/OE");
+		System.out.println("Dentro de original z/OE");
 
 		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATM004I"))
-				.header("Content-Type", "application/x-www-form-urlencoded; charset=ISO-8859-1")
-				.build();
+				.header("Content-Type", "application/x-www-form-urlencoded; charset=ISO-8859-1").build();
 
 		HttpResponse<String> response = client.send(req,
 				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
 //				HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
-
 
 		return response.body();
 	}
+
 	@GetMapping(value = "/zOA", produces = MediaType.TEXT_HTML_VALUE)
+	@CrossOrigin(origins = "*")
 	@ResponseBody
 	public String showZOA() throws IOException, InterruptedException {
 		counter.increment(AATM004P);
-		System.out.println("Dentro de z/OA");
+		System.out.println("Dentro de original z/OA");
 
 		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATM004A"))
-				.header("Content-Type", "application/x-www-form-urlencoded; charset=ISO-8859-1")
-				.build();
+				.header("Content-Type", "application/x-www-form-urlencoded; charset=ISO-8859-1").build();
 
 		HttpResponse<String> response = client.send(req,
 				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
 //				HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
 
+		return response.body();
+	}
+
+	@GetMapping(value = "/original/zOA", produces = MediaType.TEXT_HTML_VALUE)
+	@CrossOrigin(origins = "*")
+	@ResponseBody
+	public String showZO3() throws IOException, InterruptedException {
+		counter.increment(AATM004P);
+		System.out.println("Dentro de original z/OA");
+
+		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATM004A"))
+				.header("Content-Type", "application/x-www-form-urlencoded; charset=ISO-8859-1").build();
+
+		HttpResponse<String> response = client.send(req,
+				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
+//				HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
 
 		return response.body();
 	}
 
 	@GetMapping(value = "/SALDO", produces = "text/html; charset=UTF8")
+	@CrossOrigin(origins = "*")
 	@ResponseBody
-	public String verSaldoGet() throws IOException, InterruptedException  {
+	public String verSaldoGet() throws IOException, InterruptedException {
 		System.out.println("Dentro de SALDO GET");
 		counter.increment(SALDO);
 //		counter.adicionarVisitante(nome+" - SALDO");
@@ -140,10 +271,30 @@ public class FormController {
 		return response.body();
 
 	}
-	
-	@GetMapping(value = "/SALDOEN", produces = "text/html; charset=UTF8")
+
+	@GetMapping(value = "/original/SALDO", produces = "text/html; charset=UTF8")
+	@CrossOrigin(origins = "*")
 	@ResponseBody
-	public String verSaldoEnGet() throws IOException, InterruptedException  {
+	public String verSaldoGe1() throws IOException, InterruptedException {
+		System.out.println("Dentro de original SALDO GET");
+		counter.increment(SALDO);
+//		counter.adicionarVisitante(nome+" - SALDO");
+		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMSALD"))
+//				.POST(HttpRequest.BodyPublishers.ofString("name=" + nome))
+//				.header("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+				.build();
+
+		HttpResponse<String> response = client.send(req,
+				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
+
+		return response.body();
+
+	}
+
+	@GetMapping(value = "/SALDOEN", produces = "text/html; charset=UTF8")
+	@CrossOrigin(origins = "*")
+	@ResponseBody
+	public String verSaldoEnGet() throws IOException, InterruptedException {
 		System.out.println("Dentro de SALDOEN GET");
 		counter.increment(SALDOEN);
 //		counter.adicionarVisitante(nome+" - SALDO");
@@ -158,9 +309,30 @@ public class FormController {
 		return response.body();
 
 	}
-	@GetMapping(value = "/SALDODE", produces = "text/html; charset=UTF8")
+
+	@GetMapping(value = "/original/SALDOEN", produces = "text/html; charset=UTF8")
+	@CrossOrigin(origins = "*")
 	@ResponseBody
-	public String verSaldoDeGet() throws IOException, InterruptedException  {
+	public String verSaldoEnGe1() throws IOException, InterruptedException {
+		System.out.println("Dentro de original SALDOEN GET");
+		counter.increment(SALDOEN);
+//		counter.adicionarVisitante(nome+" - SALDO");
+		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMSAEN"))
+//				.POST(HttpRequest.BodyPublishers.ofString("name=" + nome))
+//				.header("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+				.build();
+
+		HttpResponse<String> response = client.send(req,
+				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
+
+		return response.body();
+
+	}
+
+	@GetMapping(value = "/SALDODE", produces = "text/html; charset=UTF8")
+	@CrossOrigin(origins = "*")
+	@ResponseBody
+	public String verSaldoDeGet() throws IOException, InterruptedException {
 		System.out.println("Dentro de SALDODE GET");
 		counter.increment(SALDO);
 //		counter.adicionarVisitante(nome+" - SALDO");
@@ -176,12 +348,32 @@ public class FormController {
 
 	}
 
+	@GetMapping(value = "/original/SALDODE", produces = "text/html; charset=UTF8")
+	@CrossOrigin(origins = "*")
+	@ResponseBody
+	public String verSaldoDeGe1() throws IOException, InterruptedException {
+		System.out.println("Dentro de original SALDODE GET");
+		counter.increment(SALDO);
+//		counter.adicionarVisitante(nome+" - SALDO");
+		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMSADE"))
+//				.POST(HttpRequest.BodyPublishers.ofString("name=" + nome))
+//				.header("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+				.build();
+
+		HttpResponse<String> response = client.send(req,
+				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
+
+		return response.body();
+
+	}
+
 	@PostMapping(value = "/SALDO", produces = "text/html; charset=UTF8")
+	@CrossOrigin(origins = "*")
 	@ResponseBody
 	public String verSaldo(@RequestParam("name") String nome) throws IOException, InterruptedException {
 		System.out.println("Dentro de SALDO");
 		counter.increment(SALDO);
-		counter.adicionarVisitante(nome+" - SALDO");
+		counter.adicionarVisitante(nome + " - SALDO");
 		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMSALD"))
 				.POST(HttpRequest.BodyPublishers.ofString("name=" + nome))
 //				.header("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
@@ -192,13 +384,53 @@ public class FormController {
 
 		return response.body();
 	}
+
+	@PostMapping(value = "/original/SALDO", produces = "text/html; charset=UTF8")
+	@CrossOrigin(origins = "*")
+	@ResponseBody
+	public String verSald1(@RequestParam("name") String nome) throws IOException, InterruptedException {
+		System.out.println("Dentro de original SALDO");
+		counter.increment(SALDO);
+		counter.adicionarVisitante(nome + " - SALDO");
+		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMSALD"))
+				.POST(HttpRequest.BodyPublishers.ofString("name=" + nome))
+//				.header("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+				.build();
+
+		HttpResponse<String> response = client.send(req,
+				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
+
+		return response.body();
+	}
+
 	@PostMapping(value = "/SALDOEN", produces = "text/html; charset=UTF8")
+	@CrossOrigin(origins = "*")
 	@ResponseBody
 	public String verSaldoEn(@RequestParam("name") String nome) throws IOException, InterruptedException {
 		System.out.println("Dentro de SALDOEN");
 
 		counter.increment(SALDOEN);
-		counter.adicionarVisitante(nome+" - SALDOEN");
+		counter.adicionarVisitante(nome + " - SALDOEN");
+		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMSAEN"))
+				.POST(HttpRequest.BodyPublishers.ofString("name=" + nome))
+//				.header("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+				.timeout(Duration.ofMinutes(2)) // aumenta timeout do cliente
+				.build();
+
+		HttpResponse<String> response = client.send(req,
+				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
+
+		return response.body();
+	}
+
+	@PostMapping(value = "/original/SALDOEN", produces = "text/html; charset=UTF8")
+	@CrossOrigin(origins = "*")
+	@ResponseBody
+	public String verSaldoE1(@RequestParam("name") String nome) throws IOException, InterruptedException {
+		System.out.println("Dentro de original SALDOEN");
+
+		counter.increment(SALDOEN);
+		counter.adicionarVisitante(nome + " - SALDOEN");
 		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMSAEN"))
 				.POST(HttpRequest.BodyPublishers.ofString("name=" + nome))
 //				.header("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
@@ -212,12 +444,13 @@ public class FormController {
 	}
 
 	@PostMapping(value = "/SALDODE", produces = "text/html; charset=UTF8")
+	@CrossOrigin(origins = "*")
 	@ResponseBody
 	public String verSaldoDe(@RequestParam("name") String nome) throws IOException, InterruptedException {
 		System.out.println("Dentro de SALDODE");
 
 		counter.increment(SALDODE);
-		counter.adicionarVisitante(nome+" - SALDODE");
+		counter.adicionarVisitante(nome + " - SALDODE");
 		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMSADE"))
 				.POST(HttpRequest.BodyPublishers.ofString("name=" + nome))
 //				.header("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
@@ -229,28 +462,90 @@ public class FormController {
 		return response.body();
 	}
 
-
-	@PostMapping(value = "/EXTRATO", produces = MediaType.TEXT_HTML_VALUE)
+	@PostMapping(value = "original/SALDODE", produces = "text/html; charset=UTF8")
+	@CrossOrigin(origins = "*")
 	@ResponseBody
-	public String verExtrato(@RequestParam("name") String nome) throws IOException, InterruptedException {
+	public String verSaldoD1(@RequestParam("name") String nome) throws IOException, InterruptedException {
+		System.out.println("Dentro de original SALDODE");
 
-		counter.increment(EXTRATO);
-		counter.adicionarVisitante(nome+" - EXTRATO");
-		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMEXTR"))
+		counter.increment(SALDODE);
+		counter.adicionarVisitante(nome + " - SALDODE");
+		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMSADE"))
 				.POST(HttpRequest.BodyPublishers.ofString("name=" + nome))
-				.header("Content-Type", "application/x-www-form-urlencoded").build();
+//				.header("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+				.build();
 
 		HttpResponse<String> response = client.send(req,
 				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
 
 		return response.body();
 	}
+
+	@PostMapping(value = "/EXTRATO", produces = MediaType.TEXT_HTML_VALUE)
+	@CrossOrigin(origins = "*")
+	@ResponseBody
+	public String verExtrato(@RequestParam("name") String nome) throws IOException, InterruptedException {
+
+		counter.increment(EXTRATO);
+		counter.adicionarVisitante(nome + " - EXTRATO");
+		System.out.println("Dentro de EXTRATO");
+
+		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMEXTR"))
+				.POST(HttpRequest.BodyPublishers.ofString("name=" + nome))
+				.header("Content-Type", "application/x-www-form-urlencoded").build();
+
+		HttpResponse<String> response = client.send(req,
+				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
+	//	System.out.println("CORPO - " + response.body());
+
+		return response.body();
+	}
+	@PostMapping(value = "/original/EXTRATO", produces = MediaType.TEXT_HTML_VALUE)
+	@CrossOrigin(origins = "*")
+	@ResponseBody
+	public String verExtrat1(@RequestParam("name") String nome) throws IOException, InterruptedException {
+
+		counter.increment(EXTRATO);
+		counter.adicionarVisitante(nome + " - EXTRATO");
+		System.out.println("Dentro de original EXTRATO");
+
+		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMEXTR"))
+				.POST(HttpRequest.BodyPublishers.ofString("name=" + nome))
+				.header("Content-Type", "application/x-www-form-urlencoded").build();
+
+		HttpResponse<String> response = client.send(req,
+				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
+	//	System.out.println("CORPO - " + response.body());
+
+		return response.body();
+	}
+
+
 	@GetMapping(value = "/EXTRATO", produces = MediaType.TEXT_HTML_VALUE)
+	@CrossOrigin(origins = "*")
 	@ResponseBody
 	public String verExtrato() throws IOException, InterruptedException {
+		System.out.println("Dentro de EXTRATO");
+		counter.increment(EXTRATO);
+//		counter.adicionarVisitante(nome+" - EXTRATO");
+		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMEXTR"))
+//				.POST(HttpRequest.BodyPublishers.ofString("name=" + nome))
+				.header("Content-Type", "application/x-www-form-urlencoded").build();
+
+		HttpResponse<String> response = client.send(req,
+				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
+//		System.out.println("CORPO - " + response.body());
+		return response.body();
+	}
+
+	@GetMapping(value = "original/EXTRATO", produces = MediaType.TEXT_HTML_VALUE)
+	@CrossOrigin(origins = "*")
+	@ResponseBody
+	public String verExtrat1() throws IOException, InterruptedException {
 
 		counter.increment(EXTRATO);
 //		counter.adicionarVisitante(nome+" - EXTRATO");
+		System.out.println("Dentro de original EXTRATO");
 		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMEXTR"))
 //				.POST(HttpRequest.BodyPublishers.ofString("name=" + nome))
 				.header("Content-Type", "application/x-www-form-urlencoded").build();
@@ -262,11 +557,13 @@ public class FormController {
 	}
 
 	@PostMapping(value = "/EXTRATODE", produces = MediaType.TEXT_HTML_VALUE)
+	@CrossOrigin(origins = "*")
 	@ResponseBody
 	public String verExtratoGe(@RequestParam("name") String nome) throws IOException, InterruptedException {
 
 		counter.increment(EXTRATO);
-		counter.adicionarVisitante(nome+" - EXTRATODE");
+		counter.adicionarVisitante(nome + " - EXTRATODE");
+		System.out.println("Dentro de original EXTRATODE");
 		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMEXGE"))
 				.POST(HttpRequest.BodyPublishers.ofString("name=" + nome))
 				.header("Content-Type", "application/x-www-form-urlencoded").build();
@@ -276,11 +573,32 @@ public class FormController {
 
 		return response.body();
 	}
+
+	@PostMapping(value = "/original/EXTRATODE", produces = MediaType.TEXT_HTML_VALUE)
+	@CrossOrigin(origins = "*")
+	@ResponseBody
+	public String verExtratoG1(@RequestParam("name") String nome) throws IOException, InterruptedException {
+
+		counter.increment(EXTRATO);
+		counter.adicionarVisitante(nome + " - EXTRATODE");
+		System.out.println("Dentro de original EXTRATODE");
+		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMEXGE"))
+				.POST(HttpRequest.BodyPublishers.ofString("name=" + nome))
+				.header("Content-Type", "application/x-www-form-urlencoded").build();
+
+		HttpResponse<String> response = client.send(req,
+				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
+
+		return response.body();
+	}
+
 	@GetMapping(value = "/EXTRATODE", produces = MediaType.TEXT_HTML_VALUE)
+	@CrossOrigin(origins = "*")
 	@ResponseBody
 	public String verExtratoGe() throws IOException, InterruptedException {
 
 		counter.increment(EXTRATO);
+		System.out.println("Dentro de EXTRATODE");
 //		counter.adicionarVisitante(nome+" - EXTRATODE");
 		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMEXGE"))
 //				.POST(HttpRequest.BodyPublishers.ofString("name=" + nome))
@@ -291,12 +609,33 @@ public class FormController {
 
 		return response.body();
 	}
+
+	@GetMapping(value = "original/EXTRATODE", produces = MediaType.TEXT_HTML_VALUE)
+	@CrossOrigin(origins = "*")
+	@ResponseBody
+	public String verExtratoG1() throws IOException, InterruptedException {
+
+		counter.increment(EXTRATO);
+//		counter.adicionarVisitante(nome+" - EXTRATODE");
+		System.out.println("Dentro de original EXTRATODE");
+		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMEXGE"))
+//				.POST(HttpRequest.BodyPublishers.ofString("name=" + nome))
+				.header("Content-Type", "application/x-www-form-urlencoded").build();
+
+		HttpResponse<String> response = client.send(req,
+				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
+
+		return response.body();
+	}
+
 	@PostMapping(value = "/EXTRATOEN", produces = MediaType.TEXT_HTML_VALUE)
+	@CrossOrigin(origins = "*")
 	@ResponseBody
 	public String verExtratoEn(@RequestParam("name") String nome) throws IOException, InterruptedException {
 
 		counter.increment(EXTRATO);
-		counter.adicionarVisitante(nome+" - EXTRATODE");
+		counter.adicionarVisitante(nome + " - EXTRATODE");
+		System.out.println("Dentro de EXTRATOEN");
 		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMEXEN"))
 				.POST(HttpRequest.BodyPublishers.ofString("name=" + nome))
 				.header("Content-Type", "application/x-www-form-urlencoded").build();
@@ -306,11 +645,50 @@ public class FormController {
 
 		return response.body();
 	}
+
+	@PostMapping(value = "/original/EXTRATOEN", produces = MediaType.TEXT_HTML_VALUE)
+	@CrossOrigin(origins = "*")
+	@ResponseBody
+	public String verExtratoE1(@RequestParam("name") String nome) throws IOException, InterruptedException {
+
+		counter.increment(EXTRATO);
+		counter.adicionarVisitante(nome + " - EXTRATOEN");
+		System.out.println("Dentro de original EXTRATOEN");
+		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMEXEN"))
+				.POST(HttpRequest.BodyPublishers.ofString("name=" + nome))
+				.header("Content-Type", "application/x-www-form-urlencoded").build();
+
+		HttpResponse<String> response = client.send(req,
+				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
+
+		return response.body();
+	}
+
 	@GetMapping(value = "/EXTRATOEN", produces = MediaType.TEXT_HTML_VALUE)
+	@CrossOrigin(origins = "*")
 	@ResponseBody
 	public String verExtratoEn() throws IOException, InterruptedException {
 
 		counter.increment(EXTRATO);
+//		counter.adicionarVisitante(nome+" - EXTRATODE");
+		System.out.println("Dentro de EXTRATOEN");
+		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMEXEN"))
+//				.POST(HttpRequest.BodyPublishers.ofString("name=" + nome))
+				.header("Content-Type", "application/x-www-form-urlencoded").build();
+
+		HttpResponse<String> response = client.send(req,
+				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
+
+		return response.body();
+	}
+
+	@GetMapping(value = "/original/EXTRATOEN", produces = MediaType.TEXT_HTML_VALUE)
+	@CrossOrigin(origins = "*")
+	@ResponseBody
+	public String verExtratoE1() throws IOException, InterruptedException {
+
+		counter.increment(EXTRATO);
+		System.out.println("Dentro de original EXTRATOEN get");
 //		counter.adicionarVisitante(nome+" - EXTRATODE");
 		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMEXEN"))
 //				.POST(HttpRequest.BodyPublishers.ofString("name=" + nome))

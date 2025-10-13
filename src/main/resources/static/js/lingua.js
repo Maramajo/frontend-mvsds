@@ -1,5 +1,5 @@
   // Tabela de traduções
-  const translations = {
+  const translations1 = {
     pt: {
       home: "Home",
       proposals: "Propostas",
@@ -7,7 +7,7 @@
       contact: "Contacte-nos",
       dropdownLabel: "Brasil | PT",
       dropdownFlag: "br",
-      url: "http://maramajo.ddns.net/zOS"
+      url: "http://maramajo.ddns.net:32000/zOS"
     },
     en: {
       home: "Home",
@@ -16,7 +16,7 @@
       contact: "Contact us",
       dropdownLabel: "US | EN",
       dropdownFlag: "us",
-      url: "http://maramajo.ddns.net/zOE"
+      url: "http://maramajo.ddns.net:32000/zOE"
     },
     de: {
       home: "Startseite",
@@ -25,7 +25,7 @@
       contact: "Kontakt",
       dropdownLabel: "Germany | DE",
       dropdownFlag: "de",
-      url: "http://maramajo.ddns.net/zOA"
+      url: "http://maramajo.ddns.net:32000/zOA"
     }
   };
 
@@ -45,7 +45,7 @@
   // Função para trocar idioma
   function changeLang(lang) {
     localStorage.setItem('lang', lang); // Salva escolha do idioma
-    const t = translations[lang] || translations['pt'];
+    const t = translations1[lang] || translations1['pt'];
 
     // Atualiza o atributo lang do HTML
     document.documentElement.setAttribute('lang', lang);
@@ -62,9 +62,9 @@
     // Verifica se a página atual é zOS, zOE ou zOA e redireciona
     const currentUrl = window.location.href;
     const targetUrls = [
-      'http://maramajo.ddns.net/zOS',
-      'http://maramajo.ddns.net/zOE',
-      'http://maramajo.ddns.net/zOA'
+      'http://maramajo.ddns.net:32000/zOS',
+      'http://maramajo.ddns.net:32000/zOE',
+      'http://maramajo.ddns.net:32000/zOA'
     ];
 
     if (targetUrls.includes(currentUrl) && currentUrl !== t.url) {

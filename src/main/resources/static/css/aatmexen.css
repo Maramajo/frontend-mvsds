@@ -1,0 +1,85 @@
+    body { background-color:#f8f9fa; font-size:0.95rem; }
+    .linha-extrato {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 8px 0;
+      border-bottom: 1px solid #ccc;
+    }
+    .coluna {
+      flex: 1;
+      padding: 0 5px;
+    }
+    .coluna:nth-child(1), .coluna:nth-child(2), .coluna:nth-child(3) {
+      text-align: left;
+    }
+    .coluna:nth-child(4), .coluna:nth-child(5), .coluna:nth-child(6) {
+      text-align: right;
+    }
+    .debito { color: #b30000; font-weight: bold; }
+    .saldo-negativo { color: #b30000; font-weight: bold; }
+    .saldo-positivo { color: #009900; font-weight: bold; }
+    .totais {
+      font-weight: bold;
+      border-top: 2px solid #333;
+      padding-top: 6px;
+    }
+    .marca {
+      font-family: 'UnifrakturCook', cursive;
+      letter-spacing: 1px;
+      font-size: 1.5rem;
+      color:  #a50037 !important;
+    }
+
+    @media (max-width: 576px) {
+      .linha-extrato {
+        flex-direction: column;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 10px;
+        margin-bottom: 10px;
+        background-color: #fff;
+      }
+      .linha-extrato .coluna {
+        flex: 100%;
+        text-align: left !important;
+        padding: 2px 0;
+      }
+      .linha-extrato .coluna::before {
+        font-weight: bold;
+        display: inline-block;
+        min-width: 90px;
+      }
+      .linha-extrato .coluna:nth-child(1)::before { content: "Data: "; }
+      .linha-extrato .coluna:nth-child(2)::before { content: "Histórico: "; }
+      .linha-extrato .coluna:nth-child(3)::before { content: "Documento: "; }
+      .linha-extrato .coluna:nth-child(4)::before { content: "Crédito: "; }
+      .linha-extrato .coluna:nth-child(5)::before { content: "Débito: "; }
+      .linha-extrato .coluna:nth-child(6)::before { content: "Saldo: "; }
+    }
+  .footer-note { font-size:0.85rem; color:#666; margin-top:30px; padding-top:10px;
+    border-top:1px solid #eee; }
+  /* ícone cacho de uvas */
+  .cacho-uvas {
+    display: inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+    background-image: url("/favicon.ico");
+    background-size: contain;
+    background-repeat: no-repeat;
+    color: purple;
+    position: relative;
+    top: 0.1rem;
+  }
+  nav.nav { display:flex; gap:1.5rem; flex-wrap:wrap; }
+  .nav-link { font-size:1.2rem; font-weight:bold; color:#0066ff; }
+  .nav-link:hover { text-decoration:underline; }
+    .titulo {
+      letter-spacing: 1px;
+      font-size: 1.5rem;
+      color: #070000 !important;
+    }
+
+    #solutions-title.titulo {
+      color: #070000 !important;
+      /* Cor azul do text-blue-600 no Bootstrap */
+    }

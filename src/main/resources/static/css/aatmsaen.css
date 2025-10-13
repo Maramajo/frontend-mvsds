@@ -1,0 +1,287 @@
+    body {
+      background-color: #f8f9fa;
+      font-size: 0.95rem;
+    }
+
+    .tooltip-icon {
+      display: inline-block;
+      margin-left: 4px;
+      color: #007bff;
+      font-weight: bold;
+      font-size: 14px;
+      position: relative;
+      cursor: help;
+    }
+
+    .tooltip-icon::after {
+      content: "Invest Fácil is a service that makes balances above US$ 51.00 yield profits every day.";
+      position: absolute;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #a50037;
+      color: #fff;
+      padding: 8px;
+      border-radius: 6px;
+      white-space: normal;
+      width: 240px;
+      text-align: left;
+      font-size: 13px;
+      line-height: 1.4;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity .3s;
+      z-index: 1000;
+    }
+
+    .tooltip-icon:hover::after {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .product-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+      background-color: #f8f9fa;
+    }
+
+    .total-row {
+      font-weight: bold;
+      padding: 10px 0;
+      /* border-top:2px solid #ddd; */
+      margin-top: 5px;
+      background-color: #f0f0f0;
+    }
+
+    .product-name {
+      font-weight: normal;
+    }
+
+    .product-value {
+      font-weight: bold;
+      text-align: right;
+    }
+
+    .resumo-header {
+      background-color: #f0f0f0;
+      font-weight: bold;
+      text-align: center;
+      padding: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .resumo-linha {
+      border-bottom: 1px solid #ddd;
+      padding: 8px;
+    }
+
+    .resumo-total {
+      font-weight: bold;
+      background-color: #f8f8f8;
+    }
+
+    .valor {
+      text-align: right;
+    }
+
+    .section-title {
+      font-weight: bold;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      color: #0055a5;
+      border-bottom: 2px solid #a50037;
+      padding-bottom: 5px;
+    }
+
+    .section-subtitle {
+      font-weight: bold;
+      color: #0055a5;
+      margin: 15px 0 10px 0;
+    }
+
+    .section-header {
+      font-weight: bold;
+      color: #0055a5;
+      margin-bottom: 5px;
+      padding-bottom: 5px;
+      border-bottom: 2px solid #a50037;
+    }
+
+    .parentesis-vermelho {
+      color: red;
+      font-weight: bold;
+    }
+
+    .parentesis-preto {
+      color: black;
+      font-weight: bold;
+    }
+
+    .produto-table {
+      width: 100%;
+      /* margin-bottom:20px; */
+      border-collapse: collapse;
+    }
+
+    .produto-table th {
+      text-align: left;
+      padding: 8px;
+      border-bottom: 2px solid #ddd;
+      background-color: #f5f5f5;
+    }
+
+    .produto-table td {
+      padding: 8px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .total-box {
+      /* border:1px solid #ddd; */
+      padding: 10px;
+      /* margin:15px 0; */
+      background-color: #f0f0f0;
+      border-radius: 5px;
+    }
+
+    .footer-note {
+      font-size: 0.85rem;
+      color: #666;
+      margin-top: 30px;
+      padding-top: 10px;
+      border-top: 1px solid #eee;
+    }
+
+    .invest-sidebar {
+      background-color: #f5f5f5;
+      /* border-left:4px solid #0055a5; */
+      padding: 15px;
+      /* margin-top:20px; margin-bottom:20px; */
+      border-radius: 5px;
+    }
+
+    .sidebar-title {
+      color: #0055a5;
+      font-weight: bold;
+      /* margin-bottom:15px; */
+      padding-bottom: 5px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .sidebar-titl1 {
+      color: black;
+      font-weight: bold;
+      margin-bottom: 15px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #a50037;
+    }
+
+    .table-sm td {
+      padding: 6px 8px;
+    }
+
+    .saldo-investimento {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: black;
+      text-align: center;
+      margin: 10px 0;
+    }
+
+    .investimento-asterisco {
+      font-size: 0.8rem;
+      color: #666;
+    }
+
+    .left-column {
+      border-right: 1px solid #ddd;
+      padding-right: 20px;
+    }
+
+    .tabela-continua {
+      /* border:none; */
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    .tabela-continua th,
+    .tabela-continua td {
+      /* border:none; */
+      border-bottom: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    .tabela-continua th {
+      background-color: #f0f0f0;
+      font-weight: bold;
+    }
+
+    .tabela-continua tr:last-child td {
+      border-bottom: none;
+    }
+
+    .tabela-continua th.text-end,
+    .tabela-continua td.text-end {
+      text-align: right;
+    }
+
+    .valor-destaque {
+      font-weight: bold;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    /* Ø¡cone cacho de uvas */
+	.cacho-uvas {
+	  display: inline-block;
+	  width: 1.5rem;
+	  height: 1.5rem;
+	  background-image: url("/favicon.ico");
+	  background-size: contain;
+	  background-repeat: no-repeat;
+	  color: purple;
+	  position: relative;
+	  top: 0.1rem;
+	}
+
+    /* Menu responsivo com wrap elegante */
+    .marca {
+      font-family: 'UnifrakturCook', cursive;
+      font-size: 1.5rem;
+      color: #a50037 !important;
+    }
+
+    nav.nav {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-link {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #0066ff;
+    }
+
+    .nav-link:hover {
+      text-decoration: underline;
+    }
+
+	.info-icon {
+	   color: blue;
+	   font-size: 1rem;   /* ~16px, cresce se o usuário aumentar a fonte */
+	 }
+    .titulo {
+      letter-spacing: 1px;
+      font-size: 1.5rem;
+      color: #070000 !important;
+    }
+
+    #solutions-title.titulo {
+      color: #070000 !important;
+      /* Cor azul do text-blue-600 no Bootstrap */
+    }
