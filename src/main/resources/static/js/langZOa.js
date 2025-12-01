@@ -2,7 +2,6 @@
     const lang = window.localStorage.getItem("lang") || "pt";
     let path = basePath;
 	 console.log(path + "  ***estou aqui");
-	 console.log('basepath - ' + path);
 	  const form = document.getElementById('cwsForm');
 	  const nameInput = document.getElementById('name');
 	  const nameError = document.getElementById('nameError');
@@ -11,7 +10,7 @@
 	  const name = nameInput.value.trim();
 	  console.log(name + " <==name")
 	  if (!name) {
-	    nameError.textContent = "Por favor, preencha o campo Nome.";
+	    nameError.textContent = "Bitte füllen Sie das Feld Name aus.";
 	    nameError.style.display = 'block';
 	      console.error("Campo 'name' está vazio ou contém apenas espaços.");
 	   return;
@@ -45,30 +44,6 @@
 	          path = "/EXTRATO"; // pt
 	      }
 	    }
-		if (basePath === "/json") {
-		      switch (lang) {
-		        case "en":
-		          path = "/jsonEN";
-		          break;
-		        case "de":
-		          path = "/jsonDE";
-		          break;
-		        default:
-		          path = "/json"; // pt
-		      }
-		    }
-			if (basePath === "/xml") {
-					      switch (lang) {
-					        case "en":
-					          path = "/xmlEN";
-					          break;
-					        case "de":
-					          path = "/xmlDE";
-					          break;
-					        default:
-					          path = "/xml"; // pt
-					      }
-					    }
 
      form.action = path;
     form.submit();

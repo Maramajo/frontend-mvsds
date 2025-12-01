@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="pt">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Teste JSON CICS</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="http://maramajo.ddns.net:32000/css/json0001.css">
+  <script src="http://maramajo.ddns.net:32000/js/json0002.js" defer></script>
+
+</head>
+
+<body>
+  <div>
+ 
+    <h1>Teste JSON CICS — corrige "bichinhos" e mostra dados</h1>
+
+    <div class="box">
+      <label for="url">URL do endpoint (fetch):</label>
+      <input id="url" type="text" value="http://192.168.0.13:3000/CICS/CWBA/json0001" />
+      <button id="btnFetch">Buscar e Corrigir JSON</button>
+    </div>
+
+    <div class="box" id="statusBox">
+      <strong>Status:</strong>
+      <div id="status">Aguardando ação...</div>
+    </div>
+
+    <div class="box" id="rawBox" style="display:none">
+      <strong>Resposta bruta (texto recebido):</strong>
+      <pre id="rawText"></pre>
+    </div>
+
+    <div class="box" id="convertedBox" style="display:none">
+      <strong>JSON convertido (após substituições):</strong>
+      <pre id="convertedText"></pre>
+    </div>
+
+    <div class="box" id="jsonBox" style="display:none">
+      <strong>Objeto JSON (formatado):</strong>
+      <pre id="jsonPretty"></pre>
+    </div>
+
+    <div class="box" id="tableBox" style="display:none">
+      <strong>Extrato — lista debcr:</strong>
+      <div id="usuarioLine"></div>
+      <div id="saldoLine"></div>
+      <table id="debcrTable" aria-label="Tabela debcr">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Debito</th>
+            <th>Credito</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</body>
+
+</html>

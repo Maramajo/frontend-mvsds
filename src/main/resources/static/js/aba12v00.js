@@ -34,7 +34,9 @@ const translations = {
       default: "Soluções",
       "/original/zOS": "Demo do CWS",
       "/original/SALDO": "Extrato de Saldos",
-      "/original/EXTRATO": "Extrato Bancário"
+      "/original/EXTRATO": "Extrato Bancário",
+      "/original/json": "Json Demo",
+      "/original/xml": "Xml Demo"
     },
     home: "🏠 Home",
     propostas: "💼 Propostas",
@@ -87,6 +89,8 @@ A experiência acumulada da equipe de Gestão da <span class="marca">Maramajo</s
     zosLink: "/original/zOS",
     saldoLink: "/original/SALDO",
     extratoLink: "/original/EXTRATO",
+    jsonLink: "/original/json",
+    xmlLink: "/xml",
     mainTitle: "CWS",
     subTitle: "Simplificação de Middleware em Sistemas Críticos",
     intro: "Eliminando camadas desnecessárias de middleware para arquiteturas empresariais mais simples, rápidas e seguras.",
@@ -143,7 +147,9 @@ A experiência acumulada da equipe de Gestão da <span class="marca">Maramajo</s
       default: "Solutions",
       "/original/zOE": "CWS Demo",
       "/original/SALDOEN": "Balance Statement",
-      "/original/EXTRATOEN": "Bank statement"
+      "/original/EXTRATOEN": "Bank statement",
+      "/original/jsonEN": "Json Demo",
+      "/original/xmlEN": "Xml Demo"
     },
     home: "🏠 Home",
     propostas: "💼 Proposals",
@@ -151,7 +157,7 @@ A experiência acumulada da equipe de Gestão da <span class="marca">Maramajo</s
     contactNav: "📬 Contact us",
     quemSomosHome: "About us",
     quemSomosSobre: "Why choose us",
-  quemSomosTextHome: `
+    quemSomosTextHome: `
 <span class="marca">Maramajo</span> was founded in 2001 to make technology simple, direct, and efficient.
 We don’t follow trends — we prefer to understand the problem, get to the technical core, and deliver the right solution.
 <br>
@@ -163,14 +169,14 @@ Our team consists of professionals who know critical infrastructure inside out a
 More than just promising innovation, we <strong>deliver real technical results</strong> with transparency and precision.
 `,
 
-quemSomosTextSobre: `
+    quemSomosTextSobre: `
 <span class="marca">Maramajo</span> has grown over 21 years thanks to teamwork and the leadership of its experienced management team.
 <br>
 <span style="display:inline-block; width:4ch;"></span>
 The continuity of management has contributed to long-lasting and mutually beneficial relationships with clients and partners.
 <br>
 <span style="display:inline-block; width:4ch;"></span>
-The accumulated experience of <strong>Maramajo’s</strong> management team in product development and project execution uniquely positions the company to understand clients’ needs and deliver superior solutions at competitive prices.
+The accumulated experience of <span class="marca">Maramajo's</span> management team in product development and project execution uniquely positions the company to understand clients’ needs and deliver superior solutions at competitive prices.
 `,
 
 
@@ -193,10 +199,12 @@ The accumulated experience of <strong>Maramajo’s</strong> management team in p
       "✅ Mature, Stable Company"
     ],
     propostasTxt: "Proposals",
-    zosTxt: 'Visit our z/OS. Watch it "talk" directly to your browser by clicking the image below:',
+    zosTxt: 'Visit our z/OS. Watch it "talk" directly to your browser by clicking the image on the right:',
     zosLink: "/original/zOE",
     saldoLink: "/original/SALDOEN",
     extratoLink: "/original/EXTRATOEN",
+    jsonLink: "/original/jsonEN",
+    xmlLink: "/original/xmlEN",
     mainTitle: "CWS",
     subTitle: "Middleware Simplification in Critical Systems",
     intro: "Eliminating unnecessary middleware layers for simpler, faster, and more secure enterprise architectures.",
@@ -254,7 +262,9 @@ The accumulated experience of <strong>Maramajo’s</strong> management team in p
       default: "Lösungen",
       "/original/zOA": "CWS-Demo",
       "/original/SALDODE": "Bilanz",
-      "/original/EXTRATODE": "Kontoauszug"
+      "/original/EXTRATODE": "Kontoauszug",
+      "/original/jsonDE": "JSON-Demo",
+      "/original/xmlDE": "XML-Demo"
     },
     home: "🏠 Startseite",
     propostas: "💼 Vorschläge",
@@ -262,7 +272,7 @@ The accumulated experience of <strong>Maramajo’s</strong> management team in p
     contactNav: "📬 Kontakt",
     quemSomosHome: "Wer wir sind",
     quemSomosSobre: "Warum uns wählen",
- quemSomosTextHome: `
+    quemSomosTextHome: `
 <span class="marca">Maramajo</span> wurde 2001 gegründet, um Technologie einfach, direkt und effizient zu gestalten.
 Wir folgen keinen Moden – wir bevorzugen es, das Problem zu verstehen, zum technischen Kern vorzudringen und die richtige Lösung zu liefern.
 <br>
@@ -274,14 +284,14 @@ Unser Team besteht aus Fachleuten, die kritische Infrastrukturen in- und auswend
 Mehr als nur Innovation zu versprechen, <strong>liefern wir echte technische Ergebnisse</strong> mit Transparenz und Präzision.
 `,
 
-quemSomosTextSobre: `
+    quemSomosTextSobre: `
 <span class="marca">Maramajo</span> ist im Laufe von 21 Jahren durch Teamarbeit und die Führung ihres erfahrenen Managementteams gewachsen.
 <br>
 <span style="display:inline-block; width:4ch;"></span>
 Die Kontinuität im Management hat zu langanhaltenden und gegenseitig vorteilhaften Beziehungen zu Kunden und Partnern beigetragen.
 <br>
 <span style="display:inline-block; width:4ch;"></span>
-Die gesammelte Erfahrung des Managementteams von <strong>Maramajo</strong> in den Bereichen Produktentwicklung und Projektausführung positioniert das Unternehmen einzigartig, um die Bedürfnisse der Kunden zu verstehen und überlegene Lösungen zu wettbewerbsfähigen Preisen zu liefern.
+Die gesammelte Erfahrung des Managementteams von <span class="marca">Maramajo</span> in den Bereichen Produktentwicklung und Projektausführung positioniert das Unternehmen einzigartig, um die Bedürfnisse der Kunden zu verstehen und überlegene Lösungen zu wettbewerbsfähigen Preisen zu liefern.
 `,
 
     italico: "Hinweis: Bitte beachten Sie, dass diese Demo auf einem alten Laptop mit Ubuntu 1.8 und Hercules als Pipeline-Programm läuft. Daher ist die Latenz viel höher als auf einem echten Mainframe.",
@@ -303,10 +313,12 @@ Die gesammelte Erfahrung des Managementteams von <strong>Maramajo</strong> in de
       "✅ Etabliertes, stabiles Unternehmen"
     ],
     propostasTxt: "Vorschläge",
-    zosTxt: 'Besuchen Sie unser z/OS. Klicken Sie auf das Bild unten und sehen Sie, wie es direkt mit Ihrem Browser „kommuniziert“:',
+    zosTxt: 'Besuchen Sie unser z/OS. Klicken Sie auf das Bild rechts und sehen Sie, wie es direkt mit Ihrem Browser „spricht“:',
     zosLink: "/original/zOA",
     saldoLink: "/original/SALDODE",
     extratoLink: "/original/EXTRATODE",
+    jsonLink: "/original/jsonDE",
+    xmlLink: "/original/xmlDE",
     mainTitle: "CWS",
     subTitle: "Middleware-Vereinfachung in kritischen Systemen",
     intro: "Beseitigung unnötiger Middleware-Schichten für einfachere, schnellere und sicherere Unternehmensarchitekturen.",
@@ -581,13 +593,12 @@ function renderContato(lang) {
   </div>
     `;
 }
-
 const routes = {
   '/original': renderHome,
   '/propostas': renderPropostas,
   '/sobre': renderSobre,
   '/contato': renderContato,
-  '/original/zOS': () => '',
+   '/original/zOS': () => '',
   '/original/zOE': () => '',
   '/original/zOA': () => '',
   '/original/SALDO': () => '',
@@ -595,12 +606,18 @@ const routes = {
   '/original/SALDODE': () => '',
   '/original/EXTRATO': () => '',
   '/original/EXTRATOEN': () => '',
-  '/original/EXTRATODE': () => ''
+  '/original/EXTRATODE': () => '',
+  '/original/json': () => '',
+  '/original/jsonEN': () => '',
+  '/original/jsonDE': () => '',
+  '/original/xml': () => '',
+  '/original/xmlEN': () => '',
+  '/original/xmlDE': () => ''
 };
 
 function initializeBootstrap() {
   if (isBootstrapInitialized) {
-    console.log('Bootstrap já inicializado, ignorando...');
+    //console.log('Bootstrap já inicializado, ignorando...');
     return Promise.resolve();
   }
   return new Promise((resolve, reject) => {
@@ -619,10 +636,10 @@ function initializeBootstrap() {
       document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach(button => {
         if (!bootstrap.Dropdown.getInstance(button)) {
           new bootstrap.Dropdown(button);
-          console.log('Dropdown inicializado para:', button);
+          //console.log('Dropdown inicializado para:', button);
         }
       });
-      console.log('Bootstrap inicializado com sucesso');
+      //console.log('Bootstrap inicializado com sucesso');
       isBootstrapInitialized = true;
       resolve();
     };
@@ -634,10 +651,10 @@ function initializeBootstrap() {
         document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach(button => {
           if (!bootstrap.Dropdown.getInstance(button)) {
             new bootstrap.Dropdown(button);
-            console.log('Dropdown inicializado (fallback) para:', button);
+            //console.log('Dropdown inicializado (fallback) para:', button);
           }
         });
-        console.log('Bootstrap fallback inicializado');
+        //console.log('Bootstrap fallback inicializado');
         isBootstrapInitialized = true;
         resolve();
       };
@@ -652,7 +669,7 @@ function initializeBootstrap() {
 }
 
 async function fetchContent(endpoint, method = 'GET', body = null) {
-  console.log("endpoint1:" + endpoint);
+  //console.log("endpoint1:" + endpoint);
   if (!endpoint || endpoint === '#' || endpoint === '/#') {
     console.error('Endpoint inválido:', endpoint);
     return;
@@ -667,22 +684,26 @@ async function fetchContent(endpoint, method = 'GET', body = null) {
   }
   const navs = document.querySelectorAll('nav');
   if (navs.length > 1) {
-    console.log('Removendo navs duplicados:', navs.length - 1);
+    //console.log('Removendo navs duplicados:', navs.length - 1);
     for (let i = 1; i < navs.length; i++) {
       navs[i].remove();
     }
   }
   const footers = document.querySelectorAll('footer');
   if (footers.length > 1) {
-    console.log('Removendo footers duplicados:', footers.length - 1);
+    //console.log('Removendo footers duplicados:', footers.length - 1);
     for (let i = 1; i < footers.length; i++) {
       footers[i].remove();
     }
   }
   contentDiv.innerHTML = `<div class="loading">${t.loading}</div>`;
   try {
-    const fullEndpoint = addBasePath(endpoint); // Garante /original/xxx
-    console.log('Buscando conteúdo para:', fullEndpoint);
+    let tiraDuplicidade = addBasePath(endpoint);
+    console.log('tiraduplicidade - '+tiraDuplicidade)
+    let replaced = tiraDuplicidade.replace('/original/original/','/original/');
+    console.log('tiraduplicidade - '+replaced)
+    const fullEndpoint = replaced; // Garante /original/xxx
+    //console.log('Buscando conteúdo para:', fullEndpoint);
     const response = await fetch(`http://maramajo.ddns.net:32000${fullEndpoint}`, {
       method: method,
       headers: {
@@ -693,11 +714,20 @@ async function fetchContent(endpoint, method = 'GET', body = null) {
     });
     if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
     const text = await response.text();
-    if (['/original/zOS', '/original/zOE', '/original/zOA', '/original/SALDO', '/original/SALDOEN', '/original/SALDODE', '/original/EXTRATO', '/original/EXTRATOEN', '/original/EXTRATODE'].includes(fullEndpoint)) {
+//    const decoder = new TextDecoder('iso-8859-1');
+ //   const text = decoder.decode(buffer);
+
+    if ([
+      '/original/zOS', '/original/zOE', '/original/zOA',
+      '/original/SALDO', '/original/SALDOEN', '/original/SALDODE',
+      '/original/EXTRATO', '/original/EXTRATOEN', '/original/EXTRATODE',
+      '/original/json', '/original/jsonEN', '/original/jsonDE',
+      '/original/xml', '/original/xmlEN', '/original/xmlDE'
+    ].includes(fullEndpoint)) {
       const parser = new DOMParser();
       const doc = parser.parseFromString(text, 'text/html');
       const targetDiv = doc.querySelector('div.vazia');
-      console.log('TargetDiv encontrado:', targetDiv ? targetDiv.outerHTML : 'NÃO ENCONTROU');
+      //console.log('TargetDiv encontrado:', targetDiv ? targetDiv.outerHTML : 'NÃO ENCONTROU');
       contentDiv.innerHTML = targetDiv ? targetDiv.outerHTML : text;
       // Atualizar solutions-title existente
       let solutionsTitle = document.querySelector('#solutions-title');
@@ -801,14 +831,14 @@ function renderContent(path, lang) {
   }
   const navs = document.querySelectorAll('nav');
   if (navs.length > 1) {
-    console.log('Removendo navs duplicados:', navs.length - 1);
+    //console.log('Removendo navs duplicados:', navs.length - 1);
     for (let i = 1; i < navs.length; i++) {
       navs[i].remove();
     }
   }
   const footers = document.querySelectorAll('footer');
   if (footers.length > 1) {
-    console.log('Removendo footers duplicados:', footers.length - 1);
+    //console.log('Removendo footers duplicados:', footers.length - 1);
     for (let i = 1; i < footers.length; i++) {
       footers[i].remove();
     }
@@ -834,9 +864,9 @@ function renderContent(path, lang) {
     //	const filesTitleEl = document.getElementById('files-title');
     //	  if (filesTitleEl) {
     //	    filesTitleEl.innerHTML = translations[lang]?.filesTitle || translations['pt'].filesTitle;
-    //		console.log("FILESTITLE EL "+filesTitleEl);
+    //		//console.log("FILESTITLE EL "+filesTitleEl);
     //	  }
-   // console.log(document);
+    // //console.log(document);
   } catch (err) {
     console.error('Erro ao renderizar rota:', err);
     contentDiv.innerHTML = `<div class="error">Erro ao renderizar conteúdo.</div>`;
@@ -864,9 +894,9 @@ function renderContent(path, lang) {
       footer.innerHTML = `<div class="container"><p>© <span id="rodape">${translations[lang].rodapeTxt}</span></p></div>`;
     }
   }
- console.log('ANTES do updateTranslations:', contentDiv.innerHTML);
-updateTranslations(lang);
-console.log('DEPOIS do updateTranslations:', contentDiv.innerHTML);
+  //console.log('ANTES do updateTranslations:', contentDiv.innerHTML);
+  updateTranslations(lang);
+  //console.log('DEPOIS do updateTranslations:', contentDiv.innerHTML);
 
   setActiveLink();
   initializeBootstrap().then(() => {
@@ -924,7 +954,7 @@ function updateTranslations(lang) {
 }
 
 function changeLang(lang) {
-  console.log('changeLang chamado com idioma:', lang);
+  //console.log('changeLang chamado com idioma:', lang);
   localStorage.setItem('lang', lang);
   const t = translations[lang] || translations['pt'];
   const rawPath = window.location.pathname || '/';
@@ -938,11 +968,17 @@ function changeLang(lang) {
     '/SALDODE': t.saldoLink,
     '/EXTRATO': t.extratoLink,
     '/EXTRATOEN': t.extratoLink,
-    '/EXTRATODE': t.extratoLink
+    '/EXTRATODE': t.extratoLink,
+    '/json': t.jsonLink,
+    '/jsonEN': t.jsonLink,
+    '/jsonDE': t.jsonLink,
+    '/xml': () => '',
+    '/xmlEN': () => '',
+    '/xmlDE': () => ''
   };
   if (endpointMap[routeKey]) {
     const endpoint = endpointMap[routeKey];
-    console.log('Mudando para endpoint1:', endpoint);
+    //console.log('Mudando para endpoint1:', endpoint);
     history.pushState(null, null, endpoint);
     fetchContent(endpoint);
   } else {
@@ -964,15 +1000,35 @@ function setActiveLink() {
 }
 
 function reattachEventListeners() {
-  console.log('Reanexando eventos...');
+  //console.log('Reanexando eventos...');
   document.querySelectorAll('a.nav-link').forEach(link => {
     link.removeEventListener('click', navLinkHandler);
     link.addEventListener('click', navLinkHandler);
   });
-  document.querySelectorAll('a[href="/original/zOS"], a[href="/original/zOE"], a[href="/original/zOA"], a[href="/original/SALDO"], a[href="/original/SALDOEN"], a[href="/original/SALDODE"], a[href="/original/EXTRATO"], a[href="/original/EXTRATOEN"], a[href="/original/EXTRATODE"]').forEach(link => {
-    link.removeEventListener('click', endpointLinkHandler);
+ // document.querySelectorAll('a[href="/original/zOS"], a[href="/original/zOE"], a[href="/original/zOA"], a[href="/original/SALDO"], a[href="/original/SALDOEN"], a[href="/original/SALDODE"], a[href="/original/EXTRATO"], a[href="/original/EXTRATOEN"], a[href="/original/EXTRATODE"], a[href="/original/json"], a[href="/original/jsonEN"], a[href="/original/jsonDE"], a[href="/original/xml"], a[href="/original/xmlEN"], a[href="/original/xmlDE"]').forEach(link => {
+  document.querySelectorAll(
+  'a[href="/original/zOS"], ' +
+  'a[href="/original/zOE"], ' +
+  'a[href="/original/zOA"], ' +
+  'a[href="/original/SALDO"], ' +
+  'a[href="/original/SALDOEN"], ' +
+  'a[href="/original/SALDODE"], ' +
+  'a[href="/original/EXTRATO"], ' +
+  'a[href="/original/EXTRATOEN"], ' +
+  'a[href="/original/EXTRATODE"], ' +
+  'a[href="/original/json"], ' +
+  'a[href="/original/jsonEN"], ' +
+  'a[href="/original/jsonDE"], ' +
+  'a[href="/original/xml"], ' +
+  'a[href="/original/xmlEN"], ' +
+  'a[href="/original/xmlDE"]'
+).forEach(link => {
+  // seu código aqui
+});
+ 
+  link.removeEventListener('click', endpointLinkHandler);
     link.addEventListener('click', endpointLinkHandler);
-    console.log('Evento anexado para link:', link.getAttribute('href'));
+    //console.log('Evento anexado para link:', link.getAttribute('href'));
   });
   document.querySelectorAll('form').forEach(form => {
     form.removeEventListener('submit', formHandler);
@@ -981,7 +1037,7 @@ function reattachEventListeners() {
   document.querySelectorAll('.dropdown-item[data-lang]').forEach(item => {
     item.removeEventListener('click', dropdownItemHandler);
     item.addEventListener('click', dropdownItemHandler);
-    console.log('Evento anexado para dropdown-item:', item.getAttribute('data-lang'));
+    //console.log('Evento anexado para dropdown-item:', item.getAttribute('data-lang'));
   });
   const routeLinks = document.querySelectorAll('a[data-route]');
   const uniqueRoutes = new Set();
@@ -991,7 +1047,7 @@ function reattachEventListeners() {
       uniqueRoutes.add(route);
       link.removeEventListener('click', endpointLinkHandler);
       link.addEventListener('click', endpointLinkHandler);
-      console.log('Evento anexado para data-route:', route);
+      //console.log('Evento anexado para data-route:', route);
     }
   });
 }
@@ -999,7 +1055,7 @@ function reattachEventListeners() {
 function navLinkHandler(event) {
   event.preventDefault();
   const targetPath = event.target.closest('a.nav-link').getAttribute('href');
-  console.log('Navegando para:', targetPath);
+  //console.log('Navegando para:', targetPath);
   const publicUrl = addBasePath(targetPath);
   history.pushState(null, null, publicUrl);
   const routeKey = stripBasePath(publicUrl);
@@ -1015,7 +1071,7 @@ function endpointLinkHandler(event) {
     return;
   }
   const fullEndpoint = addBasePath(endpoint); // Garante /original/xxx
-  console.log('Endpoint clicado1:', fullEndpoint);
+  //console.log('Endpoint clicado1:', fullEndpoint);
   history.pushState(null, null, fullEndpoint);
   fetchContent(fullEndpoint);
 }
@@ -1023,7 +1079,7 @@ function endpointLinkHandler(event) {
 function dropdownItemHandler(event) {
   event.preventDefault();
   const lang = event.target.closest('a').getAttribute('data-lang');
-  console.log('Dropdown item clicado:', lang);
+  //console.log('Dropdown item clicado:', lang);
   changeLang(lang);
   // Forçar fechamento do dropdown após seleção de idioma
   const dropdownToggle = document.getElementById('langDropdown');
@@ -1038,12 +1094,12 @@ function dropdownItemHandler(event) {
 function formHandler(event) {
   const form = event.target;
   const endpoint = form.action ? form.action.replace('http://maramajo.ddns.net:32000', '') : '';
-  if (['/original/SALDO', '/original/SALDOEN', '/original/SALDODE', '/original/EXTRATO', '/original/EXTRATOEN', '/original/EXTRATODE'].includes(endpoint)) {
+  if (['/original/SALDO', '/original/json', '/original/jsonEN', '/original/jsonDE', '/original/SALDOEN', '/original/SALDODE', '/original/EXTRATO', '/original/EXTRATOEN', '/original/EXTRATODE'].includes(endpoint)) {
     event.preventDefault();
     const formData = new FormData(form);
     const body = Object.fromEntries(formData);
     const fullEndpoint = addBasePath(endpoint); // Garante /original/xxx
-    console.log('Formulário enviado para:', fullEndpoint, body);
+    //console.log('Formulário enviado para:', fullEndpoint, body);
     history.pushState(null, null, fullEndpoint);
     fetchContent(fullEndpoint, 'POST', body);
   }
@@ -1064,7 +1120,7 @@ window.envia = function (endpoint) {
   const lang = localStorage.getItem('lang') || 'pt';
   const t = translations[lang] || translations['pt'];
   const name = nameInput.value.trim();
-  console.log(name + ' <== name');
+  //console.log(name + ' <== name');
   if (!name) {
     nameError.textContent = t.nameError;
     nameError.style.display = 'block';
@@ -1076,23 +1132,23 @@ window.envia = function (endpoint) {
   const formData = new FormData(form);
   const body = Object.fromEntries(formData);
   const fullEndpoint = addBasePath(endpoint); // Garante /original/xxx
-  console.log('Envia chamado para:', fullEndpoint, body);
+  //console.log('Envia chamado para:', fullEndpoint, body);
   history.pushState(null, null, fullEndpoint);
   fetchContent(fullEndpoint, 'POST', body);
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('DOM carregado, inicializando...');
+  //console.log('DOM carregado, inicializando...');
   const navs = document.querySelectorAll('nav');
   if (navs.length > 1) {
-    console.log('Removendo navs duplicados:', navs.length - 1);
+    //console.log('Removendo navs duplicados:', navs.length - 1);
     for (let i = 1; i < navs.length; i++) {
       navs[i].remove();
     }
   }
   const footers = document.querySelectorAll('footer');
   if (footers.length > 1) {
-    console.log('Removendo footers duplicados:', footers.length - 1);
+    //console.log('Removendo footers duplicados:', footers.length - 1);
     for (let i = 1; i < footers.length; i++) {
       footers[i].remove();
     }
@@ -1130,10 +1186,10 @@ document.addEventListener('DOMContentLoaded', () => {
     pathForRender = rawPath;
   }
   initializeBootstrap().then(() => {
-    console.log('Bootstrap inicializado, renderizando conteúdo para:', rawPath);
+    //console.log('Bootstrap inicializado, renderizando conteúdo para:', rawPath);
     if (['/original/zOS', '/original/zOE', '/original/zOA', '/original/SALDO', '/original/SALDOEN', '/original/SALDODE', '/original/EXTRATO', '/original/EXTRATOEN', '/original/EXTRATODE'].includes(pathForRender)) {
-      console.log("pathForRender1:" + pathForRender),
-        fetchContent(pathForRender);
+      //console.log("pathForRender1:" + pathForRender),
+      fetchContent(pathForRender);
     } else {
       renderContent(stripBasePath(pathForRender), savedLang);
     }
@@ -1144,17 +1200,17 @@ document.addEventListener('DOMContentLoaded', () => {
 }, { once: true });
 
 window.addEventListener('popstate', () => {
-  console.log('Evento popstate disparado, pathname:', window.location.pathname);
+  //console.log('Evento popstate disparado, pathname:', window.location.pathname);
   const navs = document.querySelectorAll('nav');
   if (navs.length > 1) {
-    console.log('Removendo navs duplicados:', navs.length - 1);
+    //console.log('Removendo navs duplicados:', navs.length - 1);
     for (let i = 1; i < navs.length; i++) {
       navs[i].remove();
     }
   }
   const footers = document.querySelectorAll('footer');
   if (footers.length > 1) {
-    console.log('Removendo footers duplicados:', footers.length - 1);
+    //console.log('Removendo footers duplicados:', footers.length - 1);
     for (let i = 1; i < footers.length; i++) {
       footers[i].remove();
     }
@@ -1191,8 +1247,8 @@ window.addEventListener('popstate', () => {
     pathForRender = rawPath;
   }
   initializeBootstrap().then(() => {
-    console.log('Bootstrap inicializado, renderizando conteúdo para:', rawPath);
-    if (['/original/zOS', '/original/zOE', '/original/zOA', '/original/SALDO', '/original/SALDOEN', '/original/SALDODE', '/original/EXTRATO', '/original/EXTRATOEN', '/original/EXTRATODE'].includes(pathForRender)) {
+    //console.log('Bootstrap inicializado, renderizando conteúdo para:', rawPath);
+    if (['/original/json', '/original/jsonEN', '/original/jsonDE','/original/zOS', '/original/zOE', '/original/zOA', '/original/SALDO', '/original/SALDOEN', '/original/SALDODE', '/original/EXTRATO', '/original/EXTRATOEN', '/original/EXTRATODE'].includes(pathForRender)) {
       fetchContent(pathForRender);
     } else {
       renderContent(stripBasePath(pathForRender), localStorage.getItem('lang') || 'pt');

@@ -3,6 +3,10 @@
         background-color: #f8f9fa;
         font-size: 0.95rem;
     }
+	#principal-home p {
+	  text-indent: 4ch !important;
+	}
+
 
     .marca {
         font-family: 'UnifrakturCook', cursive;

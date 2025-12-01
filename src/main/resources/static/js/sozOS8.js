@@ -20,11 +20,30 @@ const translations = {
     contactNav: "📬 Contacte-nos",
     quemSomosHome: "Quem somos",
     quemSomosSobre: "Por que nos escolher",
-    quemSomosTextHome: "A Maramajo é uma empresa de consultoria em Tecnologia da Informação criada em 2001, e que vem tendo uma contínua expansão devido ao reconhecimento de mercado aos seus princípios de profissionalismo, ética e busca incessante pela qualidade. Nossa empresa conta com profissionais altamente qualificados, de experiência comprovada e com sucesso no mercado de tecnologia da informação.",
-	italico: "Observação: por favor, considere que esta demonstração processa em um laptop antigo, com Ubuntu 1.8 e Hercules como programa de canal. Portanto, a latência é bem maior do que se fosse em um Mainframe de 	verdade.",
-	quemSomosTextSobre: 'A <span class="marca">Maramajo</span> cresceu ao longo 21 anos graças ao trabalho em equipe e à liderança de sua experiente equipe de gestão. <br><br> A continuidade da gestão contribuiu para relacionamentos duradouros e mutuamente benéficos com clientes e parceiros. <br><br>A experiência acumulada da equipe de Gestão da <span class="marca">Maramajo</span> nas áreas de desenvolvimento de produtos e execução de projetos a posiciona de forma única para entender as necessidades dos clientes e fornecer soluções superiores a preços competitivos.',
+    quemSomosTextHome: `
+A <span class="marca">Maramajo</span> nasceu em 2001 para fazer tecnologia de forma simples, direta e eficiente. 
+Não seguimos modismos — preferimos entender o problema, ir ao núcleo técnico e entregar a solução certa.
+<br>
+<span style="display:inline-block; width:4ch;"></span>
+Atuamos em <strong>consultoria de Tecnologia da Informação</strong>, com foco em desempenho, segurança e 
+arquitetura inteligente. Nosso time reúne profissionais que conhecem a infraestrutura crítica de dentro pra fora 
+e tratam complexidade com naturalidade.
+<br>
+<span style="display:inline-block; width:4ch;"></span>
+Mais do que prometer inovação, <strong>entregamos resultado técnico real</strong>, com transparência e precisão.
+`,
+    italico: "Observação: por favor, considere que esta demonstração processa em um laptop antigo, com Ubuntu 1.8 e Hercules como programa de canal. Portanto, a latência é bem maior do que se fosse em um Mainframe de 	verdade.",
+    quemSomosTextSobre: `
+A <span class="marca">Maramajo</span> cresceu ao longo de 21 anos graças ao trabalho em equipe e à liderança de sua experiente equipe de gestão.
+<br>
+<span style="display:inline-block; width:4ch;"></span>
+A continuidade da gestão contribuiu para relacionamentos duradouros e mutuamente benéficos com clientes e parceiros.
+<br>
+<span style="display:inline-block; width:4ch;"></span>
+A experiência acumulada da equipe de Gestão da <span class="marca">Maramajo</span> nas áreas de desenvolvimento de produtos e execução de projetos a posiciona de forma única para entender as necessidades dos clientes e fornecer soluções superiores a preços competitivos.
+`,
     solucoes: "Soluções",
-     solucoesListHome: [
+    solucoesListHome: [
       "✅ Desenvolvimento e manutenção de sistemas nas plataformas Mainframe, Windows e Unix/Linux.",
       "✅ Integração entre sistemas nas plataformas acima",
       "✅ Alocação de mão-de-obra especializada",
@@ -110,9 +129,30 @@ const translations = {
     contactNav: "📬 Contact us",
     quemSomosHome: "About us",
     quemSomosSobre: "Why choose us",
-    quemSomosTextHome: "Maramajo is an Information Technology consulting company founded in 2001, and has been continuously expanding thanks to market recognition of its principles of professionalism, ethics, and relentless pursuit of quality. Our company has highly qualified professionals with proven experience and market success.",
+    quemSomosTextHome: `
+<span class="marca">Maramajo</span> was founded in 2001 to make technology simple, direct, and efficient.
+We don’t follow trends — we prefer to understand the problem, get to the technical core, and deliver the right solution.
+<br>
+<span style="display:inline-block; width:4ch;"></span>
+We work in <strong>Information Technology consulting</strong>, focusing on performance, security, and smart architecture.
+Our team consists of professionals who know critical infrastructure inside out and handle complexity naturally.
+<br>
+<span style="display:inline-block; width:4ch;"></span>
+More than just promising innovation, we <strong>deliver real technical results</strong> with transparency and precision.
+`,
+
+    quemSomosTextSobre: `
+<span class="marca">Maramajo</span> has grown over 21 years thanks to teamwork and the leadership of its experienced management team.
+<br>
+<span style="display:inline-block; width:4ch;"></span>
+The continuity of management has contributed to long-lasting and mutually beneficial relationships with clients and partners.
+<br>
+<span style="display:inline-block; width:4ch;"></span>
+The accumulated experience of <strong>Maramajo’s</strong> management team in product development and project execution uniquely positions the company to understand clients’ needs and deliver superior solutions at competitive prices.
+`,
+
+
     italico: "Note: Please consider that this demo runs on an old laptop, with Ubuntu 1.8 and Hercules as the pipeline program. Therefore, the latency is much higher than if it were on a real Mainframe.",
-    quemSomosTextSobre: 'A <span class="marca">Maramajo</span> has grown over 21 years thanks to the teamwork and leadership of its experienced management team. <br><br> This continuity of management has contributed to long-lasting and mutually beneficial relationships with customers and partners. <br><br>The accumulated experience of <span class="marca">Maramajo</span> management team in the areas of product development and project execution uniquely positions it to understand customer needs and provide superior solutions at competitive prices.',
     solucoes: "Solutions",
     solucoesListHome: [
       "✅ Development and maintenance of systems on Mainframe, Windows, and Unix/Linux platforms.",
@@ -201,9 +241,29 @@ const translations = {
     contactNav: "📬 Kontakt",
     quemSomosHome: "Wer wir sind",
     quemSomosSobre: "Warum uns wählen",
-    quemSomosTextHome: "Maramajo ist ein IT-Beratungsunternehmen, das 2001 gegründet wurde und sich aufgrund der Marktanerkennung seiner Prinzipien von Professionalität, Ethik und dem unermüdlichen Streben nach Qualität kontinuierlich erweitert. Unser Unternehmen verfügt über hochqualifizierte Fachkräfte mit nachgewiesener Erfahrung und Markterfolg.",
+    quemSomosTextHome: `
+<span class="marca">Maramajo</span> wurde 2001 gegründet, um Technologie einfach, direkt und effizient zu gestalten.
+Wir folgen keinen Moden – wir bevorzugen es, das Problem zu verstehen, zum technischen Kern vorzudringen und die richtige Lösung zu liefern.
+<br>
+<span style="display:inline-block; width:4ch;"></span>
+Wir arbeiten in der <strong>IT-Beratung</strong> mit Fokus auf Leistung, Sicherheit und intelligente Architektur.
+Unser Team besteht aus Fachleuten, die kritische Infrastrukturen in- und auswendig kennen und mit Komplexität selbstverständlich umgehen.
+<br>
+<span style="display:inline-block; width:4ch;"></span>
+Mehr als nur Innovation zu versprechen, <strong>liefern wir echte technische Ergebnisse</strong> mit Transparenz und Präzision.
+`,
+
+    quemSomosTextSobre: `
+<span class="marca">Maramajo</span> ist im Laufe von 21 Jahren durch Teamarbeit und die Führung ihres erfahrenen Managementteams gewachsen.
+<br>
+<span style="display:inline-block; width:4ch;"></span>
+Die Kontinuität im Management hat zu langanhaltenden und gegenseitig vorteilhaften Beziehungen zu Kunden und Partnern beigetragen.
+<br>
+<span style="display:inline-block; width:4ch;"></span>
+Die gesammelte Erfahrung des Managementteams von <strong>Maramajo</strong> in den Bereichen Produktentwicklung und Projektausführung positioniert das Unternehmen einzigartig, um die Bedürfnisse der Kunden zu verstehen und überlegene Lösungen zu wettbewerbsfähigen Preisen zu liefern.
+`,
+
     italico: "Hinweis: Bitte beachten Sie, dass diese Demo auf einem alten Laptop mit Ubuntu 1.8 und Hercules als Pipeline-Programm läuft. Daher ist die Latenz viel höher als auf einem echten Mainframe.",
-    quemSomosTextSobre: 'A <span class="marca">Maramajo</span> ist in 21 Jahren dank der Teamarbeit und Führung seines erfahrenen Managementteams gewachsen. <br><br> Diese Kontinuität im Management hat zu langjährigen und für beide Seiten vorteilhaften Beziehungen mit Kunden und Partnern beigetragen. <br><br>Die gesammelte Erfahrung des <span class="marca">Maramajo</span>-Managementteams in den Bereichen Produktentwicklung und Projektabwicklung versetzt es in die einzigartige Lage, die Kundenbedürfnisse zu verstehen und erstklassige Lösungen zu wettbewerbsfähigen Preisen anzubieten.',
     solucoes: "Lösungen",
     solucoesListHome: [
       "✅ und Wartung von Systemen auf Mainframe-, Windows- und Unix/Linux-Plattformen.",
@@ -289,7 +349,7 @@ function isEdgeOrChrome() {
   let a = userAgent.includes('chrome');
   let b = !userAgent.includes('firefox');
   console.log(a, b);
-  let checar =  userAgent.includes('edg/') || userAgent.includes('chrome') && !userAgent.includes('firefox');
+  let checar = userAgent.includes('edg/') || userAgent.includes('chrome') && !userAgent.includes('firefox');
   return checar;
 }
 
@@ -304,7 +364,7 @@ function checkAndRedirect() {
     console.log(isMobileDevice);
     console.log(isEdgeOrChrome);
     window.location.href = 'http://maramajo.ddns.net:32000/original';
-  } 
+  }
 }
 
 // Executa a verificação assim que o script é carregado
@@ -321,13 +381,39 @@ function renderHome(lang) {
       ${t.quemSomosHome}
     </h2>
 	<h1><strong>IBM® Business Partner</strong></h1>
-
     <div class="mt-4 space-y-4">
       <p>${t.quemSomosTextHome}</p>
+   <!--    <span style="color:#e60000;text-align: justify;">&#8599;</span> -->
+ <!--     <span style="color:#e60000;float:right;">↗️</span> -->
+	  <span style="color:#e60000; float:right;">
+	    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle;">
+	      <line x1="4" y1="20" x2="20" y2="4"/>
+	      <polygon points="20,4 16,4 20,8" fill="currentColor"/>
+	    </svg>
+	  </span>
+
+
 
       <p class="flex items-center gap-2">${t.zosTxt}</p>
 
-	  <div class="d-flex justify-content-center align-items-center mt-4">
+
+  </div>
+</div>
+
+
+  <!-- Coluna Direita -->
+  <div class="col-esq flex-1 min-w-[260px] md:max-w-[48%]">
+    <div class="flex items-center">
+      <h2 id="solutions-title" 
+          class="mb-0 text-2xl md:text-3xl font-extrabold titul1 ms-2">
+        ${t.solutionsTitle.default}
+      </h2>
+    </div>
+
+    <ul class="mt-4 space-y-2 list-inside">
+      ${t.solucoesListHome.map(item => `<li>${item}</li>`).join('')}
+    </ul>
+    <div class="d-flex justify-content-center align-items-center mt-4">
 	    <div class="text-center me-4">
 	      <a href="${t.zosLink}" 
 	         data-route="${t.zosLink}" 
@@ -344,21 +430,6 @@ function renderHome(lang) {
 	      </p>
 	    </div>
 	  </div>
-    </div>
-  </div>
-
-  <!-- Coluna Direita -->
-  <div class="col-esq flex-1 min-w-[260px] md:max-w-[48%]">
-    <div class="flex items-center">
-      <h2 id="solutions-title" 
-          class="mb-0 text-2xl md:text-3xl font-extrabold titul1 ms-2">
-        ${t.solutionsTitle.default}
-      </h2>
-    </div>
-
-    <ul class="mt-4 space-y-2 list-inside">
-      ${t.solucoesListHome.map(item => `<li>${item}</li>`).join('')}
-    </ul>
   </div>
 </div>
     `;
@@ -889,6 +960,7 @@ function renderContent(path, lang) {
   }
   const routeFunction = routes[path] || routes['/'];
   contentDiv.innerHTML = routeFunction(lang);
+
   let footer = document.querySelector('footer');
   if (!footer) {
     footer = document.createElement('footer');

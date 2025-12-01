@@ -6,10 +6,10 @@ var translations = {
   de: { home: "Start", proposals: "Angebote", about: "Über uns", contact: "Kontakt", langLabel: "Germany | DE", flag: "https://flagcdn.com/w20/de.png" }
 };
 
-(function () {
+(function(){
   var KEY = "lang";
   console.log("Definindo window.changeLang...");
-  window.changeLang = function (lang, isInitialLoad = false) {
+  window.changeLang = function(lang, isInitialLoad = false) {
     try {
       console.log("changeLang chamado com idioma: " + lang + ", isInitialLoad: " + isInitialLoad);
       var d = translations[lang] || translations.pt;
@@ -43,7 +43,7 @@ var translations = {
         try {
           window.localStorage.setItem(KEY, lang);
           console.log("Idioma salvo no localStorage: " + lang);
-        } catch (e) {
+        } catch(e) {
           console.error("Erro ao salvar idioma no localStorage: " + e.message);
         }
       } else {
@@ -53,57 +53,23 @@ var translations = {
       // Lógica de redirecionamento via POST para a página SALDO, apenas se não for inicialização
       if (!isInitialLoad) {
         var currentUrl = window.location.href;
-        var pageName = currentUrl.split('/').pop();
-        console.log('current url - ' + currentUrl);
+        var pageName = currentUrl.split('/').pop(); // Pega o último segmento da URL
+        // Infere o idioma atual da página
+		if (pageName.startsWith("SAL")){
+			var currentLang = pageName === 'SALDODE' ? 'de' : pageName === 'SALDOEN' ? 'en' : 'pt';
+			// Define a página alvo com base no idioma
+			var targetPageName = lang === 'de' ? 'SALDODE' : lang === 'en' ? 'SALDOEN' : 'SALDO';
 
-        if (pageName.startsWith("SAL")) {
-          var currentLang = pageName === 'SALDODE' ? 'de' :
-            pageName === 'SALDOEN' ? 'en' : 'pt';
-          var targetPageName = lang === 'de' ? 'SALDODE' :
-            lang === 'en' ? 'SALDOEN' : 'SALDO';
-        }
+		}
 
-        if (pageName.startsWith("EXT")) {
-          var currentLang = pageName === 'EXTRATODE' ? 'de' :
-            pageName === 'EXTRATOEN' ? 'en' : 'pt';
-          var targetPageName = lang === 'de' ? 'EXTRATODE' :
-            lang === 'en' ? 'EXTRATOEN' : 'EXTRATO';
-        }
+		if (pageName.startsWith("EXT")){
+		var currentLang = pageName === 'EXTRATODE' ? 'de' : pageName === 'EXTRATOEN' ? 'en' : 'pt';
+		 // Define a página alvo com base no idioma
+		 var targetPageName = lang === 'de' ? 'EXTRATODE' : lang === 'en' ? 'EXTRATOEN' : 'EXTRATO';
+		}
+				console.log("Como ficou targetPageName "+targetPageName);
 
-        if (pageName.startsWith("zO")) {
-          var currentLang = pageName === 'zOA' ? 'de' :
-            pageName === 'zOE' ? 'en' : 'pt';
-          var targetPageName = lang === 'de' ? 'zOA' :
-            lang === 'en' ? 'zOE' : 'zOS';
-        }
-
-        if (pageName.startsWith("jso")) {
-          //		    var currentLang = pageName === 'json' ? 'de' :
-          //		                      pageName === 'zOE' ? 'en' : 'pt';
-          var targetPageName = lang === 'de' ? 'jsonDE' :
-            lang === 'en' ? 'jsonEN' : 'json';
-
-          console.log("Como ficou targetPageName " + targetPageName);
-        }
-         if (pageName.startsWith("xml")) {
-          var targetPageName = lang === 'de' ? 'xmlDE' :
-            lang === 'en' ? 'xmlEN' : 'xml';
-
-          console.log("Como ficou targetPageName " + targetPageName);
-        }
-        // GET simples se o idioma mudou
-        if (lang !== currentLang) {
-          var newUrl = currentUrl.replace(pageName, targetPageName);
-          console.log("Redirecionando via GET para: " + newUrl);
-          window.location.href = newUrl;
-          return;
-        } else {
-          console.log("Idioma já corresponde à página atual, sem GET necessário.");
-        }
-
-
-        console.log("Como ficou targetPageName " + targetPageName);
-
+        // Verifica se o idioma selecionado é diferente do idioma atual da página
         if (lang !== currentLang) {
           var newUrl = currentUrl.replace(pageName, targetPageName);
           sendPostRequest(newUrl, targetPageName);
@@ -111,7 +77,6 @@ var translations = {
           console.log("Nenhuma requisição POST necessária: idioma selecionado já corresponde à página atual.");
         }
       }
-
     } catch (e) {
       console.error("Erro ao aplicar tradução: " + e.message);
     }
@@ -129,7 +94,7 @@ var translations = {
       return;
     }
     console.log("Parâmetro name: " + name);
-    console.log("Nova URL " + newUrl);
+    console.log("Nova URL "+ newUrl);
     // Envia a requisição POST
     fetch(newUrl, {
       method: 'POST',
@@ -138,28 +103,28 @@ var translations = {
       },
       body: 'name=' + encodeURIComponent(name)
     })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Erro na requisição POST: ' + response.status);
-        }
-        return response.text(); // Obtém o HTML retornado
-      })
-      .then(html => {
-        // Substitui o conteúdo da página atual com o HTML retornado
-        document.open();
-        document.write(html);
-        document.close();
-        // Atualiza a URL no navegador sem recarregar
-        history.pushState({}, '', newUrl);
-        console.log("Conteúdo da página atualizado via POST e URL alterada para: " + newUrl);
-      })
-      .catch(error => {
-        console.error("Erro ao realizar requisição POST: " + error.message);
-      });
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Erro na requisição POST: ' + response.status);
+      }
+      return response.text(); // Obtém o HTML retornado
+    })
+    .then(html => {
+      // Substitui o conteúdo da página atual com o HTML retornado
+      document.open();
+      document.write(html);
+      document.close();
+      // Atualiza a URL no navegador sem recarregar
+      history.pushState({}, '', newUrl);
+      console.log("Conteúdo da página atualizado via POST e URL alterada para: " + newUrl);
+    })
+    .catch(error => {
+      console.error("Erro ao realizar requisição POST: " + error.message);
+    });
   }
 
   // Função para atualizar a página atual (refresh)
-  window.refreshPage = function () {
+  window.refreshPage = function() {
     console.log("Atualizando a página atual...");
     var currentUrl = window.location.href;
     var pageName = currentUrl.split('/').pop(); // Pega o último segmento da URL
@@ -174,7 +139,7 @@ var translations = {
 
   console.log("window.changeLang e window.refreshPage definidos.");
 
-  document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", function() {
     try {
       console.log("Evento DOMContentLoaded disparado.");
       var saved = "pt";
@@ -182,7 +147,7 @@ var translations = {
         try {
           saved = window.localStorage.getItem(KEY) || "pt";
           console.log("Idioma recuperado do localStorage: " + saved);
-        } catch (e) {
+        } catch(e) {
           console.error("Erro ao recuperar idioma no localStorage: " + e.message);
         }
       } else {

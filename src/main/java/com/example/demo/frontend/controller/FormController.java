@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.example.demo.component.AccessCounter;
 import com.example.demo.frontend.model.TemplateForm;
@@ -40,6 +41,8 @@ public class FormController {
 	// "saldo.txt", "extrato.txt"
 
 	private final HttpClient client = HttpClient.newHttpClient();
+	@Autowired
+	private JsonController json;
 	private final int COMECO = 0;
 	private final int SOBRE = 1;
 	private final int PROPOSTAS = 2;
@@ -51,6 +54,12 @@ public class FormController {
 	private final int EXTRATO = 8;
 	@Autowired
 	private AccessCounter counter;
+	
+    @GetMapping("/demo")
+    @CrossOrigin(origins = "*")
+    public String redirectToDemo() {
+        return "redirect:http://maramajo.ddns.net:32000/";
+    }
 
 	@GetMapping("/original")
 	@CrossOrigin(origins = "*")
@@ -58,12 +67,7 @@ public class FormController {
 		counter.increment(COMECO);
 		return "spaMesmaAba3";
 	}
-//	@GetMapping("/original/home")
-//	@CrossOrigin(origins = "*")
-//	public String showFormHome() {
-//		counter.increment(COMECO);
-//		return "spaMesmaAba3";
-//	}
+
 	@GetMapping("/")
 	@CrossOrigin(origins = "*")
 	public String soZOS(HttpServletResponse servletResp) throws Exception {
@@ -167,7 +171,241 @@ public class FormController {
 
 		return response.body();
 	}
+	@CrossOrigin(origins = "*")
+	@GetMapping(value = "/json", produces = MediaType.TEXT_HTML_VALUE)
+	@ResponseBody
+	public String showjson() throws IOException, InterruptedException {
+	//	counter.increment(AATM004P);
+//		return json.showjson();
+		System.out.println("Dentro de json BUSCAJSO");
 
+		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/BUSCAJSO"))
+				.header("Content-Type", "application/x-www-form-urlencoded; charset=ISO-8859-1").build();
+
+		HttpResponse<String> response = client.send(req,
+				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
+//				HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+
+//		var resposta = response.body();
+		
+//		resposta = resposta.replace('Ý', '[') ;
+//		resposta = resposta.replace('¨', ']') ;
+		String S = response.body().replace('Ý', '[');
+		S = S.replace('¨', ']');
+		return response.body();
+	}
+//	@CrossOrigin(origins = "*")
+//	@PostMapping(value = "/json", produces = MediaType.TEXT_HTML_VALUE)
+//	@ResponseBody
+//	public String showjsonPost() throws IOException, InterruptedException {
+//	//	counter.increment(AATM004P);
+////		return json.showjson();
+//		System.out.println("Dentro de json BUSCAJSO");
+//
+//		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/BUSCAJSO"))
+//				.header("Content-Type", "application/x-www-form-urlencoded; charset=ISO-8859-1").build();
+//
+//		HttpResponse<String> response = client.send(req,
+//				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
+////				HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+//
+////		var resposta = response.body();
+//		
+////		resposta = resposta.replace('Ý', '[') ;
+////		resposta = resposta.replace('¨', ']') ;
+//		String S = response.body().replace('Ý', '[');
+//		S = S.replace('¨', ']');
+//		return response.body();
+//	}
+	@CrossOrigin(origins = "*")
+	@GetMapping(value = "/xml", produces = MediaType.TEXT_HTML_VALUE)
+	@ResponseBody
+	public String showxml() throws IOException, InterruptedException {
+	//	counter.increment(AATM004P);
+//		return json.showjson();
+		System.out.println("Dentro de xml POST BUSCAXML");
+
+		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/BUSCAXML"))
+				.header("Content-Type", "application/x-www-form-urlencoded; charset=ISO-8859-1").build();
+
+		HttpResponse<String> response = client.send(req,
+				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
+//				HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+
+//		var resposta = response.body();
+		
+//		resposta = resposta.replace('Ý', '[') ;
+//		resposta = resposta.replace('¨', ']') ;
+		String S = response.body().replace('Ý', '[');
+		S = S.replace('¨', ']');
+		return response.body();
+	}
+//	@CrossOrigin(origins = "*")
+//	@PostMapping(value = "/xml", produces = MediaType.TEXT_HTML_VALUE)
+//	@ResponseBody
+//	public String showxmlPost() throws IOException, InterruptedException {
+//	//	counter.increment(AATM004P);
+////		return json.showjson();
+//		System.out.println("Dentro de xml POST BUSCAXML");
+//
+//		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/BUSCAXML"))
+//				.header("Content-Type", "application/x-www-form-urlencoded; charset=ISO-8859-1").build();
+//
+//		HttpResponse<String> response = client.send(req,
+//				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
+////				HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+//
+////		var resposta = response.body();
+//		
+////		resposta = resposta.replace('Ý', '[') ;
+////		resposta = resposta.replace('¨', ']') ;
+//		String S = response.body().replace('Ý', '[');
+//		S = S.replace('¨', ']');
+//		return response.body();
+//	}
+	@CrossOrigin(origins = "*")
+	@GetMapping(value = "/xmlEN", produces = MediaType.TEXT_HTML_VALUE)
+	@ResponseBody
+	public String showxmlEN() throws IOException, InterruptedException {
+	//	counter.increment(AATM004P);
+//		return json.showjson();
+		System.out.println("Dentro de xmlEN GET BUSCAXME");
+
+		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/BUSCAXME"))
+				.header("Content-Type", "application/x-www-form-urlencoded; charset=ISO-8859-1").build();
+
+		HttpResponse<String> response = client.send(req,
+				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
+//				HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+
+//		var resposta = response.body();
+		
+//		resposta = resposta.replace('Ý', '[') ;
+//		resposta = resposta.replace('¨', ']') ;
+		String S = response.body().replace('Ý', '[');
+		S = S.replace('¨', ']');
+		return response.body();
+	}
+
+
+
+
+	@CrossOrigin(origins = "*")
+	@GetMapping(value = "/jsonEN", produces = MediaType.TEXT_HTML_VALUE)
+	@ResponseBody
+	public String showjsonEN() throws IOException, InterruptedException {
+	//	counter.increment(AATM004P);
+//		return json.showjson();
+		System.out.println("Dentro de jsonEN BUSCAJSi");
+
+		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/BUSCAJSI"))
+				.header("Content-Type", "application/x-www-form-urlencoded; charset=ISO-8859-1").build();
+
+		HttpResponse<String> response = client.send(req,
+				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
+//				HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+
+//		var resposta = response.body();
+		
+//		resposta = resposta.replace('Ý', '[') ;
+//		resposta = resposta.replace('¨', ']') ;
+		String S = response.body().replace('Ý', '[');
+		S = S.replace('¨', ']');
+		return response.body();
+	}
+//	@CrossOrigin(origins = "*")
+//	@PostMapping(value = "/jsonEN", produces = MediaType.TEXT_HTML_VALUE)
+//	@ResponseBody
+//	public String showjsonENPost() throws IOException, InterruptedException {
+//	//	counter.increment(AATM004P);
+////		return json.showjson();
+//		System.out.println("Dentro de jsonEN BUSCAJSI");
+//
+//		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/BUSCAJSI"))
+//				.header("Content-Type", "application/x-www-form-urlencoded; charset=ISO-8859-1").build();
+//
+//		HttpResponse<String> response = client.send(req,
+//				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
+////				HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+//
+////		var resposta = response.body();
+//		
+////		resposta = resposta.replace('Ý', '[') ;
+////		resposta = resposta.replace('¨', ']') ;
+//		String S = response.body().replace('Ý', '[');
+//		S = S.replace('¨', ']');
+//		return response.body();
+//	}
+	@CrossOrigin(origins = "*")
+	@GetMapping(value = "/jsonDE", produces = MediaType.TEXT_HTML_VALUE)
+	@ResponseBody
+	public String showjsonDE() throws IOException, InterruptedException {
+	//	counter.increment(AATM004P);
+//		return json.showjson();
+		System.out.println("Dentro de jsonDE BUSCAJSA");
+
+		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/BUSCAJSA"))
+				.header("Content-Type", "application/x-www-form-urlencoded; charset=ISO-8859-1").build();
+
+		HttpResponse<String> response = client.send(req,
+				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
+//				HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+
+//		var resposta = response.body();
+		
+//		resposta = resposta.replace('Ý', '[') ;
+//		resposta = resposta.replace('¨', ']') ;
+		String S = response.body().replace('Ý', '[');
+		S = S.replace('¨', ']');
+		return response.body();
+	}
+//	@CrossOrigin(origins = "*")
+//	@PostMapping(value = "/jsonDE", produces = MediaType.TEXT_HTML_VALUE)
+//	@ResponseBody
+//	public String showjsonDEPost() throws IOException, InterruptedException {
+//	//	counter.increment(AATM004P);
+////		return json.showjson();
+//		System.out.println("Dentro de jsonDE BUSCAJSA");
+//
+//		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/BUSCAJSA"))
+//				.header("Content-Type", "application/x-www-form-urlencoded; charset=ISO-8859-1").build();
+//
+//		HttpResponse<String> response = client.send(req,
+//				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
+////				HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+//
+////		var resposta = response.body();
+//		
+////		resposta = resposta.replace('Ý', '[') ;
+////		resposta = resposta.replace('¨', ']') ;
+//		String S = response.body().replace('Ý', '[');
+//		S = S.replace('¨', ']');
+//		return response.body();
+//	}
+
+
+	@CrossOrigin(origins = "*")
+	@GetMapping(value = "/jsonDE", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public String showjsonDEJson() throws IOException, InterruptedException {
+	//	counter.increment(AATM004P);
+		System.out.println("Dentro de json");
+
+		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/JSON000A"))
+				.header("Content-Type", "application/x-www-form-urlencoded; charset=ISO-8859-1").build();
+
+		HttpResponse<String> response = client.send(req,
+				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
+//				HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+
+//		var resposta = response.body();
+		
+//		resposta = resposta.replace('Ý', '[') ;
+//		resposta = resposta.replace('¨', ']') ;
+		String S = response.body().replace('Ý', '[');
+		S = S.replace('¨', ']');
+		return S;
+	}
 	@CrossOrigin(origins = "*")
 	@GetMapping(value = "/original/zOS", produces = MediaType.TEXT_HTML_VALUE)
 	@ResponseBody
@@ -259,7 +497,7 @@ public class FormController {
 	public String verSaldoGet() throws IOException, InterruptedException {
 		System.out.println("Dentro de SALDO GET");
 		counter.increment(SALDO);
-//		counter.adicionarVisitante(nome+" - SALDO");
+		counter.adicionarVisitante(" - SALDO");
 		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMSALD"))
 //				.POST(HttpRequest.BodyPublishers.ofString("name=" + nome))
 //				.header("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
@@ -278,7 +516,7 @@ public class FormController {
 	public String verSaldoGe1() throws IOException, InterruptedException {
 		System.out.println("Dentro de original SALDO GET");
 		counter.increment(SALDO);
-//		counter.adicionarVisitante(nome+" - SALDO");
+		counter.adicionarVisitante(" - SALDO");
 		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMSALD"))
 //				.POST(HttpRequest.BodyPublishers.ofString("name=" + nome))
 //				.header("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
@@ -297,7 +535,7 @@ public class FormController {
 	public String verSaldoEnGet() throws IOException, InterruptedException {
 		System.out.println("Dentro de SALDOEN GET");
 		counter.increment(SALDOEN);
-//		counter.adicionarVisitante(nome+" - SALDO");
+		counter.adicionarVisitante(" - SALDO");
 		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMSAEN"))
 //				.POST(HttpRequest.BodyPublishers.ofString("name=" + nome))
 //				.header("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
@@ -316,7 +554,7 @@ public class FormController {
 	public String verSaldoEnGe1() throws IOException, InterruptedException {
 		System.out.println("Dentro de original SALDOEN GET");
 		counter.increment(SALDOEN);
-//		counter.adicionarVisitante(nome+" - SALDO");
+		counter.adicionarVisitante(" - SALDO");
 		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMSAEN"))
 //				.POST(HttpRequest.BodyPublishers.ofString("name=" + nome))
 //				.header("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
@@ -335,7 +573,7 @@ public class FormController {
 	public String verSaldoDeGet() throws IOException, InterruptedException {
 		System.out.println("Dentro de SALDODE GET");
 		counter.increment(SALDO);
-//		counter.adicionarVisitante(nome+" - SALDO");
+		counter.adicionarVisitante(" - SALDO");
 		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMSADE"))
 //				.POST(HttpRequest.BodyPublishers.ofString("name=" + nome))
 //				.header("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
@@ -354,7 +592,7 @@ public class FormController {
 	public String verSaldoDeGe1() throws IOException, InterruptedException {
 		System.out.println("Dentro de original SALDODE GET");
 		counter.increment(SALDO);
-//		counter.adicionarVisitante(nome+" - SALDO");
+		counter.adicionarVisitante(" - SALDO");
 		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMSADE"))
 //				.POST(HttpRequest.BodyPublishers.ofString("name=" + nome))
 //				.header("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
@@ -527,7 +765,7 @@ public class FormController {
 	public String verExtrato() throws IOException, InterruptedException {
 		System.out.println("Dentro de EXTRATO");
 		counter.increment(EXTRATO);
-//		counter.adicionarVisitante(nome+" - EXTRATO");
+		counter.adicionarVisitante(" - EXTRATO");
 		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMEXTR"))
 //				.POST(HttpRequest.BodyPublishers.ofString("name=" + nome))
 				.header("Content-Type", "application/x-www-form-urlencoded").build();
@@ -544,7 +782,7 @@ public class FormController {
 	public String verExtrat1() throws IOException, InterruptedException {
 
 		counter.increment(EXTRATO);
-//		counter.adicionarVisitante(nome+" - EXTRATO");
+		counter.adicionarVisitante(" - EXTRATO");
 		System.out.println("Dentro de original EXTRATO");
 		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMEXTR"))
 //				.POST(HttpRequest.BodyPublishers.ofString("name=" + nome))
@@ -599,7 +837,7 @@ public class FormController {
 
 		counter.increment(EXTRATO);
 		System.out.println("Dentro de EXTRATODE");
-//		counter.adicionarVisitante(nome+" - EXTRATODE");
+		counter.adicionarVisitante(" - EXTRATODE");
 		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMEXGE"))
 //				.POST(HttpRequest.BodyPublishers.ofString("name=" + nome))
 				.header("Content-Type", "application/x-www-form-urlencoded").build();
@@ -616,7 +854,7 @@ public class FormController {
 	public String verExtratoG1() throws IOException, InterruptedException {
 
 		counter.increment(EXTRATO);
-//		counter.adicionarVisitante(nome+" - EXTRATODE");
+		counter.adicionarVisitante(" - EXTRATODE");
 		System.out.println("Dentro de original EXTRATODE");
 		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMEXGE"))
 //				.POST(HttpRequest.BodyPublishers.ofString("name=" + nome))
@@ -670,7 +908,7 @@ public class FormController {
 	public String verExtratoEn() throws IOException, InterruptedException {
 
 		counter.increment(EXTRATO);
-//		counter.adicionarVisitante(nome+" - EXTRATODE");
+		counter.adicionarVisitante(" - EXTRATODE");
 		System.out.println("Dentro de EXTRATOEN");
 		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMEXEN"))
 //				.POST(HttpRequest.BodyPublishers.ofString("name=" + nome))
@@ -689,7 +927,7 @@ public class FormController {
 
 		counter.increment(EXTRATO);
 		System.out.println("Dentro de original EXTRATOEN get");
-//		counter.adicionarVisitante(nome+" - EXTRATODE");
+		counter.adicionarVisitante(" - EXTRATODE");
 		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATMEXEN"))
 //				.POST(HttpRequest.BodyPublishers.ofString("name=" + nome))
 				.header("Content-Type", "application/x-www-form-urlencoded").build();

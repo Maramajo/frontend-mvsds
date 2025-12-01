@@ -14,42 +14,43 @@
       font-size: 0.95rem;
     }
 
-    .tooltip-icon {
-      display: inline-block;
-      margin-left: 4px;
-      color: #007bff;
-      font-weight: bold;
-      font-size: 14px;
-      position: relative;
-      cursor: help;
-    }
+	/* Container do balão */
+	.floating-info {
+	  position: fixed;
+	  top: 20px;
+	  right: 20px;
+	  background: #fff;
+	  color: #333;
+	  padding: 12px 16px;
+	  max-width: 260px;
+	  border-radius: 12px;
+	  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+	  font-size: 15px;
+	  line-height: 1.4;
+	  border: 2px solid #444;
+	  opacity: 0;
+	  transition: opacity .25s ease-out;
+	  z-index: 9999;
+	}
 
-    .tooltip-icon::after {
-      content: "O Invest FØícil Ø0 um serviØºo que faz o saldo acima de R$ 51,00 render todos os dias.";
-      position: absolute;
-      bottom: 125%;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: #a50037;
-      color: #fff;
-      padding: 8px;
-      border-radius: 6px;
-      white-space: normal;
-      width: 240px;
-      text-align: left;
-      font-size: 13px;
-      line-height: 1.4;
-      visibility: hidden;
-      opacity: 0;
-      transition: opacity .3s;
-      z-index: 1000;
-    }
+	/* Setinha estilo balão */
+	.floating-info::after {
+	  content: "";
+	  position: absolute;
+	  bottom: -16px;
+	  right: 18px;
+	  border-width: 8px;
+	  border-style: solid;
+	  border-color: #444 transparent transparent transparent;
+	  transform: rotate(180deg);
+	}
 
-    .tooltip-icon:hover::after {
-      visibility: visible;
-      opacity: 1;
-    }
-
+	/* Ícone de quadrinho opcional */
+	.floating-info .icon {
+	  font-size: 18px;
+	  margin-right: 6px;
+	  color: #444;
+	}
     .product-row {
       display: flex;
       justify-content: space-between;
@@ -290,3 +291,60 @@
       color: #070000 !important;
       /* Cor azul do text-blue-600 no Bootstrap */
     }
+	.tooltip-btn {
+	  position: relative;
+	}
+
+	.tooltip-btn::after {
+	  content: attr(data-tooltip);
+	  position: absolute;
+	  bottom: 120%;
+	  left: 50%;
+	  transform: translateX(-50%);
+	  background-color: #a50037;
+	  color: #fff;
+	  padding: 8px;
+	  border-radius: 6px;
+	  white-space: normal;
+	  width: 240px;
+	  text-align: left;
+	  font-size: 13px;
+	  line-height: 1.4;
+	  visibility: hidden;
+	  opacity: 0;
+	  transition: opacity .3s;
+	  z-index: 1000;
+	}
+
+	.tooltip-btn:hover::after {
+	  visibility: visible;
+	  opacity: 1;
+	}
+	.info-box {
+	  margin-top: 20px;
+	  background: #a50037;
+	  color: #fff;
+	  padding: 12px;
+	  border-radius: 6px;
+	  font-size: 14px;
+	  width: 100%;
+	  max-width: 420px;
+	  line-height: 1.4;
+	}
+	.floating-info {
+	  position: fixed;
+	  top: 20px;
+	  right: 20px;
+	  background: #a50037;
+	  color: #fff;
+	  padding: 12px 16px;
+	  border-radius: 6px;
+	  max-width: 260px;
+	  font-size: 14px;
+	  line-height: 1.4;
+	  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+	  opacity: 0;
+	  pointer-events: none; /* não bloqueia clique nos botões */
+	  transition: opacity .3s ease;
+	  z-index: 9999;
+	}

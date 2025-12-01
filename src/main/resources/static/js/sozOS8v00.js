@@ -1,28 +1,6 @@
 // Armazena o HTML original para restauração
+checkAndRedirect();
 const originalHTML = document.documentElement.outerHTML;
-
-// --- INÍCIO: base path helpers (fixa Home em /original) ---
-const BASE_PATH = '/original';
-
-function addBasePath(path) {
-  // transforma '/propostas'  -> '/original/propostas'
-  // transforma '/' ou ''     -> '/original'
-  // preserva '/original'    -> '/original'
-  if (!path || path === '/') return BASE_PATH;
-  if (path.startsWith(BASE_PATH)) return path;
-  return path.startsWith('/') ? BASE_PATH + path : BASE_PATH + '/' + path;
-}
-
-function stripBasePath(path) {
-  // transforma '/original/propostas' -> '/propostas'
-  // transforma '/original'           -> '/original'
-  // deixa '/propostas'               -> '/propostas'
-  if (!path) return '/';
-  if (path === BASE_PATH) return BASE_PATH;
-  if (path.startsWith(BASE_PATH + '/')) return path.slice(BASE_PATH.length);
-  return path;
-}
-// --- FIM: base path helpers ---
 
 // Flag para evitar dupla inicialização
 let isBootstrapInitialized = false;
@@ -32,11 +10,13 @@ const translations = {
     solutions: "Soluções",
     solutionsTitle: {
       default: "Soluções",
-      "/original/zOS": "Demo do CWS",
-      "/original/SALDO": "Extrato de Saldos",
-      "/original/EXTRATO": "Extrato Bancário"
+      "/zOS": "Demo do CWS",
+      "/SALDO": "Extrato de Saldos",
+      "/EXTRATO": "Extrato Bancário",
+      "/json": "Json Demo",
+       "/xml": "Xml Demo"
     },
-    home: "🏠 Home",
+    home: "Home",
     propostas: "💼 Propostas",
     about: "📄 Sobre",
     contactNav: "📬 Contacte-nos",
@@ -64,8 +44,7 @@ A continuidade da gestão contribuiu para relacionamentos duradouros e mutuament
 <span style="display:inline-block; width:4ch;"></span>
 A experiência acumulada da equipe de Gestão da <span class="marca">Maramajo</span> nas áreas de desenvolvimento de produtos e execução de projetos a posiciona de forma única para entender as necessidades dos clientes e fornecer soluções superiores a preços competitivos.
 `,
-
-    solucoes: "Soluções inovadoras e econômicas",
+    solucoes: "Soluções",
     solucoesListHome: [
       "✅ Desenvolvimento e manutenção de sistemas nas plataformas Mainframe, Windows e Unix/Linux.",
       "✅ Integração entre sistemas nas plataformas acima",
@@ -78,15 +57,18 @@ A experiência acumulada da equipe de Gestão da <span class="marca">Maramajo</s
       "✅ Integração entre sistemas nas plataformas acima",
       "✅ Alocação de mão-de-obra especializada",
       "✅ Consultoria em sistemas",
-      "✅ Treinamento em Informática",
+      "✅- Treinamento em Informática",
       "✅ Presença internacional",
       "✅ Empresa madura e estável"
     ],
+
     propostasTxt: "Propostas",
     zosTxt: 'Visite nosso z/OS. Veja-o "conversar" diretamente com seu browser clicando na imagem à direita:',
-    zosLink: "/original/zOS",
-    saldoLink: "/original/SALDO",
-    extratoLink: "/original/EXTRATO",
+    zosLink: "/zOS",
+    saldoLink: "/SALDO",
+    extratoLink: "/EXTRATO",
+    jsonLink: "/json",
+    xmlLink: "/xml",
     mainTitle: "CWS",
     subTitle: "Simplificação de Middleware em Sistemas Críticos",
     intro: "Eliminando camadas desnecessárias de middleware para arquiteturas empresariais mais simples, rápidas e seguras.",
@@ -108,15 +90,15 @@ A experiência acumulada da equipe de Gestão da <span class="marca">Maramajo</s
     whoList: [
       "<strong>CTOs/CIOs</strong> procurando caminhos seguros de modernização",
       "<strong>Arquitetos de TI</strong> buscando simplificação",
-      "<strong>Equipes Mainframe</strong> pressionadas a adicionar Java “só porque”",
+      "<strong>Equipes Mainframe</strong> pressionadas a adicionar camadas intermediárias de plataforma baixa \"porque todo mundo usa assim\".",
       "<strong>Líderes de Segurança</strong> gerenciando sistemas transacionais sensíveis"
     ],
     filesTitle: '📂 Arquivos Incluídos',
     filesText: `Visite <a href="https://github.com/Maramajo/CWS" 
-                 target="_blank" 
-                 class="text-blue-600 hover:underline">
-                 https://github.com/Maramajo/CWS
-               </a> para baixá-los.`,
+	             target="_blank" 
+	             class="text-blue-600 hover:underline">
+	             https://github.com/Maramajo/CWS
+	           </a> para baixá-los.`,
 
     filesList: [
       "<code>Apresentacao CWS.pptx</code> – Apresentação com proposta de arquitetura",
@@ -141,17 +123,19 @@ A experiência acumulada da equipe de Gestão da <span class="marca">Maramajo</s
     solutions: "Solutions",
     solutionsTitle: {
       default: "Solutions",
-      "/original/zOE": "CWS Demo",
-      "/original/SALDOEN": "Balance Statement",
-      "/original/EXTRATOEN": "Bank statement"
+      "/zOE": "CWS Demo",
+      "/SALDOEN": "Balance Statement",
+      "/EXTRATOEN": "Bank Statement",
+      "/jsonEN": "Json Demo",
+      "/xmlEN": "Xml Demo"
     },
-    home: "🏠 Home",
+    home: "Home",
     propostas: "💼 Proposals",
     about: "📄 About",
     contactNav: "📬 Contact us",
     quemSomosHome: "About us",
     quemSomosSobre: "Why choose us",
-  quemSomosTextHome: `
+    quemSomosTextHome: `
 <span class="marca">Maramajo</span> was founded in 2001 to make technology simple, direct, and efficient.
 We don’t follow trends — we prefer to understand the problem, get to the technical core, and deliver the right solution.
 <br>
@@ -163,19 +147,19 @@ Our team consists of professionals who know critical infrastructure inside out a
 More than just promising innovation, we <strong>deliver real technical results</strong> with transparency and precision.
 `,
 
-quemSomosTextSobre: `
+    quemSomosTextSobre: `
 <span class="marca">Maramajo</span> has grown over 21 years thanks to teamwork and the leadership of its experienced management team.
 <br>
 <span style="display:inline-block; width:4ch;"></span>
 The continuity of management has contributed to long-lasting and mutually beneficial relationships with clients and partners.
 <br>
 <span style="display:inline-block; width:4ch;"></span>
-The accumulated experience of <strong>Maramajo’s</strong> management team in product development and project execution uniquely positions the company to understand clients’ needs and deliver superior solutions at competitive prices.
+The accumulated experience of <span class="marca">Maramajo's</span> management team in product development and project execution uniquely positions the company to understand clients’ needs and deliver superior solutions at competitive prices.
 `,
 
 
     italico: "Note: Please consider that this demo runs on an old laptop, with Ubuntu 1.8 and Hercules as the pipeline program. Therefore, the latency is much higher than if it were on a real Mainframe.",
-    solucoes: "Innovative and economical solutions",
+    solucoes: "Solutions",
     solucoesListHome: [
       "✅ Development and maintenance of systems on Mainframe, Windows, and Unix/Linux platforms.",
       "✅ Integration between systems on the above platforms",
@@ -192,17 +176,19 @@ The accumulated experience of <strong>Maramajo’s</strong> management team in p
       "✅ International Presence",
       "✅ Mature, Stable Company"
     ],
-    propostasTxt: "Proposals",
-    zosTxt: 'Visit our z/OS. Watch it "talk" directly to your browser by clicking the image below:',
-    zosLink: "/original/zOE",
-    saldoLink: "/original/SALDOEN",
-    extratoLink: "/original/EXTRATOEN",
+    propostasTxt: "Propostas",
+    zosTxt: 'Visit our z/OS. Watch it "talk" directly to your browser by clicking the image on the right:',
+    zosLink: "/zOE",
+    saldoLink: "/SALDOEN",
+    extratoLink: "/EXTRATOEN",
+    jsonLink: "/jsonEN",
+    xmlLink: "/xmlEN",
     mainTitle: "CWS",
     subTitle: "Middleware Simplification in Critical Systems",
     intro: "Eliminating unnecessary middleware layers for simpler, faster, and more secure enterprise architectures.",
     overviewTitle: "🔍 Overview",
     overviewText1: "In many enterprise environments — especially in banking, government, and large-scale retail — middleware frameworks like Java/Spring/Spring Boot are often introduced where they provide minimal value.",
-    overviewQuote: "📊 “Less is more” when performance, reliability, and security already exist at the core.",
+    overviewQuote: "📊 \"Less is more\" when performance, reliability, and security already exist at the core.",
     problemTitle: "🚫 The Problem: Middleware Overhead",
     problemText1: "Adding middleware between the frontend and mainframe introduces:",
     problemList: ["Increased latency", "Higher maintenance and operational cost", "More potential failure points", "Security risks due to duplicated data flow"],
@@ -218,17 +204,18 @@ The accumulated experience of <strong>Maramajo’s</strong> management team in p
     whoList: [
       "<strong>CTOs/CIOs</strong> looking for safe modernization paths",
       "<strong>Enterprise architects</strong> seeking simplification",
-      "<strong>Mainframe teams</strong> under pressure to add Java \"just because\"",
+      "<strong>Mainframe teams</strong> pressured to add low platform mid-layers \"because everyone wears them\"",
       "<strong>Security leads</strong> managing sensitive transactional systems"
     ],
     filesTitle: '📂 Included Files',
     filesText: `Visit 
-      <a href="https://github.com/Maramajo/CWS" 
-         target="_blank" 
-         class="text-blue-600 hover:underline">
-         https://github.com/Maramajo/CWS
-      </a> 
-      to download them.`,
+	  <a href="https://github.com/Maramajo/CWS" 
+	     target="_blank" 
+	     class="text-blue-600 hover:underline">
+	     https://github.com/Maramajo/CWS
+	  </a> 
+	  to download them.`,
+
     filesList: [
       "<code>Apresentacao CWS.pptx</code> – Presentation with architecture proposal",
       "<code>CWS Presentation.pptx</code> – Presentation with architecture proposal",
@@ -252,17 +239,19 @@ The accumulated experience of <strong>Maramajo’s</strong> management team in p
     solutions: "Lösungen",
     solutionsTitle: {
       default: "Lösungen",
-      "/original/zOA": "CWS-Demo",
-      "/original/SALDODE": "Bilanz",
-      "/original/EXTRATODE": "Kontoauszug"
+      "/zOA": "CWS-Demo",
+      "/SALDODE": "Bilanz",
+      "/EXTRATODE": "Kontoauszug",
+      "/jsonDE": "JSON-Demo",
+      "/xmlDE": "XML-Demo"
     },
-    home: "🏠 Startseite",
+    home: "Startseite",
     propostas: "💼 Vorschläge",
     about: "📄 Über uns",
     contactNav: "📬 Kontakt",
     quemSomosHome: "Wer wir sind",
     quemSomosSobre: "Warum uns wählen",
- quemSomosTextHome: `
+    quemSomosTextHome: `
 <span class="marca">Maramajo</span> wurde 2001 gegründet, um Technologie einfach, direkt und effizient zu gestalten.
 Wir folgen keinen Moden – wir bevorzugen es, das Problem zu verstehen, zum technischen Kern vorzudringen und die richtige Lösung zu liefern.
 <br>
@@ -274,18 +263,18 @@ Unser Team besteht aus Fachleuten, die kritische Infrastrukturen in- und auswend
 Mehr als nur Innovation zu versprechen, <strong>liefern wir echte technische Ergebnisse</strong> mit Transparenz und Präzision.
 `,
 
-quemSomosTextSobre: `
+    quemSomosTextSobre: `
 <span class="marca">Maramajo</span> ist im Laufe von 21 Jahren durch Teamarbeit und die Führung ihres erfahrenen Managementteams gewachsen.
 <br>
 <span style="display:inline-block; width:4ch;"></span>
 Die Kontinuität im Management hat zu langanhaltenden und gegenseitig vorteilhaften Beziehungen zu Kunden und Partnern beigetragen.
 <br>
 <span style="display:inline-block; width:4ch;"></span>
-Die gesammelte Erfahrung des Managementteams von <strong>Maramajo</strong> in den Bereichen Produktentwicklung und Projektausführung positioniert das Unternehmen einzigartig, um die Bedürfnisse der Kunden zu verstehen und überlegene Lösungen zu wettbewerbsfähigen Preisen zu liefern.
+Die gesammelte Erfahrung des Managementteams von <span class="marca">Maramajo</span> in den Bereichen Produktentwicklung und Projektausführung positioniert das Unternehmen einzigartig, um die Bedürfnisse der Kunden zu verstehen und überlegene Lösungen zu wettbewerbsfähigen Preisen zu liefern.
 `,
 
     italico: "Hinweis: Bitte beachten Sie, dass diese Demo auf einem alten Laptop mit Ubuntu 1.8 und Hercules als Pipeline-Programm läuft. Daher ist die Latenz viel höher als auf einem echten Mainframe.",
-    solucoes: "Innovative und wirtschaftliche Lösungen",
+    solucoes: "Lösungen",
     solucoesListHome: [
       "✅ und Wartung von Systemen auf Mainframe-, Windows- und Unix/Linux-Plattformen.",
       "✅ Integration zwischen Systemen auf den oben genannten Plattformen",
@@ -303,16 +292,18 @@ Die gesammelte Erfahrung des Managementteams von <strong>Maramajo</strong> in de
       "✅ Etabliertes, stabiles Unternehmen"
     ],
     propostasTxt: "Vorschläge",
-    zosTxt: 'Besuchen Sie unser z/OS. Klicken Sie auf das Bild unten und sehen Sie, wie es direkt mit Ihrem Browser „kommuniziert“:',
-    zosLink: "/original/zOA",
-    saldoLink: "/original/SALDODE",
-    extratoLink: "/original/EXTRATODE",
+    zosTxt: 'Besuchen Sie unser z/OS. Klicken Sie auf das Bild rechts und sehen Sie, wie es direkt mit Ihrem Browser „spricht“:',
+    zosLink: "/zOA",
+    saldoLink: "/SALDODE",
+    extratoLink: "/EXTRATODE",
+    jsonLink: "/jsonDE",
+    xmlLink: "/xmlDE",
     mainTitle: "CWS",
     subTitle: "Middleware-Vereinfachung in kritischen Systemen",
     intro: "Beseitigung unnötiger Middleware-Schichten für einfachere, schnellere und sicherere Unternehmensarchitekturen.",
     overviewTitle: "🔍 Überblick",
     overviewText1: "In vielen Unternehmensumgebungen – insbesondere im Bankwesen, in der Regierung und im Einzelhandel – werden Middleware-Frameworks wie Java/Spring/Spring Boot oft eingeführt, obwohl sie nur geringen Mehrwert bieten.",
-    overviewQuote: "📊 „Weniger ist mehr“, wenn Leistung, Zuverlässigkeit und Sicherheit bereits im Kern vorhanden sind.",
+    overviewQuote: "📊 „Weniger ist mehr\", wenn Leistung, Zuverlässigkeit und Sicherheit bereits im Kern vorhanden sind.",
     problemTitle: "🚫 Das Problem: Middleware-Overhead",
     problemText1: "Das Hinzufügen von Middleware zwischen Frontend und Mainframe führt zu:",
     problemList: ["Erhöhte Latenz", "Höheren Wartungs- und Betriebskosten", "Mehr potenziellen Fehlerquellen", "Sicherheitsrisiken durch duplizierte Datenflüsse"],
@@ -328,17 +319,18 @@ Die gesammelte Erfahrung des Managementteams von <strong>Maramajo</strong> in de
     whoList: [
       "<strong>CTOs/CIOs</strong> auf der Suche nach sicheren Modernisierungspfaden",
       "<strong>Enterprise-Architekten</strong> die Vereinfachung anstreben",
-      "<strong>Mainframe-Teams</strong> unter Druck, Java „einfach so“ hinzuzufügen",
+      "<strong>Mainframe-Teams</strong> unter Druck gesetzt, niedrige Plateau-Mittelschichten hinzuzufügen, \„weil jeder sie trägt\“",
       "<strong>Sicherheitsverantwortliche</strong> die sensible transaktionale Systeme verwalten"
     ],
     filesTitle: '📂 Enthaltene Dateien',
     filesText: `Besuchen Sie 
-      <a href="https://github.com/Maramajo/CWS" 
-         target="_blank" 
-         class="text-blue-600 hover:underline">
-         https://github.com/Maramajo/CWS
-      </a>, 
-      um sie herunterzuladen.`,
+	  <a href="https://github.com/Maramajo/CWS" 
+	     target="_blank" 
+	     class="text-blue-600 hover:underline">
+	     https://github.com/Maramajo/CWS
+	  </a>, 
+	  um sie herunterzuladen.`,
+
     filesList: [
       "<code>Apresentacao CWS.pptx</code> – Präsentation mit Architekturvorschlag",
       "<code>CWS Presentation.pptx</code> – Präsentation mit Architekturvorschlag",
@@ -359,6 +351,36 @@ Die gesammelte Erfahrung des Managementteams von <strong>Maramajo</strong> in de
     nameError: "Bitte füllen Sie das Namensfeld aus."
   }
 };
+// Função para detectar dispositivo móvel
+function isMobileDevice() {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+// Função para detectar se o navegador é Edge ou Chrome
+function isEdgeOrChrome() {
+  const userAgent = navigator.userAgent.toLowerCase();
+  let a = userAgent.includes('chrome');
+  let b = !userAgent.includes('firefox');
+  //console.log(a, b);
+  let checar = userAgent.includes('edg/') || userAgent.includes('chrome') && !userAgent.includes('firefox');
+  return checar;
+}
+
+// Função para verificar e redirecionar
+function checkAndRedirect() {
+  const currentHost = window.location.hostname;
+  const currentPath = window.location.pathname;
+
+  // Verifica se está em maramajo.ddns.net:32000 e se é dispositivo móvel ou navegador não Edge/Chrome
+  if (currentHost === 'maramajo.ddns.net' && (isMobileDevice() || !isEdgeOrChrome())) {
+    // Redireciona para maramajo.ddns.net:32000/original
+    //console.log(isMobileDevice);
+    //console.log(isEdgeOrChrome);
+    window.location.href = 'http://maramajo.ddns.net:32000/original';
+  }
+}
+
+// Executa a verificação assim que o script é carregado
 
 function renderHome(lang) {
   const t = translations[lang] || translations['pt'];
@@ -373,8 +395,7 @@ function renderHome(lang) {
     </h2>
 	<h1><strong>IBM® Business Partner</strong></h1>
     <div class="mt-4 space-y-4">
-    <p class="mt-2">${t.quemSomosTextHome}</p>
-    <!--   <p id="p1">${t.quemSomosTextHome}</p> -->
+      <p>${t.quemSomosTextHome}</p>
    <!--    <span style="color:#e60000;text-align: justify;">&#8599;</span> -->
  <!--     <span style="color:#e60000;float:right;">↗️</span> -->
 	  <span style="color:#e60000; float:right;">
@@ -429,7 +450,6 @@ function renderHome(lang) {
 
 function renderPropostas(lang) {
   const t = translations[lang] || translations['pt'];
-
   return `
       <div class="container">
         <header class="text-center mb-12">
@@ -464,8 +484,9 @@ function renderPropostas(lang) {
           <ul class="list-disc pl-6 space-y-2 text-base md:text-lg">${t.whoList.map(i => `<li>${i}</li>`).join('')}</ul>
         </section>
         <section>
-          <h3 id="files-title" class="section-header">${t.filesTitle}</h3>
-          <p class="text-base md:text-lg leading-relaxed">${t.filesText}</p>
+          <h3 class="section-header">${t.filesTitle}</h3>
+		  <p class="text-base md:text-lg leading-relaxed">${t.filesText}</p>
+
           <ul class="list-disc pl-6 space-y-2 text-base md:text-lg">${t.filesList.map(i => `<li>${i}</li>`).join('')}</ul>
         </section>
         <section>
@@ -478,13 +499,8 @@ function renderPropostas(lang) {
         </section>
         <section>
           <h3 class="section-header">${t.tagsTitle}</h3>
- 		  <div class="flex flex-wrap gap-2">
-		    ${t.tagsList.map(tag =>
-    `<span style="background:#ebf5ff; color:#1e3a8a; font-size:.875rem; padding:.25rem .5rem; border-radius:.375rem;">${tag}</span>`
-  ).join(' ')}
-		  </div>
-
-		  </section>
+          <div class="flex flex-wrap gap-2">${t.tagsList.map(tag => `<span class="tag-pill">${tag}</span>`).join(' ')}</div>
+        </section>
       </div>
     `;
 }
@@ -492,115 +508,73 @@ function renderPropostas(lang) {
 function renderSobre(lang) {
   const t = translations[lang] || translations['pt'];
   return `
-      <div id="principal-home" lass="mx-auto px-4 py-8 max-w-4xl">
-	  <div class="row">
-        <div class="col-esq col-md-6">
+      <div id="principal-home" class="container">
+        <div class="col-esq">
           <h2 class="mb-0 ms-2 text-2xl md:text-3xl font-extrabold text-blue-600 titul1">${t.quemSomosSobre}</h2>
           <br>
           <p class="mt-2">${t.quemSomosTextSobre}</p>
         </div>
-        <div class="col-esq col-md-6">
+        <div class="col-esq">
           <div class="d-flex align-items-center">
- <!--           <i class="cacho-uvas" style="font-size:48px;color:purple;"></i> -->
-            <h2 id="solutions-title" class="mb-0 ms-2 text-2xl md:text-3xl font-extrabold  titul1">${t.solucoes}</h2>
+            <h2 id="solutions-title" class="mb-0 ms-2 text-2xl md:text-3xl font-extrabold  titul1">${t.solutionsTitle.default}</h2>
           </div>
           <br>
           <ul class="mt-2">${t.solucoesListSobre.map(item => `<li>${item}</li>`).join('')}</ul>
         </div>
       </div>
-	  </div>
-	  
     `;
 }
 
 function renderContato(lang) {
   const t = translations[lang] || translations['pt'];
   return `
-  <div class="container">
-    <section>
-      <h3 style="
-        font-weight: 700 !important;
-        font-size: 1.25rem !important;
-        color: #1f2937 !important;
-        margin-top: 2rem !important;
-        margin-bottom: 1rem !important;
-      ">
-        ${t.contactTitle}
-      </h3>
-
-      <p class="text-base md:text-lg leading-relaxed">
-        E-mail 
-        <span style="
-          font-size: 1.2rem;
-          font-weight: bold;
-          color: #0066ff;
-        ">
-          ${t.contactText}
-        </span>
-      </p>
-
-      <p class="text-base md:text-lg leading-relaxed">
-        Linkedin 
-        <span style="
-          font-size: 1.2rem;
-          font-weight: bold;
-          color: #0066ff;
-        ">
-          ${t.contactText1}
-        </span>
-      </p>
-
-      <div style="
-        text-align: center;
-        font-size: 24px;
-        color: #075e54;
-        font-weight: bold;
-      ">
-        <table>
-          <tr>
-            <td>
-              <img 
-                src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" 
-                alt="WhatsApp Logo" 
-                style="
-                  width: 40px;
-                  vertical-align: middle;
-                  margin-right: 10px;
-                "
-              >
-            </td>
-            <td>
-              <a href="https://wa.me/5511976533798" class="text-base hover:underline">
-                +55 (11) 97653-3798
-              </a>
-            </td>
-          </tr>
-        </table>
+      <div class="container">
+        <section>
+          <h3 class="section-header">${t.contactTitle}</h3>
+          <p class="text-base md:text-lg leading-relaxed">
+            E-mail <span class="contato">${t.contactText}</span>
+          </p>
+          <p class="text-base md:text-lg leading-relaxed">
+            Linkedin <span class="contato">${t.contactText1}</span>
+          </p>
+          <div class="whatsapp-contact">
+            <table>
+              <tr>
+                <td><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp Logo" class="whatsapp-logo"></td>
+                <td><a href="https://wa.me/5511976533798" class="text-base hover:underline"> +55 (11) 97653-3798</a></td>
+              </tr>
+            </table>
+          </div>
+        </section>
       </div>
-    </section>
-  </div>
     `;
 }
 
 const routes = {
-  '/original': renderHome,
+  '/': renderHome,
   '/propostas': renderPropostas,
   '/sobre': renderSobre,
   '/contato': renderContato,
-  '/original/zOS': () => '',
-  '/original/zOE': () => '',
-  '/original/zOA': () => '',
-  '/original/SALDO': () => '',
-  '/original/SALDOEN': () => '',
-  '/original/SALDODE': () => '',
-  '/original/EXTRATO': () => '',
-  '/original/EXTRATOEN': () => '',
-  '/original/EXTRATODE': () => ''
+  '/zOS': () => '',
+  '/zOE': () => '',
+  '/zOA': () => '',
+  '/SALDO': () => '',
+  '/SALDOEN': () => '',
+  '/SALDODE': () => '',
+  '/EXTRATO': () => '',
+  '/EXTRATOEN': () => '',
+  '/EXTRATODE': () => '',
+  '/json': () => '',
+  '/jsonEN': () => '',
+  '/jsonDE': () => '',
+  '/xml': () => '',
+  '/xmlEN': () => '',
+  '/xmlDE': () => ''
 };
 
 function initializeBootstrap() {
   if (isBootstrapInitialized) {
-    console.log('Bootstrap já inicializado, ignorando...');
+    //console.log('Bootstrap já inicializado, ignorando...');
     return Promise.resolve();
   }
   return new Promise((resolve, reject) => {
@@ -619,10 +593,10 @@ function initializeBootstrap() {
       document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach(button => {
         if (!bootstrap.Dropdown.getInstance(button)) {
           new bootstrap.Dropdown(button);
-          console.log('Dropdown inicializado para:', button);
+          //console.log('Dropdown inicializado para:', button);
         }
       });
-      console.log('Bootstrap inicializado com sucesso');
+      //console.log('Bootstrap inicializado com sucesso');
       isBootstrapInitialized = true;
       resolve();
     };
@@ -634,10 +608,10 @@ function initializeBootstrap() {
         document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach(button => {
           if (!bootstrap.Dropdown.getInstance(button)) {
             new bootstrap.Dropdown(button);
-            console.log('Dropdown inicializado (fallback) para:', button);
+            //console.log('Dropdown inicializado (fallback) para:', button);
           }
         });
-        console.log('Bootstrap fallback inicializado');
+        //console.log('Bootstrap fallback inicializado');
         isBootstrapInitialized = true;
         resolve();
       };
@@ -652,7 +626,6 @@ function initializeBootstrap() {
 }
 
 async function fetchContent(endpoint, method = 'GET', body = null) {
-  console.log("endpoint1:" + endpoint);
   if (!endpoint || endpoint === '#' || endpoint === '/#') {
     console.error('Endpoint inválido:', endpoint);
     return;
@@ -667,57 +640,75 @@ async function fetchContent(endpoint, method = 'GET', body = null) {
   }
   const navs = document.querySelectorAll('nav');
   if (navs.length > 1) {
-    console.log('Removendo navs duplicados:', navs.length - 1);
+    //console.log('Removendo navs duplicados:', navs.length - 1);
     for (let i = 1; i < navs.length; i++) {
       navs[i].remove();
     }
   }
   const footers = document.querySelectorAll('footer');
   if (footers.length > 1) {
-    console.log('Removendo footers duplicados:', footers.length - 1);
+    //console.log('Removendo footers duplicados:', footers.length - 1);
     for (let i = 1; i < footers.length; i++) {
       footers[i].remove();
     }
   }
   contentDiv.innerHTML = `<div class="loading">${t.loading}</div>`;
   try {
-    const fullEndpoint = addBasePath(endpoint); // Garante /original/xxx
-    console.log('Buscando conteúdo para:', fullEndpoint);
-    const response = await fetch(`http://maramajo.ddns.net:32000${fullEndpoint}`, {
+    //console.log('Buscando conteúdo para:', endpoint);
+
+    /*
+  Versão ajustada: força decodificação em ISO-8859-1 antes de passar ao DOMParser.
+*/
+
+    // --- PARTE 1 corrigida ---
+    const response = await fetch(`http://maramajo.ddns.net:32000${endpoint}`, {
       method: method,
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=ISO-8859-1',
         'Accept': 'text/html'
       },
       body: body ? new URLSearchParams(body).toString() : null
     });
+
     if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-    const text = await response.text();
-    if (['/original/zOS', '/original/zOE', '/original/zOA', '/original/SALDO', '/original/SALDOEN', '/original/SALDODE', '/original/EXTRATO', '/original/EXTRATOEN', '/original/EXTRATODE'].includes(fullEndpoint)) {
+
+    // força leitura dos bytes crus e decodifica manualmente
+    const buffer = await response.arrayBuffer();
+    const decoder = new TextDecoder('iso-8859-1');
+    const text = decoder.decode(buffer);
+
+    if ([
+      '/zOS', '/zOE', '/zOA',
+      '/SALDO', '/SALDOEN', '/SALDODE',
+      '/EXTRATO', '/EXTRATOEN', '/EXTRATODE', 
+      '/json', '/jsonEN', '/jsonDE',
+      '/xml', '/xmlEN', '/xmlDE'
+    ].includes(endpoint)) {
       const parser = new DOMParser();
       const doc = parser.parseFromString(text, 'text/html');
       const targetDiv = doc.querySelector('div.vazia');
-      console.log('TargetDiv encontrado:', targetDiv ? targetDiv.outerHTML : 'NÃO ENCONTROU');
+      //console.log('TargetDiv encontrado:', targetDiv ? targetDiv.outerHTML : 'NÃO ENCONTROU');
       contentDiv.innerHTML = targetDiv ? targetDiv.outerHTML : text;
-      // Atualizar solutions-title existente
+
       let solutionsTitle = document.querySelector('#solutions-title');
       if (solutionsTitle) {
-        solutionsTitle.textContent = t.solutionsTitle[fullEndpoint] || t.solutionsTitle.default;
-        solutionsTitle.className = 'mb-0 ms-2 text-2xl md:text-3xl font-extrabold titulo';
+        solutionsTitle.textContent = t.solutionsTitle[endpoint] || t.solutionsTitle.default;
+        solutionsTitle.className = 'mb-0 ms-2 text-2xl md:text-3xl font-extrabold text-blue-600 titulo';
       } else {
-        console.warn('Elemento #solutions-title não encontrado no conteúdo retornado para:', fullEndpoint);
+        console.warn('Elemento #solutions-title não encontrado no conteúdo retornado para:', endpoint);
         const dFlexDiv = document.querySelector('.d-flex.align-items-center');
         if (dFlexDiv) {
           solutionsTitle = document.createElement('h2');
           solutionsTitle.id = 'solutions-title';
-          solutionsTitle.className = 'mb-0 ms-2 text-2xl md:text-3xl font-extrabold titulo';
-          solutionsTitle.textContent = t.solutionsTitle[fullEndpoint] || t.solutionsTitle.default;
+          solutionsTitle.className = 'mb-0 ms-2 text-2xl md:text-3xl font-extrabold text-blue-600 titulo';
+          solutionsTitle.textContent = t.solutionsTitle[endpoint] || t.solutionsTitle.default;
           dFlexDiv.appendChild(solutionsTitle);
         }
       }
     } else {
       contentDiv.innerHTML = text;
     }
+
     let footer = document.querySelector('footer');
     if (!footer) {
       footer = document.createElement('footer');
@@ -741,6 +732,7 @@ async function fetchContent(endpoint, method = 'GET', body = null) {
         footer.innerHTML = `<div class="container"><p>© <span id="rodape">${t.rodapeTxt}</span></p></div>`;
       }
     }
+
     await initializeBootstrap();
     updateDoctemplate(lang);
     reattachEventListeners();
@@ -750,14 +742,202 @@ async function fetchContent(endpoint, method = 'GET', body = null) {
   }
 }
 
+async function fetchExternalContent(externalUrl, originalEndpoint, method = 'GET', body = null) {
+  const lang = localStorage.getItem('lang') || 'pt';
+  const t = translations[lang] || translations['pt'];
+  let contentDiv = document.getElementById('content');
+  if (!contentDiv) {
+    contentDiv = document.createElement('div');
+    contentDiv.id = 'content';
+    document.body.appendChild(contentDiv);
+  }
+  contentDiv.innerHTML = `<div class="loading">${t.loading}</div>`;
+  try {
+   // console.log(`[fetchExternalContent] Iniciando requisição para: ${externalUrl} com método ${method}`);
+
+    let requestBody = null;
+    if (method === 'POST') {
+      const formData = [];
+      for (const [key, value] of Object.entries(body)) {
+       // console.log(`[fetchExternalContent] Adicionando ao formData: ${key}=${value}`);
+        // encodeURIComponent gera UTF-8, então precisamos "forçar" ISO-8859-1
+        const encodedKey = encodeURIComponent(key);
+        const encodedValue = escape(value); // escape mantém ISO-8859-1 seguro
+        formData.push(`${encodedKey}=${encodedValue}`);
+      }
+      requestBody = formData.join("&");
+      //console.log("REQUESTBODY ");
+      //console.log(requestBody);
+    }
+
+
+    // --- PARTE 2 corrigida ---
+    const response2 = await fetch(externalUrl, {
+      method: method,
+      headers: {
+        'Accept': 'text/html',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=ISO-8859-1'
+
+      },
+      body: requestBody
+    });
+
+    if (!response2.ok) throw new Error(`[fetchExternalContent] HTTP error! Status: ${response2.status}`);
+
+    // força leitura como ISO-8859-1
+    const buffer2 = await response2.arrayBuffer(); 
+    const decoder2 = new TextDecoder('iso-8859-1');
+    var text2 = decoder2.decode(buffer2);
+    let conv = text2.replace(/\u00DD/g, '[')   // Ý
+                   .replace(/\u00A8/g, ']')   // ¨
+                   .replace(/\uFFFD/g, '')    // � (se existir)
+                   .replace(/\r\n/g, '\n');   // normaliza newlines
+    text2 = conv;             
+
+    //console.log(`[fetchExternalContent] Resposta recebida: ${text2.substring(0, 200)}...`);
+
+    const parser2 = new DOMParser();
+    const doc2 = parser2.parseFromString(text2, 'text/html');
+    const targetDiv2 = doc2.querySelector('div.vazia');
+    contentDiv.innerHTML = targetDiv2 ? targetDiv2.outerHTML : text2;
+
+
+    let solutionsTitle = document.querySelector('#solutions-title');
+    if (solutionsTitle) {
+      solutionsTitle.textContent = t.solutionsTitle[originalEndpoint] || t.solutionsTitle.default;
+      solutionsTitle.className = 'mb-0 ms-2 text-2xl md:text-3xl font-extrabold text-blue-600 titulo';
+    } else {
+//console.warn('[fetchExternalContent] Elemento #solutions-title não encontrado, criando novo...');
+      const dFlexDiv = document.querySelector('.d-flex.align-items-center');
+      if (dFlexDiv) {
+        solutionsTitle = document.createElement('h2');
+        solutionsTitle.id = 'solutions-title';
+        solutionsTitle.className = 'mb-0 ms-2 text-2xl md:text-3xl font-extrabold text-blue-600 titulo';
+        solutionsTitle.textContent = t.solutionsTitle[originalEndpoint] || t.solutionsTitle.default;
+        dFlexDiv.appendChild(solutionsTitle);
+      }
+    }
+
+    let footer = document.querySelector('footer');
+    if (!footer) {
+      footer = document.createElement('footer');
+      footer.className = 'text-center';
+      footer.innerHTML = `<div class="container"><p>© <span id="rodape">${t.rodapeTxt}</span></p></div>`;
+      document.body.appendChild(footer);
+    } else {
+      footer.classList.add('text-center');
+      const rodape = document.querySelector('#rodape');
+      if (rodape) {
+        rodape.textContent = t.rodapeTxt;
+        if (!rodape.parentElement.parentElement.classList.contains('container')) {
+          const container = document.createElement('div');
+          container.className = 'container';
+          const p = rodape.parentElement;
+          footer.innerHTML = '';
+          footer.appendChild(container);
+          container.appendChild(p);
+        }
+      } else {
+        footer.innerHTML = `<div class="container"><p>© <span id="rodape">${t.rodapeTxt}</span></p></div>`;
+      }
+    }
+
+    await initializeBootstrap();
+    updateDoctemplate(lang);
+    reattachEventListeners();
+
+  } catch (error) {
+    var endPoint = '';
+    //   checkAndRedirect();
+    console.error('[fetchExternalContent] Erro ao carregar conteúdo externo:', error, originalEndpoint, externalUrl);
+    //console.log("originalEndpoint " + originalEndpoint);
+    //console.log("externalUrl " + externalUrl);
+    let newUrl = "";
+    if (externalUrl.includes('AATM004P')) {
+      newUrl = externalUrl.replace("http://192.168.0.13:3000/CICS/CWBA/AATM004P", "/zOS");
+      fetchContent(newUrl, 'GET');
+    } else
+      if (externalUrl.includes('AATM004I')) {
+        newUrl = externalUrl.replace("http://192.168.0.13:3000/CICS/CWBA/AATM004I", "/zOE");
+        fetchContent(newUrl, 'GET');
+      } else
+        if (externalUrl.includes('AATM004A')) {
+          newUrl = externalUrl.replace("http://192.168.0.13:3000/CICS/CWBA/AATM004A", "/zOA");
+          fetchContent(newUrl, 'GET');
+        } else
+          if (externalUrl.includes('AATMEXTR')) {
+            newUrl = externalUrl.replace("http://192.168.0.13:3000/CICS/CWBA/AATMEXTR", "/EXTRATO");
+            fetchContent(newUrl, 'POST', body);
+
+          } else
+            if (externalUrl.includes('AATMEXEN')) {
+              newUrl = externalUrl.replace("http://192.168.0.13:3000/CICS/CWBA/AATMEXEN", "/EXTRATOEN");
+              fetchContent(newUrl, 'POST', body);
+            } else
+              if (externalUrl.includes('AATMEXGE')) {
+                newUrl = externalUrl.replace("http://192.168.0.13:3000/CICS/CWBA/AATMEXGE", "/EXTRATODE");
+                fetchContent(newUrl, 'POST', body);
+              } else
+                if (externalUrl.includes('AATMSALD')) {
+                  newUrl = externalUrl.replace("http://192.168.0.13:3000/CICS/CWBA/AATMSALD", "/SALDO");
+                  fetchContent(newUrl, 'POST', body);
+                } else
+                  if (externalUrl.includes('AATMSAEN')) {
+                    newUrl = externalUrl.replace("http://192.168.0.13:3000/CICS/CWBA/AATMSAEN", "/SALDOEN");
+                    fetchContent(newUrl, 'POST', body);
+                  } else
+                    if (externalUrl.includes('AATMSADE')) {
+                      newUrl = externalUrl.replace("http://192.168.0.13:3000/CICS/CWBA/AATMSADE", "/SALDODE");
+                      fetchContent(newUrl, 'POST', body);
+                    
+                    } else
+                    if (externalUrl.includes('buscajso')) {
+                      newUrl = externalUrl.replace("http://192.168.0.13:3000/CICS/CWBA/buscajso", "/json");
+                      fetchContent(newUrl, 'GET', body);
+                    } else 
+                      if (externalUrl.includes('buscaxml')) {
+                      newUrl = externalUrl.replace("http://192.168.0.13:3000/CICS/CWBA/buscajso", "/xml");
+                      fetchContent(newUrl, 'GET', body);
+                    } 
+
+
+
+
+    //    fetchExternalContent(newUrl, originalEndpoint, 'GET', body = null);
+    //  contentDiv.innerHTML = `<div class="error">${t.error}</div>`;
+  }
+}
+
+function endpointToCicsProgram(endpoint) {
+  const cicsMap = {
+    '/zOS': 'AATM004P',
+    '/zOE': 'AATM004I',
+    '/zOA': 'AATM004A',
+    '/SALDO': 'AATMSALD',
+    '/SALDOEN': 'AATMSAEN',
+    '/SALDODE': 'AATMSADE',
+    '/EXTRATO': 'AATMEXTR',
+    '/EXTRATOEN': 'AATMEXEN',
+    '/EXTRATODE': 'AATMEXGE'
+  };
+  return cicsMap[endpoint] || '';
+}
+
 function updateDoctemplate(lang) {
   const t = translations[lang] || translations['pt'];
+
+  // CORREÇÃO: Atualizar o dropdown conforme solicitado
   const langDropdown = document.getElementById('langDropdown');
   if (langDropdown) {
     const flag = lang === 'en' ? 'us' : lang === 'de' ? 'de' : 'br';
     const label = lang === 'en' ? 'US | EN' : lang === 'de' ? 'Germany | DE' : 'Brasil | PT';
-    langDropdown.innerHTML = `<img src="https://flagcdn.com/w20/${flag}.png" class="flag-icon" alt="${flag.toUpperCase()}"> ${label}`;
+
+    // Atualizar apenas o conteúdo do botão, mantendo a estrutura do dropdown
+    langDropdown.innerHTML = `
+      <img src="https://flagcdn.com/w20/${flag}.png" class="flag-icon" alt="${flag.toUpperCase()}"> ${label}
+    `;
   }
+
   const homeLink = document.getElementById('home-link');
   if (homeLink) homeLink.innerHTML = t.home;
   const propostasLink = document.getElementById('propostas-link');
@@ -766,6 +946,7 @@ function updateDoctemplate(lang) {
   if (aboutLink) aboutLink.innerHTML = t.about;
   const contactLink = document.getElementById('contact-link');
   if (contactLink) contactLink.innerHTML = t.contactNav;
+
   let footer = document.querySelector('footer');
   if (!footer) {
     footer = document.createElement('footer');
@@ -801,46 +982,21 @@ function renderContent(path, lang) {
   }
   const navs = document.querySelectorAll('nav');
   if (navs.length > 1) {
-    console.log('Removendo navs duplicados:', navs.length - 1);
+    //console.log('Removendo navs duplicados:', navs.length - 1);
     for (let i = 1; i < navs.length; i++) {
       navs[i].remove();
     }
   }
   const footers = document.querySelectorAll('footer');
   if (footers.length > 1) {
-    console.log('Removendo footers duplicados:', footers.length - 1);
+    //console.log('Removendo footers duplicados:', footers.length - 1);
     for (let i = 1; i < footers.length; i++) {
       footers[i].remove();
     }
   }
-  const routeFunction = routes[path] || routes['/original'];
-  try {
-    contentDiv.innerHTML = routeFunction(lang);
+  const routeFunction = routes[path] || routes['/'];
+  contentDiv.innerHTML = routeFunction(lang);
 
-    const filesTitleEl = document.getElementById('files-title');
-    if (filesTitleEl) {
-      // Depois de contentDiv.innerHTML = routeFunction(lang);
-      document.querySelectorAll('.section-header').forEach(el => {
-        // Remove classes do Tailwind que alteram tamanho e peso
-        el.classList.remove('text-base', 'text-lg', 'md:text-lg', 'md:text-xl', 'text-xl', 'md:text-2xl', 'font-semibold', 'font-extrabold');
-
-        // Força estilos desejados
-        el.style.fontSize = '1.25rem';
-        el.style.fontWeight = '700';
-        el.style.color = '#1f2937';
-      });
-      //		initializeBootstrap();
-    }
-    //	const filesTitleEl = document.getElementById('files-title');
-    //	  if (filesTitleEl) {
-    //	    filesTitleEl.innerHTML = translations[lang]?.filesTitle || translations['pt'].filesTitle;
-    //		console.log("FILESTITLE EL "+filesTitleEl);
-    //	  }
-   // console.log(document);
-  } catch (err) {
-    console.error('Erro ao renderizar rota:', err);
-    contentDiv.innerHTML = `<div class="error">Erro ao renderizar conteúdo.</div>`;
-  }
   let footer = document.querySelector('footer');
   if (!footer) {
     footer = document.createElement('footer');
@@ -864,10 +1020,7 @@ function renderContent(path, lang) {
       footer.innerHTML = `<div class="container"><p>© <span id="rodape">${translations[lang].rodapeTxt}</span></p></div>`;
     }
   }
- console.log('ANTES do updateTranslations:', contentDiv.innerHTML);
-updateTranslations(lang);
-console.log('DEPOIS do updateTranslations:', contentDiv.innerHTML);
-
+  updateTranslations(lang);
   setActiveLink();
   initializeBootstrap().then(() => {
     reattachEventListeners();
@@ -882,7 +1035,7 @@ function updateTranslations(lang) {
   if (solutionsTitle) {
     const currentPath = window.location.pathname || '/';
     solutionsTitle.textContent = t.solutionsTitle[currentPath] || t.solutionsTitle.default;
-    solutionsTitle.className = 'mb-0 ms-2 text-2xl md:text-3xl font-extrabold  titulo';
+    solutionsTitle.className = 'mb-0 ms-2 text-2xl md:text-3xl font-extrabold text-blue-600 titulo';
   }
   const homeLink = document.getElementById('home-link');
   if (homeLink) homeLink.innerHTML = t.home;
@@ -892,6 +1045,17 @@ function updateTranslations(lang) {
   if (aboutLink) aboutLink.innerHTML = t.about;
   const contactLink = document.getElementById('contact-link');
   if (contactLink) contactLink.innerHTML = t.contactNav;
+
+  // CORREÇÃO: Atualizar o botão do dropdown
+  const langDropdown = document.getElementById('langDropdown');
+  if (langDropdown) {
+    const flag = lang === 'en' ? 'us' : lang === 'de' ? 'de' : 'br';
+    const label = lang === 'en' ? 'US | EN' : lang === 'de' ? 'Germany | DE' : 'Brasil | PT';
+    langDropdown.innerHTML = `
+      <img src="https://flagcdn.com/w20/${flag}.png" class="flag-icon" alt="${flag.toUpperCase()}"> ${label}
+    `;
+  }
+
   let footer = document.querySelector('footer');
   if (!footer) {
     footer = document.createElement('footer');
@@ -915,20 +1079,13 @@ function updateTranslations(lang) {
       footer.innerHTML = `<div class="container"><p>© <span id="rodape">${t.rodapeTxt}</span></p></div>`;
     }
   }
-  const langDropdown = document.getElementById('langDropdown');
-  if (langDropdown) {
-    const flag = lang === 'en' ? 'us' : lang === 'de' ? 'de' : 'br';
-    const label = lang === 'en' ? 'US | EN' : lang === 'de' ? 'Germany | DE' : 'Brasil | PT';
-    langDropdown.innerHTML = `<img src="https://flagcdn.com/w20/${flag}.png" class="flag-icon" alt="${flag.toUpperCase()}"> ${label}`;
-  }
 }
 
 function changeLang(lang) {
-  console.log('changeLang chamado com idioma:', lang);
+  //console.log('changeLang chamado com idioma:', lang);
   localStorage.setItem('lang', lang);
+  const path = window.location.pathname || '/';
   const t = translations[lang] || translations['pt'];
-  const rawPath = window.location.pathname || '/';
-  const routeKey = stripBasePath(rawPath);
   const endpointMap = {
     '/zOS': t.zosLink,
     '/zOE': t.zosLink,
@@ -938,41 +1095,67 @@ function changeLang(lang) {
     '/SALDODE': t.saldoLink,
     '/EXTRATO': t.extratoLink,
     '/EXTRATOEN': t.extratoLink,
-    '/EXTRATODE': t.extratoLink
+    '/EXTRATODE': t.extratoLink,
+    '/json': t.jsonLink,
+    '/jsonEN': t.jsonLink,
+    '/jsonDE': t.jsonLink,
+    '/xml': t.xmlLink,
+    '/xmlEN': t.xmlLink,
+    '/xmlDE': t.xmlLink
   };
-  if (endpointMap[routeKey]) {
-    const endpoint = endpointMap[routeKey];
-    console.log('Mudando para endpoint1:', endpoint);
+  if (endpointMap[path]) {
+    const endpoint = endpointMap[path];
+    //console.log('Mudando para endpoint:', endpoint);
     history.pushState(null, null, endpoint);
-    fetchContent(endpoint);
+    const redirectMap = {
+      '/zOS': 'http://192.168.0.13:3000/CICS/CWBA/AATM004P',
+      '/zOE': 'http://192.168.0.13:3000/CICS/CWBA/AATM004I',
+      '/zOA': 'http://192.168.0.13:3000/CICS/CWBA/AATM004A',
+      '/SALDO': 'http://192.168.0.13:3000/CICS/CWBA/AATMSALD',
+      '/SALDOEN': 'http://192.168.0.13:3000/CICS/CWBA/AATMSAEN',
+      '/SALDODE': 'http://192.168.0.13:3000/CICS/CWBA/AATMSADE',
+      '/EXTRATO': 'http://192.168.0.13:3000/CICS/CWBA/AATMEXTR',
+      '/EXTRATOEN': 'http://192.168.0.13:3000/CICS/CWBA/AATMEXEN',
+      '/EXTRATODE': 'http://192.168.0.13:3000/CICS/CWBA/AATMEXGE',
+      '/json': 'http://192.168.0.13:3000/CICS/CWBA/buscajso',
+      '/jsonEN': 'http://192.168.0.13:3000/CICS/CWBA/buscajso',
+      '/jsonDE': 'http://192.168.0.13:3000/CICS/CWBA/buscajsa',
+      '/xml': 'http://192.168.0.13:3000/CICS/CWBA/buscaxml',
+      '/xmlEN': 'http://192.168.0.13:3000/CICS/CWBA/buscaxme',
+      '/xmlDE': 'http://192.168.0.13:3000/CICS/CWBA/buscaxma'
+    };
+    if (redirectMap[endpoint]) {
+      fetchExternalContent(redirectMap[endpoint], endpoint, 'GET');
+    } else {
+      fetchContent(endpoint);
+    }
   } else {
-    renderContent(routeKey, lang);
+    renderContent(path, lang);
   }
 }
 
 function setActiveLink() {
   const navLinks = document.querySelectorAll('.nav-link');
   if (!navLinks.length) return;
-  const currentPath = stripBasePath(window.location.pathname || '/');
+  const currentPath = window.location.pathname || '/';
   navLinks.forEach(link => {
     link.classList.remove('active');
-    const href = link.getAttribute('href') || '/';
-    if (href === currentPath || addBasePath(href) === window.location.pathname) {
+    if (link.getAttribute('href') === currentPath) {
       link.classList.add('active');
     }
   });
 }
 
 function reattachEventListeners() {
-  console.log('Reanexando eventos...');
+  //console.log('Reanexando eventos...');
   document.querySelectorAll('a.nav-link').forEach(link => {
     link.removeEventListener('click', navLinkHandler);
     link.addEventListener('click', navLinkHandler);
   });
-  document.querySelectorAll('a[href="/original/zOS"], a[href="/original/zOE"], a[href="/original/zOA"], a[href="/original/SALDO"], a[href="/original/SALDOEN"], a[href="/original/SALDODE"], a[href="/original/EXTRATO"], a[href="/original/EXTRATOEN"], a[href="/original/EXTRATODE"]').forEach(link => {
+  document.querySelectorAll('a[href="/SALDO"], a[href="/SALDOEN"], a[href="/SALDODE"], a[href="/EXTRATO"], a[href="/EXTRATOEN"], a[href="/EXTRATODE"], a[href="/zOS"], a[href="/zOE"], a[href="/zOA"]').forEach(link => {
     link.removeEventListener('click', endpointLinkHandler);
     link.addEventListener('click', endpointLinkHandler);
-    console.log('Evento anexado para link:', link.getAttribute('href'));
+    //console.log('Evento anexado para link:', link.getAttribute('href'));
   });
   document.querySelectorAll('form').forEach(form => {
     form.removeEventListener('submit', formHandler);
@@ -981,7 +1164,7 @@ function reattachEventListeners() {
   document.querySelectorAll('.dropdown-item[data-lang]').forEach(item => {
     item.removeEventListener('click', dropdownItemHandler);
     item.addEventListener('click', dropdownItemHandler);
-    console.log('Evento anexado para dropdown-item:', item.getAttribute('data-lang'));
+    //console.log('Evento anexado para dropdown-item:', item.getAttribute('data-lang'));
   });
   const routeLinks = document.querySelectorAll('a[data-route]');
   const uniqueRoutes = new Set();
@@ -991,7 +1174,7 @@ function reattachEventListeners() {
       uniqueRoutes.add(route);
       link.removeEventListener('click', endpointLinkHandler);
       link.addEventListener('click', endpointLinkHandler);
-      console.log('Evento anexado para data-route:', route);
+      //console.log('Evento anexado para data-route:', route);
     }
   });
 }
@@ -999,11 +1182,9 @@ function reattachEventListeners() {
 function navLinkHandler(event) {
   event.preventDefault();
   const targetPath = event.target.closest('a.nav-link').getAttribute('href');
-  console.log('Navegando para:', targetPath);
-  const publicUrl = addBasePath(targetPath);
-  history.pushState(null, null, publicUrl);
-  const routeKey = stripBasePath(publicUrl);
-  renderContent(routeKey, localStorage.getItem('lang') || 'pt');
+  //console.log('Navegando para:', targetPath);
+  history.pushState(null, null, targetPath);
+  renderContent(targetPath, localStorage.getItem('lang') || 'pt');
 }
 
 function endpointLinkHandler(event) {
@@ -1014,39 +1195,72 @@ function endpointLinkHandler(event) {
     console.error('Endpoint inválido no clique:', endpoint);
     return;
   }
-  const fullEndpoint = addBasePath(endpoint); // Garante /original/xxx
-  console.log('Endpoint clicado1:', fullEndpoint);
-  history.pushState(null, null, fullEndpoint);
-  fetchContent(fullEndpoint);
+  //console.log('Endpoint clicado:', endpoint);
+  const redirectMap = {
+    '/zOS': 'http://192.168.0.13:3000/CICS/CWBA/AATM004P',
+    '/zOE': 'http://192.168.0.13:3000/CICS/CWBA/AATM004I',
+    '/zOA': 'http://192.168.0.13:3000/CICS/CWBA/AATM004A',
+    '/SALDO': 'http://192.168.0.13:3000/CICS/CWBA/AATMSALD',
+    '/SALDOEN': 'http://192.168.0.13:3000/CICS/CWBA/AATMSAEN',
+    '/SALDODE': 'http://192.168.0.13:3000/CICS/CWBA/AATMSADE',
+    '/EXTRATO': 'http://192.168.0.13:3000/CICS/CWBA/AATMEXTR',
+    '/EXTRATOEN': 'http://192.168.0.13:3000/CICS/CWBA/AATMEXEN',
+    '/EXTRATODE': 'http://192.168.0.13:3000/CICS/CWBA/AATMEXGE',
+    '/json': 'http://192.168.0.13:3000/CICS/CWBA/buscajso',
+    '/jsonEN': 'http://192.168.0.13:3000/CICS/CWBA/buscajso',
+    '/jsonDE': 'http://192.168.0.13:3000/CICS/CWBA/buscajsa',
+    '/xml': 'http://192.168.0.13:3000/CICS/CWBA/buscaxml',
+    '/xmlEN': 'http://192.168.0.13:3000/CICS/CWBA/buscaxme',
+    '/xmlDE': 'http://192.168.0.13:3000/CICS/CWBA/buscaxma'
+  };
+  if (redirectMap[endpoint]) {
+    //console.log('Carregando conteúdo de:', redirectMap[endpoint]);
+    history.pushState(null, null, endpoint);
+    fetchExternalContent(redirectMap[endpoint], endpoint, 'GET');
+  } else {
+    history.pushState(null, null, endpoint);
+    fetchContent(endpoint);
+  }
+}
+
+function formHandler(event) {
+  event.preventDefault();
+  const form = event.target;
+  const endpoint = form.action ? form.action.replace('http://maramajo.ddns.net:32000', '') : '';
+  const redirectMap = {
+    '/SALDO': 'http://192.168.0.13:3000/CICS/CWBA/AATMSALD',
+    '/SALDOEN': 'http://192.168.0.13:3000/CICS/CWBA/AATMSAEN',
+    '/SALDODE': 'http://192.168.0.13:3000/CICS/CWBA/AATMSADE',
+    '/EXTRATO': 'http://192.168.0.13:3000/CICS/CWBA/AATMEXTR',
+    '/EXTRATOEN': 'http://192.168.0.13:3000/CICS/CWBA/AATMEXEN',
+    '/EXTRATODE': 'http://192.168.0.13:3000/CICS/CWBA/AATMEXGE',
+    '/json': 'http://192.168.0.13:3000/CICS/CWBA/buscajso',
+    '/jsonEN': 'http://192.168.0.13:3000/CICS/CWBA/buscajso',
+    '/jsonDE': 'http://192.168.0.13:3000/CICS/CWBA/buscajsa',
+    '/xml': 'http://192.168.0.13:3000/CICS/CWBA/buscaxml',
+    '/xmlEN': 'http://192.168.0.13:3000/CICS/CWBA/buscaxme',
+    '/xmlDE': 'http://192.168.0.13:3000/CICS/CWBA/buscaxma'
+  };
+  if (redirectMap[endpoint]) {
+    const formData = new FormData(form);
+    const body = Object.fromEntries(formData);
+    //console.log('Formulário enviado para:', endpoint, body);
+    history.pushState(null, null, endpoint);
+    fetchExternalContent(redirectMap[endpoint], endpoint, 'POST', body);
+  } else {
+    //console.log('Formulário enviado para endpoint interno:', endpoint);
+    const formData = new FormData(form);
+    const body = Object.fromEntries(formData);
+    history.pushState(null, null, endpoint);
+    fetchContent(endpoint, 'POST', body);
+  }
 }
 
 function dropdownItemHandler(event) {
   event.preventDefault();
   const lang = event.target.closest('a').getAttribute('data-lang');
-  console.log('Dropdown item clicado:', lang);
+  //console.log('Dropdown item clicado:', lang);
   changeLang(lang);
-  // Forçar fechamento do dropdown após seleção de idioma
-  const dropdownToggle = document.getElementById('langDropdown');
-  if (dropdownToggle) {
-    const instance = bootstrap.Dropdown.getInstance(dropdownToggle);
-    if (instance) {
-      instance.hide();
-    }
-  }
-}
-
-function formHandler(event) {
-  const form = event.target;
-  const endpoint = form.action ? form.action.replace('http://maramajo.ddns.net:32000', '') : '';
-  if (['/original/SALDO', '/original/SALDOEN', '/original/SALDODE', '/original/EXTRATO', '/original/EXTRATOEN', '/original/EXTRATODE'].includes(endpoint)) {
-    event.preventDefault();
-    const formData = new FormData(form);
-    const body = Object.fromEntries(formData);
-    const fullEndpoint = addBasePath(endpoint); // Garante /original/xxx
-    console.log('Formulário enviado para:', fullEndpoint, body);
-    history.pushState(null, null, fullEndpoint);
-    fetchContent(fullEndpoint, 'POST', body);
-  }
 }
 
 window.envia = function (endpoint) {
@@ -1064,7 +1278,7 @@ window.envia = function (endpoint) {
   const lang = localStorage.getItem('lang') || 'pt';
   const t = translations[lang] || translations['pt'];
   const name = nameInput.value.trim();
-  console.log(name + ' <== name');
+  //console.log(name + ' <== name');
   if (!name) {
     nameError.textContent = t.nameError;
     nameError.style.display = 'block';
@@ -1075,24 +1289,41 @@ window.envia = function (endpoint) {
   nameError.textContent = '';
   const formData = new FormData(form);
   const body = Object.fromEntries(formData);
-  const fullEndpoint = addBasePath(endpoint); // Garante /original/xxx
-  console.log('Envia chamado para:', fullEndpoint, body);
-  history.pushState(null, null, fullEndpoint);
-  fetchContent(fullEndpoint, 'POST', body);
+  //console.log('Envia chamado para:', endpoint, body);
+  history.pushState(null, null, endpoint);
+  const redirectMap = {
+    '/SALDO': 'http://192.168.0.13:3000/CICS/CWBA/AATMSALD',
+    '/SALDOEN': 'http://192.168.0.13:3000/CICS/CWBA/AATMSAEN',
+    '/SALDODE': 'http://192.168.0.13:3000/CICS/CWBA/AATMSADE',
+    '/EXTRATO': 'http://192.168.0.13:3000/CICS/CWBA/AATMEXTR',
+    '/EXTRATOEN': 'http://192.168.0.13:3000/CICS/CWBA/AATMEXEN',
+    '/EXTRATODE': 'http://192.168.0.13:3000/CICS/CWBA/AATMEXGE',
+    '/json': 'http://192.168.0.13:3000/CICS/CWBA/buscajso',
+    '/jsonEN': 'http://192.168.0.13:3000/CICS/CWBA/buscajso',
+    '/jsonDE': 'http://192.168.0.13:3000/CICS/CWBA/buscajsa',
+    '/xml': 'http://192.168.0.13:3000/CICS/CWBA/buscaxml',
+    '/xmlEN': 'http://192.168.0.13:3000/CICS/CWBA/buscaxme',
+    '/xmlDE': 'http://192.168.0.13:3000/CICS/CWBA/buscaxma'
+  };
+  if (redirectMap[endpoint]) {
+    fetchExternalContent(redirectMap[endpoint], endpoint, 'POST', body);
+  } else {
+    fetchContent(endpoint, 'POST', body);
+  }
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('DOM carregado, inicializando...');
+  //console.log('DOM carregado, inicializando...');
   const navs = document.querySelectorAll('nav');
   if (navs.length > 1) {
-    console.log('Removendo navs duplicados:', navs.length - 1);
+    //console.log('Removendo navs duplicados:', navs.length - 1);
     for (let i = 1; i < navs.length; i++) {
       navs[i].remove();
     }
   }
   const footers = document.querySelectorAll('footer');
   if (footers.length > 1) {
-    console.log('Removendo footers duplicados:', footers.length - 1);
+    //console.log('Removendo footers duplicados:', footers.length - 1);
     for (let i = 1; i < footers.length; i++) {
       footers[i].remove();
     }
@@ -1121,21 +1352,30 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   const savedLang = localStorage.getItem('lang') || 'pt';
-  const rawPath = window.location.pathname || '/';
-  let pathForRender;
-  if (rawPath === '/') {
-    history.replaceState(null, null, BASE_PATH);
-    pathForRender = BASE_PATH;
-  } else {
-    pathForRender = rawPath;
-  }
+  const path = window.location.pathname || '/';
   initializeBootstrap().then(() => {
-    console.log('Bootstrap inicializado, renderizando conteúdo para:', rawPath);
-    if (['/original/zOS', '/original/zOE', '/original/zOA', '/original/SALDO', '/original/SALDOEN', '/original/SALDODE', '/original/EXTRATO', '/original/EXTRATOEN', '/original/EXTRATODE'].includes(pathForRender)) {
-      console.log("pathForRender1:" + pathForRender),
-        fetchContent(pathForRender);
+    //console.log('Bootstrap inicializado, renderizando conteúdo para:', path);
+    const redirectMap = {
+      '/zOS': 'http://192.168.0.13:3000/CICS/CWBA/AATM004P',
+      '/zOE': 'http://192.168.0.13:3000/CICS/CWBA/AATM004I',
+      '/zOA': 'http://192.168.0.13:3000/CICS/CWBA/AATM004A',
+      '/SALDO': 'http://192.168.0.13:3000/CICS/CWBA/AATMSALD',
+      '/SALDOEN': 'http://192.168.0.13:3000/CICS/CWBA/AATMSAEN',
+      '/SALDODE': 'http://192.168.0.13:3000/CICS/CWBA/AATMSADE',
+      '/EXTRATO': 'http://192.168.0.13:3000/CICS/CWBA/AATMEXTR',
+      '/EXTRATOEN': 'http://192.168.0.13:3000/CICS/CWBA/AATMEXEN',
+      '/EXTRATODE': 'http://192.168.0.13:3000/CICS/CWBA/AATMEXGE',
+      '/json': 'http://192.168.0.13:3000/CICS/CWBA/buscajso',
+      '/jsonEN': 'http://192.168.0.13:3000/CICS/CWBA/buscajso',
+      '/jsonDE': 'http://192.168.0.13:3000/CICS/CWBA/buscajsa',
+      '/xml': 'http://192.168.0.13:3000/CICS/CWBA/buscaxml',
+      '/xmlEN': 'http://192.168.0.13:3000/CICS/CWBA/buscaxme',
+      '/xmlDE': 'http://192.168.0.13:3000/CICS/CWBA/buscaxma'
+    };
+    if (redirectMap[path]) {
+      fetchExternalContent(redirectMap[path], path, 'GET');
     } else {
-      renderContent(stripBasePath(pathForRender), savedLang);
+      renderContent(path, savedLang);
     }
     reattachEventListeners();
   }).catch(error => {
@@ -1144,17 +1384,17 @@ document.addEventListener('DOMContentLoaded', () => {
 }, { once: true });
 
 window.addEventListener('popstate', () => {
-  console.log('Evento popstate disparado, pathname:', window.location.pathname);
+  //console.log('Evento popstate disparado, pathname:', window.location.pathname);
   const navs = document.querySelectorAll('nav');
   if (navs.length > 1) {
-    console.log('Removendo navs duplicados:', navs.length - 1);
+    //console.log('Removendo navs duplicados:', navs.length - 1);
     for (let i = 1; i < navs.length; i++) {
       navs[i].remove();
     }
   }
   const footers = document.querySelectorAll('footer');
   if (footers.length > 1) {
-    console.log('Removendo footers duplicados:', footers.length - 1);
+    //console.log('Removendo footers duplicados:', footers.length - 1);
     for (let i = 1; i < footers.length; i++) {
       footers[i].remove();
     }
@@ -1182,20 +1422,30 @@ window.addEventListener('popstate', () => {
       footer.innerHTML = `<div class="container"><p>© <span id="rodape">${translations[localStorage.getItem('lang') || 'pt'].rodapeTxt}</span></p></div>`;
     }
   }
-  const rawPath = window.location.pathname || '/';
-  let pathForRender;
-  if (rawPath === '/') {
-    history.replaceState(null, null, BASE_PATH);
-    pathForRender = BASE_PATH;
-  } else {
-    pathForRender = rawPath;
-  }
+  const path = window.location.pathname || '/';
   initializeBootstrap().then(() => {
-    console.log('Bootstrap inicializado, renderizando conteúdo para:', rawPath);
-    if (['/original/zOS', '/original/zOE', '/original/zOA', '/original/SALDO', '/original/SALDOEN', '/original/SALDODE', '/original/EXTRATO', '/original/EXTRATOEN', '/original/EXTRATODE'].includes(pathForRender)) {
-      fetchContent(pathForRender);
+    //console.log('Bootstrap inicializado, renderizando conteúdo para:', path);
+    const redirectMap = {
+      '/zOS': 'http://192.168.0.13:3000/CICS/CWBA/AATM004P',
+      '/zOE': 'http://192.168.0.13:3000/CICS/CWBA/AATM004I',
+      '/zOA': 'http://192.168.0.13:3000/CICS/CWBA/AATM004A',
+      '/SALDO': 'http://192.168.0.13:3000/CICS/CWBA/AATMSALD',
+      '/SALDOEN': 'http://192.168.0.13:3000/CICS/CWBA/AATMSAEN',
+      '/SALDODE': 'http://192.168.0.13:3000/CICS/CWBA/AATMSADE',
+      '/EXTRATO': 'http://192.168.0.13:3000/CICS/CWBA/AATMEXTR',
+      '/EXTRATOEN': 'http://192.168.0.13:3000/CICS/CWBA/AATMEXEN',
+      '/EXTRATODE': 'http://192.168.0.13:3000/CICS/CWBA/AATMEXGE',
+      '/json': 'http://192.168.0.13:3000/CICS/CWBA/buscajso',
+      '/jsonEN': 'http://192.168.0.13:3000/CICS/CWBA/buscajso',
+      '/jsonDE': 'http://192.168.0.13:3000/CICS/CWBA/buscajsa',
+      '/xml': 'http://192.168.0.13:3000/CICS/CWBA/buscaxml',
+      '/xmlEN': 'http://192.168.0.13:3000/CICS/CWBA/buscaxme',
+      '/xmlDE': 'http://192.168.0.13:3000/CICS/CWBA/buscaxma'
+    };
+    if (redirectMap[path]) {
+      fetchExternalContent(redirectMap[path], path, 'GET');
     } else {
-      renderContent(stripBasePath(pathForRender), localStorage.getItem('lang') || 'pt');
+      renderContent(path, localStorage.getItem('lang') || 'pt');
     }
     reattachEventListeners();
   }).catch(error => {
