@@ -1,73 +1,10 @@
-
 function envio(basePath) {
   const form = document.getElementById('cwsForm');
-  if (!form) return;
-
-  const lang = localStorage.getItem('lang') || 'pt';
-
-  // endpoint atual exibido no formulário
-  const urlInput = document.getElementById('name');
-  if (!urlInput) return;
-
-  const currentEndpoint = urlInput.value;
-
-  // -------------------------------
-  // ENDPOINT ESPERADO PELO IDIOMA
-  // -------------------------------
-  let expectedEndpoint = '';
-  let voltar = '';
-  if (lang === 'pt') voltar = '/';
-  if (lang === 'en') voltar = '/';
-  if (lang === 'de') voltar = '/';
-  if (basePath.includes("json")) {
-    if (lang === 'pt') expectedEndpoint = '/jsonPT';
-    if (lang === 'en') expectedEndpoint = '/jsonEN';
-    if (lang === 'de') expectedEndpoint = '/jsonDE';
-  }
-
-  if (basePath.includes("xml")) {
-    if (lang === 'pt') expectedEndpoint = '/xmlPT';
-    if (lang === 'en') expectedEndpoint = '/xmlENG';
-    if (lang === 'de') expectedEndpoint = '/xmlGER';
-  }
-
-  if (!expectedEndpoint) return;
-
-  // -------------------------------
-  // SE IDIOMA ≠ TELA → RECARREGA
-  // -------------------------------
-  const syncing = sessionStorage.getItem('syncingLang');
-
-  //if (currentEndpoint !== expectedEndpoint || !syncing) {
-    if (currentEndpoint !== expectedEndpoint) {
-    // marca que estamos sincronizando idioma
-    //sessionStorage.setItem('syncingLang', '1');
-    sessionStorage.setItem('resumeSubmit', '1');
-    sessionStorage.setItem('resumePath', basePath);
-
-    // muda idioma → changeLang vai recarregar a tela
-    //window.changeLang(lang);
-    window.trocaLingua(voltar, lang);
-
-    // interrompe fluxo ATUAL
-    return;
-  }
-
-  // limpeza do flag após reload
-  sessionStorage.removeItem('syncingLang');
-
-  // -------------------------------
-  // A PARTIR DAQUI TELA ESTÁ COERENTE
-  // -------------------------------
-  urlInput.value = expectedEndpoint;
-  form.action = expectedEndpoint;
-  form.dataset.submitted = 'true';
-
-  // segue fluxo normal
-  enviar(basePath, lang);
+  if (form) form.dataset.submitted = 'true';
+  enviar(basePath);
 }
-async function enviar(basePath, lang) {
-  //lang = window.localStorage.getItem("lang") || "pt";
+async function enviar(basePath) {
+  const lang = window.localStorage.getItem("lang") || "pt";
   let path = basePath;
   console.log(path + "  ***estou aqui");
   console.log('caminho original - ' + window.location.pathname);
@@ -96,9 +33,9 @@ async function enviar(basePath, lang) {
   nameError.style.display = 'none';
   nameError.textContent = '';
 
-  // var url = nameInput ? "http://192.168.0.13:3000/CICS/CWBA" + nameInput.value.trim() : "http://192.168.0.13:3000/CICS/CWBA/json0001";
-  var url = nameInput ? "http://maramajo.ddns.net:32000" + nameInput.value.trim() : "http://192.168.0.13:3000/CICS/CWBA/json0001";
-
+ // var url = nameInput ? "http://192.168.0.13:3000/CICS/CWBA" + nameInput.value.trim() : "http://192.168.0.13:3000/CICS/CWBA/json0001";
+   var url = nameInput ? "http://maramajo.ddns.net:32000" + nameInput.value.trim() : "http://192.168.0.13:3000/CICS/CWBA/json0001";
+ 
   // const rawPath = window.location.pathname;
   if (['/original/jsonDE'].includes(rawPath)) {
     url = '/original/jsonDE';
@@ -178,9 +115,9 @@ async function fetchJsonCics(url, path) {
     } else {
       text = await response.text();
       console.log('original text - ' + text);
-      //   const buffer = await response.arrayBuffer();
-      //   text = new TextDecoder('latin1').decode(buffer);
-      //   console.log('não original text - ' + text);
+   //   const buffer = await response.arrayBuffer();
+   //   text = new TextDecoder('latin1').decode(buffer);
+   //   console.log('não original text - ' + text);
     }
     //  const buffer = await response.arrayBuffer();
     //  const text = new TextDecoder('latin1').decode(buffer);
@@ -334,6 +271,5 @@ async function fetchJsonCics(url, path) {
       status.textContent = 'OK – XML wurde konvertiert und angezeigt.';
     }
   }
-  return;
 }
 

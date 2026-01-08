@@ -1,16 +1,24 @@
- function dfhsetcursor(n)
-   {for (var i=0;i<document.KM0101A.elements.length;i++)
-     {if (document.KM0101A.elements[i].name == n)
-         {document.KM0101A.elements[i].focus();
-          document.KM0101A.DFH_CURSOR.value=n;
-          break}}}
- function dfhinqcursor1(n)
-   {document.KM0101A.DFH_CURSOR.value=n}
-   // Guarda a mensagem original do CICS
-let M01MSG_original1 = null;
+ 
+ function dfhsetcursor(n) {
+  for (var i = 0; i < document.KMM111A.elements.length; i++) {
+    if (document.KMM111A.elements[i].name == n)
+    {
+      document.KMM111A.elements[i].focus();
+      document.KMM111A.DFH_CURSOR.value = n;
+      break
+    }
+  }
+}
+function dfhinqcursor(n) { document.KMM111A.DFH_CURSOR.value = n }
+
+
+
+
+// Guarda a mensagem original do CICS
+let M01MSG_original = null;
 
 // Algoritmo de Luhn
-function validaCartaoLuhn1(numero) {
+function validaCartaoLuhn(numero) {
     let soma = 0;
     let alterna = false;
     for (let i = numero.length - 1; i >= 0; i--) {
@@ -26,18 +34,18 @@ function validaCartaoLuhn1(numero) {
 }
 
 // Detecta bandeira (simplificado por BIN inicial)
-function detectarBandeira1(numero) {
+function detectarBandeira(numero) {
     if (/^4/.test(numero)) return "Visa";
     if (/^5[1-5]/.test(numero)) return "Mastercard";
     return "Desconhecida";
 }
 
-function validarM01ACCT() {
-    const campo = document.getElementById("M01ACCT");
+function validarM01NACT() {
+    const campo = document.getElementById("M01NACT");
     const msg = document.getElementById("M01MSG");
 
-    if (M01MSG_original1 === null) {
-        M01MSG_original1 = msg.innerHTML;  // mensagem do CICS
+    if (M01MSG_original === null) {
+        M01MSG_original = msg.innerHTML;  // mensagem do CICS
     }
 
     let valor = campo.value.trim().replace(/\s+/g, "");
@@ -48,7 +56,7 @@ function validarM01ACCT() {
 
     // Campo vazio → restaura mensagem do CICS
     if (valor === "") {
-        msg.innerHTML = M01MSG_original1;
+        msg.innerHTML = M01MSG_original;
         return true;
     }
 
@@ -71,7 +79,7 @@ function validarM01ACCT() {
     }
 
     // valida Luhn
-    if (!validaCartaoLuhn1(valor)) {
+    if (!validaCartaoLuhn(valor)) {
         msg.innerHTML = "N&uacute;mero do cart&atilde;o inv&aacute;lido (d&iacute;gito verificador incorreto).";
         msg.style.color = "red";
         campo.classList.add("campo-erro");
@@ -80,17 +88,17 @@ function validarM01ACCT() {
     }
 
     // Bandeira detectada
-    let bandeira1 = detectarBandeira1(valor);
+    let bandeira = detectarBandeira(valor);
 
     // cartão OK → restaura mensagem do CICS + deixa borda verde
     campo.classList.add("campo-ok");
-    msg.innerHTML = M01MSG_original1 + " (" + bandeira1 + ")";
+    msg.innerHTML = M01MSG_original + " (" + bandeira + ")";
     msg.style.color = "";
 
     return true;
 }
 
-function enviarSomenteM01ACCT(botao) {
+function enviarSomenteM01NACT(botao) {
 
   // 1. Se o cartão for inválido → nada acontece
   if (!validarM01NACT()) {
@@ -101,7 +109,7 @@ function enviarSomenteM01ACCT(botao) {
 
   // 2. Remover names de todos os campos exceto M01NACT
   Array.from(form.elements).forEach(el => {
-    if (el.name !== "M01ACCT") {
+    if (el.name !== "M01NACT") {
       el.dataset.oldname = el.name;
       el.name = "";
     }

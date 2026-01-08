@@ -1,0 +1,8 @@
+
+.campo-erro {
+    border: 0.10rem solid red !important;
+}
+
+.campo-ok {
+    border: 0.10rem solid green !important;
+}

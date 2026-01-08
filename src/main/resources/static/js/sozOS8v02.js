@@ -1,5 +1,7 @@
+
 // Armazena o HTML original para restauração
 checkAndRedirect();
+
 const originalHTML = document.documentElement.outerHTML;
 
 // Flag para evitar dupla inicialização
@@ -14,7 +16,8 @@ const translations = {
       "/SALDO": "Extrato de Saldos",
       "/EXTRATO": "Extrato Bancário",
       "/json": "Json Demo",
-      "/xml": "Xml Demo"
+      "/xml": "Xml Demo",
+      "/cartao": "Cartão Demo"
     },
     home: "Home",
     propostas: "💼 Propostas",
@@ -69,6 +72,7 @@ A experiência acumulada da equipe de Gestão da <span class="marca">Maramajo</s
     extratoLink: "/EXTRATO",
     jsonLink: "/json",
     xmlLink: "/xml",
+    cartaoLink: "/cartao",
     mainTitle: "CWS",
     subTitle: "Simplificação de Middleware em Sistemas Críticos",
     intro: "Eliminando camadas desnecessárias de middleware para arquiteturas empresariais mais simples, rápidas e seguras.",
@@ -127,7 +131,8 @@ A experiência acumulada da equipe de Gestão da <span class="marca">Maramajo</s
       "/SALDOEN": "Balance Statement",
       "/EXTRATOEN": "Bank Statement",
       "/jsonEN": "Json Demo",
-      "/xmlEN": "Xml Demo"
+      "/xmlEN": "Xml Demo",
+      "/cartaoEN": "CCard Demo"
     },
     home: "Home",
     propostas: "💼 Proposals",
@@ -183,6 +188,7 @@ The accumulated experience of <span class="marca">Maramajo's</span> management t
     extratoLink: "/EXTRATOEN",
     jsonLink: "/jsonEN",
     xmlLink: "/xmlEN",
+    cartaoLink: "/cartaoEN",
     mainTitle: "CWS",
     subTitle: "Middleware Simplification in Critical Systems",
     intro: "Eliminating unnecessary middleware layers for simpler, faster, and more secure enterprise architectures.",
@@ -243,7 +249,8 @@ The accumulated experience of <span class="marca">Maramajo's</span> management t
       "/SALDODE": "Bilanz",
       "/EXTRATODE": "Kontoauszug",
       "/jsonDE": "JSON-Demo",
-      "/xmlDE": "XML-Demo"
+      "/xmlDE": "XML-Demo",
+      "/cartaoDE": "KKarte-Demo"
     },
     home: "Startseite",
     propostas: "💼 Vorschläge",
@@ -298,6 +305,7 @@ Die gesammelte Erfahrung des Managementteams von <span class="marca">Maramajo</s
     extratoLink: "/EXTRATODE",
     jsonLink: "/jsonDE",
     xmlLink: "/xmlDE",
+    cartaoLink: "/cartaoDE",
     mainTitle: "CWS",
     subTitle: "Middleware-Vereinfachung in kritischen Systemen",
     intro: "Beseitigung unnötiger Middleware-Schichten für einfachere, schnellere und sicherere Unternehmensarchitekturen.",
@@ -383,6 +391,8 @@ function checkAndRedirect() {
 // Executa a verificação assim que o script é carregado
 
 function renderHome(lang) {
+  sessionStorage.removeItem('resumeSubmit');
+  sessionStorage.removeItem('resumePath');
   const t = translations[lang] || translations['pt'];
   return `
 <div id="principal-home" 
@@ -569,7 +579,10 @@ const routes = {
   '/jsonDE': () => '',
   '/xml': () => '',
   '/xmlEN': () => '',
-  '/xmlDE': () => ''
+  '/xmlDE': () => '',
+  '/cartao': () => '',
+  '/cartaoEN': () => '',
+  '/cartaoDE': () => ''
 };
 
 function initializeBootstrap() {
@@ -626,127 +639,166 @@ function initializeBootstrap() {
 }
 
 async function fetchContent(endpoint, method = 'GET', body = null) {
+
   if (!endpoint || endpoint === '#' || endpoint === '/#') {
     console.error('Endpoint inválido:', endpoint);
     return;
   }
+
   const lang = localStorage.getItem('lang') || 'pt';
   const t = translations[lang] || translations['pt'];
+
   let contentDiv = document.getElementById('content');
   if (!contentDiv) {
     contentDiv = document.createElement('div');
     contentDiv.id = 'content';
     document.body.appendChild(contentDiv);
   }
+
+  // Remove navs duplicados
   const navs = document.querySelectorAll('nav');
   if (navs.length > 1) {
-    //console.log('Removendo navs duplicados:', navs.length - 1);
     for (let i = 1; i < navs.length; i++) {
       navs[i].remove();
     }
   }
+
+  // Remove footers duplicados
   const footers = document.querySelectorAll('footer');
   if (footers.length > 1) {
-    //console.log('Removendo footers duplicados:', footers.length - 1);
     for (let i = 1; i < footers.length; i++) {
       footers[i].remove();
     }
   }
+
   contentDiv.innerHTML = `<div class="loading">${t.loading}</div>`;
+
+  // 🔥 HOME NÃO FAZ FETCH
+  //const voltarPara = [
+  //  '/zOS', '/zOE', '/zOA',
+  //  '/',
+  //  '/ai01'
+  //];
+
+  // 🔎 Conteúdo especial (CICS)
+  if (endpoint === '/') {
+
+    changeLang(lang);
+    initTooltips();
+    await initializeBootstrap();
+    // updateDoctemplate(lang);
+    reattachEventListeners();
+    return;
+  }
+
   try {
-    //console.log('Buscando conteúdo para:', endpoint);
 
-    /*
-  Versão ajustada: força decodificação em ISO-8859-1 antes de passar ao DOMParser.
-*/
+    const response = await fetch(
+      `http://maramajo.ddns.net:32000${endpoint}`,
+      {
+        method: method,
+        headers: {
+          'Content-Type':
+            'application/x-www-form-urlencoded; charset=ISO-8859-1',
+          'Accept': 'text/html'
+        },
+        body: body ? new URLSearchParams(body).toString() : null
+      }
+    );
 
-    // --- PARTE 1 corrigida ---
-    const response = await fetch(`http://maramajo.ddns.net:32000${endpoint}`, {
-      method: method,
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded; charset=ISO-8859-1',
-        'Accept': 'text/html'
-      },
-      body: body ? new URLSearchParams(body).toString() : null
-    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
 
-    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+    let text = '';
 
-    // força leitura dos bytes crus e decodifica manualmente
-    const buffer = await response.arrayBuffer();
-    const decoder = new TextDecoder('iso-8859-1');
-    const text = decoder.decode(buffer);
-
-    if ([
+    // 🔠 Decodificação especial
+    if (endpoint.includes("zOS")) {
+      const buffer = await response.arrayBuffer();
+      const decoder = new TextDecoder('iso-8859-1');
+      text = decoder.decode(buffer);
+    } else {
+      text = await response.text();
+    }
+    var url = new URL(endpoint, window.location.origin);
+    const specialEndpoints = [
       '/zOS', '/zOE', '/zOA',
       '/SALDO', '/SALDOEN', '/SALDODE',
       '/EXTRATO', '/EXTRATOEN', '/EXTRATODE',
       '/json', '/jsonEN', '/jsonDE',
-      '/xml', '/xmlEN', '/xmlDE'
-    ].includes(endpoint)) {
+      '/xml', '/xmlEN', '/xmlDE',
+      '/cartao', '/cartaoEN', '/cartaoDE',
+      '/ai01', '/ae01', '/aa01'
+    ];
+
+    // 🔎 Conteúdo especial (CICS)
+    if (specialEndpoints.includes(url.pathname)) {
+
       const parser = new DOMParser();
       const doc = parser.parseFromString(text, 'text/html');
       const targetDiv = doc.querySelector('div.vazia');
-      //console.log('TargetDiv encontrado:', targetDiv ? targetDiv.outerHTML : 'NÃO ENCONTROU');
-      contentDiv.innerHTML = targetDiv ? targetDiv.outerHTML : text;
-      // 🔥 ALTERAÇÃO AQUI: reinicializa tooltips sempre que conteúdo externo for injetado
-      initTooltips();
 
+      contentDiv.innerHTML = targetDiv
+        ? targetDiv.outerHTML
+        : text;
 
-      let solutionsTitle = document.querySelector('#solutions-title');
-      if (solutionsTitle) {
-        solutionsTitle.textContent = t.solutionsTitle[endpoint] || t.solutionsTitle.default;
-        solutionsTitle.className = 'mb-0 ms-2 text-2xl md:text-3xl font-extrabold text-blue-600 titulo';
-      } else {
-        console.warn('Elemento #solutions-title não encontrado no conteúdo retornado para:', endpoint);
-        const dFlexDiv = document.querySelector('.d-flex.align-items-center');
-        if (dFlexDiv) {
-          solutionsTitle = document.createElement('h2');
-          solutionsTitle.id = 'solutions-title';
-          solutionsTitle.className = 'mb-0 ms-2 text-2xl md:text-3xl font-extrabold text-blue-600 titulo';
-          solutionsTitle.textContent = t.solutionsTitle[endpoint] || t.solutionsTitle.default;
-          dFlexDiv.appendChild(solutionsTitle);
-        }
-      }
+      requestAnimationFrame(() => {
+        setCursorFromCICS();
+      });
+
     } else {
       contentDiv.innerHTML = text;
-      // 🔥 ALTERAÇÃO AQUI: reinicializa tooltips sempre que conteúdo externo for injetado
-      initTooltips();
-
     }
 
+    initTooltips();
+
+    // 🧠 Título dinâmico
+    let solutionsTitle = document.querySelector('#solutions-title');
+    if (solutionsTitle) {
+      solutionsTitle.textContent =
+        t.solutionsTitle[endpoint] || t.solutionsTitle.default;
+      solutionsTitle.className =
+        'mb-0 ms-2 text-2xl md:text-3xl font-extrabold text-blue-600 titulo';
+    } else {
+      const dFlexDiv = document.querySelector('.d-flex.align-items-center');
+      if (dFlexDiv) {
+        solutionsTitle = document.createElement('h2');
+        solutionsTitle.id = 'solutions-title';
+        solutionsTitle.className =
+          'mb-0 ms-2 text-2xl md:text-3xl font-extrabold text-blue-600 titulo';
+        solutionsTitle.textContent =
+          t.solutionsTitle[endpoint] || t.solutionsTitle.default;
+        dFlexDiv.appendChild(solutionsTitle);
+      }
+    }
+
+    // 🦶 Footer
     let footer = document.querySelector('footer');
     if (!footer) {
       footer = document.createElement('footer');
       footer.className = 'text-center';
-      footer.innerHTML = `<div class="container"><p>© <span id="rodape">${t.rodapeTxt}</span></p></div>`;
+      footer.innerHTML =
+        `<div class="container"><p>© <span id="rodape">${t.rodapeTxt}</span></p></div>`;
       document.body.appendChild(footer);
     } else {
       footer.classList.add('text-center');
       const rodape = document.querySelector('#rodape');
       if (rodape) {
         rodape.textContent = t.rodapeTxt;
-        if (!rodape.parentElement.parentElement.classList.contains('container')) {
-          const container = document.createElement('div');
-          container.className = 'container';
-          const p = rodape.parentElement;
-          footer.innerHTML = '';
-          footer.appendChild(container);
-          container.appendChild(p);
-        }
-      } else {
-        footer.innerHTML = `<div class="container"><p>© <span id="rodape">${t.rodapeTxt}</span></p></div>`;
       }
     }
 
     await initializeBootstrap();
     updateDoctemplate(lang);
     reattachEventListeners();
+
   } catch (error) {
+
     console.error('Erro na requisição:', error);
     contentDiv.innerHTML = `<div class="error">${t.error}</div>`;
-  }
-}
+
+  } // fim do try/catch
+} // fim da função
 
 async function fetchExternalContent(externalUrl, originalEndpoint, method = 'GET', body = null) {
   const lang = localStorage.getItem('lang') || 'pt';
@@ -807,8 +859,11 @@ async function fetchExternalContent(externalUrl, originalEndpoint, method = 'GET
     const targetDiv2 = doc2.querySelector('div.vazia');
     contentDiv.innerHTML = targetDiv2 ? targetDiv2.outerHTML : text2;
     // 🔥 ALTERAÇÃO AQUI: reinicializa tooltips sempre que conteúdo externo for injetado
-    initTooltips();
+    requestAnimationFrame(() => {
+      setCursorFromCICS();
+    });
 
+    initTooltips();
 
 
     let solutionsTitle = document.querySelector('#solutions-title');
@@ -902,12 +957,52 @@ async function fetchExternalContent(externalUrl, originalEndpoint, method = 'GET
                     } else
                       if (externalUrl.includes('buscajso')) {
                         newUrl = externalUrl.replace("http://192.168.0.13:3000/CICS/CWBA/buscajso", "/json");
-                        fetchContent(newUrl, 'GET', body);
+                        fetchContent(newUrl, 'POST', body);
                       } else
-                        if (externalUrl.includes('buscaxml')) {
-                          newUrl = externalUrl.replace("http://192.168.0.13:3000/CICS/CWBA/buscajso", "/xml");
-                          fetchContent(newUrl, 'GET', body);
-                        }
+                        if (externalUrl.includes('buscajsi')) {
+                          newUrl = externalUrl.replace("http://192.168.0.13:3000/CICS/CWBA/buscajsi", "/jsonEN");
+                          fetchContent(newUrl, 'POST', body);
+                        } else
+                          if (externalUrl.includes('buscajsa')) {
+                            newUrl = externalUrl.replace("http://192.168.0.13:3000/CICS/CWBA/buscajsa", "/jsonDE");
+                            fetchContent(newUrl, 'POST', body);
+                          } else
+                            if (externalUrl.includes('buscaxml')) {
+                              newUrl = externalUrl.replace("http://192.168.0.13:3000/CICS/CWBA/buscaxml", "/xml");
+                              fetchContent(newUrl, 'POST', body);
+
+                            } else
+
+                              if (externalUrl.includes('buscaxma')) {
+                                newUrl = externalUrl.replace("http://192.168.0.13:3000/CICS/CWBA/buscaxma", "/xmlDE");
+                                fetchContent(newUrl, 'POST', body);
+
+                              } else
+
+                                if (externalUrl.includes('buscaxme')) {
+                                  newUrl = externalUrl.replace("http://192.168.0.13:3000/CICS/CWBA/buscaxme", "/xmlEN");
+                                  fetchContent(newUrl, 'POST', body);
+
+                                } else
+
+
+                                  if (externalUrl.includes('KMP1101P')) {
+                                    newUrl = externalUrl.replace("http://192.168.0.13:3000/CICS/CWBA/KMP1101P", "/cartao");
+                                    fetchContent(newUrl, 'POST', body);
+                                    requestAnimationFrame(() => {
+                                      setCursorFromCICS();
+                                    });
+
+                                  } else
+                                    if (externalUrl.includes('KMP1101E')) {
+                                      newUrl = externalUrl.replace("http://192.168.0.13:3000/CICS/CWBA/KMP1101E", "/cartaoEN");
+                                      fetchContent(newUrl, 'POST', body);
+
+                                    } else
+                                      if (externalUrl.includes('KMP1101A')) {
+                                        newUrl = externalUrl.replace("http://192.168.0.13:3000/CICS/CWBA/KMP1101A", "/cartaoDE");
+                                        fetchContent(newUrl, 'POST', body);
+                                      }
 
 
 
@@ -927,7 +1022,10 @@ function endpointToCicsProgram(endpoint) {
     '/SALDODE': 'AATMSADE',
     '/EXTRATO': 'AATMEXTR',
     '/EXTRATOEN': 'AATMEXEN',
-    '/EXTRATODE': 'AATMEXGE'
+    '/EXTRATODE': 'AATMEXGE',
+    '/cartao': 'KMP1101P',
+    '/cartaoEN': 'KMP1101E',
+    '/cartaoDE': 'KMP1101P',
   };
   return cicsMap[endpoint] || '';
 }
@@ -1112,7 +1210,10 @@ function changeLang(lang) {
     '/jsonDE': t.jsonLink,
     '/xml': t.xmlLink,
     '/xmlEN': t.xmlLink,
-    '/xmlDE': t.xmlLink
+    '/xmlDE': t.xmlLink,
+    '/cartao': t.cartaoLink,
+    '/cartaoEN': t.cartaoLink,
+    '/cartaoDE': t.cartaoLink
   };
   if (endpointMap[path]) {
     const endpoint = endpointMap[path];
@@ -1129,11 +1230,14 @@ function changeLang(lang) {
       '/EXTRATOEN': 'http://192.168.0.13:3000/CICS/CWBA/AATMEXEN',
       '/EXTRATODE': 'http://192.168.0.13:3000/CICS/CWBA/AATMEXGE',
       '/json': 'http://192.168.0.13:3000/CICS/CWBA/buscajso',
-      '/jsonEN': 'http://192.168.0.13:3000/CICS/CWBA/buscajso',
+      '/jsonEN': 'http://192.168.0.13:3000/CICS/CWBA/buscajsi',
       '/jsonDE': 'http://192.168.0.13:3000/CICS/CWBA/buscajsa',
       '/xml': 'http://192.168.0.13:3000/CICS/CWBA/buscaxml',
       '/xmlEN': 'http://192.168.0.13:3000/CICS/CWBA/buscaxme',
-      '/xmlDE': 'http://192.168.0.13:3000/CICS/CWBA/buscaxma'
+      '/xmlDE': 'http://192.168.0.13:3000/CICS/CWBA/buscaxma',
+      '/cartao': 'http://192.168.0.13:3000/CICS/CWBA/KMP1101P',
+      '/cartaoEN': 'http://192.168.0.13:3000/CICS/CWBA/KMP1101E',
+      '/cartaoDE': 'http://192.168.0.13:3000/CICS/CWBA/KMP1101A'
     };
     if (redirectMap[endpoint]) {
       fetchExternalContent(redirectMap[endpoint], endpoint, 'GET');
@@ -1142,6 +1246,15 @@ function changeLang(lang) {
     }
   } else {
     renderContent(path, lang);
+  }
+  // 🔥 🔥 🔥 GANCHO DO SPA (AQUI É A CHAVE) 🔥 🔥 🔥
+  const form = document.getElementById('cwsForm');
+  if (form && form.dataset.submitted === 'true') {
+    console.log('🌍 Idioma trocado — reprocessando SPA');
+    formHandler({
+      preventDefault: () => { },
+      target: form
+    });
   }
 }
 
@@ -1163,7 +1276,14 @@ function reattachEventListeners() {
     link.removeEventListener('click', navLinkHandler);
     link.addEventListener('click', navLinkHandler);
   });
-  document.querySelectorAll('a[href="/SALDO"], a[href="/SALDOEN"], a[href="/SALDODE"], a[href="/EXTRATO"], a[href="/EXTRATOEN"], a[href="/EXTRATODE"], a[href="/zOS"], a[href="/zOE"], a[href="/zOA"]').forEach(link => {
+  document.querySelectorAll(
+    'a[href="/SALDO"], a[href="/SALDOEN"], a[href="/SALDODE"], ' +
+    'a[href="/EXTRATO"], a[href="/EXTRATOEN"], a[href="/EXTRATODE"], ' +
+    'a[href="/zOS"], a[href="/zOE"], a[href="/zOA"], ' +
+    'a[href="/json"], a[href="/jsonEN"], a[href="/jsonDE"], ' +
+    'a[href="/xml"], a[href="/xmlEN"], a[href="/xmlDE"], ' +
+    'a[href="/cartao"], a[href="/cartaoEN"], a[href="/cartaoDE"]'
+  ).forEach(link => {
     link.removeEventListener('click', endpointLinkHandler);
     link.addEventListener('click', endpointLinkHandler);
     //console.log('Evento anexado para link:', link.getAttribute('href'));
@@ -1218,11 +1338,14 @@ function endpointLinkHandler(event) {
     '/EXTRATOEN': 'http://192.168.0.13:3000/CICS/CWBA/AATMEXEN',
     '/EXTRATODE': 'http://192.168.0.13:3000/CICS/CWBA/AATMEXGE',
     '/json': 'http://192.168.0.13:3000/CICS/CWBA/buscajso',
-    '/jsonEN': 'http://192.168.0.13:3000/CICS/CWBA/buscajso',
+    '/jsonEN': 'http://192.168.0.13:3000/CICS/CWBA/buscajsi',
     '/jsonDE': 'http://192.168.0.13:3000/CICS/CWBA/buscajsa',
     '/xml': 'http://192.168.0.13:3000/CICS/CWBA/buscaxml',
     '/xmlEN': 'http://192.168.0.13:3000/CICS/CWBA/buscaxme',
-    '/xmlDE': 'http://192.168.0.13:3000/CICS/CWBA/buscaxma'
+    '/xmlDE': 'http://192.168.0.13:3000/CICS/CWBA/buscaxma',
+    '/cartao': 'http://192.168.0.13:3000/CICS/CWBA/KMP1101P',
+    '/cartaoEN': 'http://192.168.0.13:3000/CICS/CWBA/KMP1101E',
+    '/cartaoDE': 'http://192.168.0.13:3000/CICS/CWBA/KMP1101A'
   };
   if (redirectMap[endpoint]) {
     //console.log('Carregando conteúdo de:', redirectMap[endpoint]);
@@ -1246,11 +1369,14 @@ function formHandler(event) {
     '/EXTRATOEN': 'http://192.168.0.13:3000/CICS/CWBA/AATMEXEN',
     '/EXTRATODE': 'http://192.168.0.13:3000/CICS/CWBA/AATMEXGE',
     '/json': 'http://192.168.0.13:3000/CICS/CWBA/buscajso',
-    '/jsonEN': 'http://192.168.0.13:3000/CICS/CWBA/buscajso',
+    '/jsonEN': 'http://192.168.0.13:3000/CICS/CWBA/buscajsi',
     '/jsonDE': 'http://192.168.0.13:3000/CICS/CWBA/buscajsa',
     '/xml': 'http://192.168.0.13:3000/CICS/CWBA/buscaxml',
     '/xmlEN': 'http://192.168.0.13:3000/CICS/CWBA/buscaxme',
-    '/xmlDE': 'http://192.168.0.13:3000/CICS/CWBA/buscaxma'
+    '/xmlDE': 'http://192.168.0.13:3000/CICS/CWBA/buscaxma',
+    '/cartao': 'http://192.168.0.13:3000/CICS/CWBA/KMP1101P',
+    '/cartaoEN': 'http://192.168.0.13:3000/CICS/CWBA/KMP1101E',
+    '/cartaoDE': 'http://192.168.0.13:3000/CICS/CWBA/KMP1101A'
   };
   if (redirectMap[endpoint]) {
     const formData = new FormData(form);
@@ -1310,11 +1436,14 @@ window.envia = function (endpoint) {
     '/EXTRATOEN': 'http://192.168.0.13:3000/CICS/CWBA/AATMEXEN',
     '/EXTRATODE': 'http://192.168.0.13:3000/CICS/CWBA/AATMEXGE',
     '/json': 'http://192.168.0.13:3000/CICS/CWBA/buscajso',
-    '/jsonEN': 'http://192.168.0.13:3000/CICS/CWBA/buscajso',
+    '/jsonEN': 'http://192.168.0.13:3000/CICS/CWBA/buscajsi',
     '/jsonDE': 'http://192.168.0.13:3000/CICS/CWBA/buscajsa',
     '/xml': 'http://192.168.0.13:3000/CICS/CWBA/buscaxml',
     '/xmlEN': 'http://192.168.0.13:3000/CICS/CWBA/buscaxme',
-    '/xmlDE': 'http://192.168.0.13:3000/CICS/CWBA/buscaxma'
+    '/xmlDE': 'http://192.168.0.13:3000/CICS/CWBA/buscaxma',
+    '/cartao': 'http://192.168.0.13:3000/CICS/CWBA/KMP1101P',
+    '/cartaoEN': 'http://192.168.0.13:3000/CICS/CWBA/KMP1101E',
+    '/cartaoDE': 'http://192.168.0.13:3000/CICS/CWBA/KMP1101A'
   };
   if (redirectMap[endpoint]) {
     fetchExternalContent(redirectMap[endpoint], endpoint, 'POST', body);
@@ -1377,11 +1506,14 @@ document.addEventListener('DOMContentLoaded', () => {
       '/EXTRATOEN': 'http://192.168.0.13:3000/CICS/CWBA/AATMEXEN',
       '/EXTRATODE': 'http://192.168.0.13:3000/CICS/CWBA/AATMEXGE',
       '/json': 'http://192.168.0.13:3000/CICS/CWBA/buscajso',
-      '/jsonEN': 'http://192.168.0.13:3000/CICS/CWBA/buscajso',
+      '/jsonEN': 'http://192.168.0.13:3000/CICS/CWBA/buscajsi',
       '/jsonDE': 'http://192.168.0.13:3000/CICS/CWBA/buscajsa',
       '/xml': 'http://192.168.0.13:3000/CICS/CWBA/buscaxml',
       '/xmlEN': 'http://192.168.0.13:3000/CICS/CWBA/buscaxme',
-      '/xmlDE': 'http://192.168.0.13:3000/CICS/CWBA/buscaxma'
+      '/xmlDE': 'http://192.168.0.13:3000/CICS/CWBA/buscaxma',
+      '/cartao': 'http://192.168.0.13:3000/CICS/CWBA/KMP1101P',
+      '/cartaoEN': 'http://192.168.0.13:3000/CICS/CWBA/KMP1101E',
+      '/cartaoDE': 'http://192.168.0.13:3000/CICS/CWBA/KMP1101P'
     };
     if (redirectMap[path]) {
       fetchExternalContent(redirectMap[path], path, 'GET');
@@ -1395,14 +1527,18 @@ document.addEventListener('DOMContentLoaded', () => {
 }, { once: true });
 
 window.addEventListener('popstate', () => {
-  //console.log('Evento popstate disparado, pathname:', window.location.pathname);
+
+
+  // ===== SEU CÓDIGO ATUAL =====
   const navs = document.querySelectorAll('nav');
   if (navs.length > 1) {
-    //console.log('Removendo navs duplicados:', navs.length - 1);
     for (let i = 1; i < navs.length; i++) {
       navs[i].remove();
     }
   }
+
+
+
   const footers = document.querySelectorAll('footer');
   if (footers.length > 1) {
     //console.log('Removendo footers duplicados:', footers.length - 1);
@@ -1447,11 +1583,14 @@ window.addEventListener('popstate', () => {
       '/EXTRATOEN': 'http://192.168.0.13:3000/CICS/CWBA/AATMEXEN',
       '/EXTRATODE': 'http://192.168.0.13:3000/CICS/CWBA/AATMEXGE',
       '/json': 'http://192.168.0.13:3000/CICS/CWBA/buscajso',
-      '/jsonEN': 'http://192.168.0.13:3000/CICS/CWBA/buscajso',
+      '/jsonEN': 'http://192.168.0.13:3000/CICS/CWBA/buscajsi',
       '/jsonDE': 'http://192.168.0.13:3000/CICS/CWBA/buscajsa',
       '/xml': 'http://192.168.0.13:3000/CICS/CWBA/buscaxml',
       '/xmlEN': 'http://192.168.0.13:3000/CICS/CWBA/buscaxme',
-      '/xmlDE': 'http://192.168.0.13:3000/CICS/CWBA/buscaxma'
+      '/xmlDE': 'http://192.168.0.13:3000/CICS/CWBA/buscaxma',
+      '/cartao': 'http://192.168.0.13:3000/CICS/CWBA/KMP1101P',
+      '/cartaoEN': 'http://192.168.0.13:3000/CICS/CWBA/KMP1101E',
+      '/cartaoDE': 'http://192.168.0.13:3000/CICS/CWBA/KMP1101P'
     };
     if (redirectMap[path]) {
       fetchExternalContent(redirectMap[path], path, 'GET');
@@ -1474,8 +1613,8 @@ function initTooltips() {
   document.querySelectorAll(".hover-info").forEach(btn => {
 
     // EVITA adicionar eventos duplicados
-    if (btn.dataset.tooltipBound === "1") return;  
-    btn.dataset.tooltipBound = "1";               
+    if (btn.dataset.tooltipBound === "1") return;
+    btn.dataset.tooltipBound = "1";
 
     btn.addEventListener("mouseenter", () => {
       floating.textContent = btn.dataset.info || "";
@@ -1496,3 +1635,165 @@ function initTooltips() {
     });
   });
 }
+console.log("SPA Translation + Navigation carregado");
+
+(function () {
+  const KEY = "lang";
+
+  // ==========================
+  // HELPER: navegação SPA (GET)
+  // ==========================
+  function spaGet(endpoint) {
+    history.pushState(null, "", endpoint);
+
+    if (endpoint.includes("json") || endpoint.includes("xml")) {
+      envio(endpoint.replace("/", ""));
+      return;
+    }
+
+    fetchContent(endpoint, "GET");
+  }
+
+  // ==========================
+  // TROCA DE IDIOMA (GET / SPA)
+  // ==========================
+  window.changeLang = function (lang, isInitialLoad = false) {
+    try {
+      const d = translations[lang] || translations.pt;
+
+      // textos
+      document.querySelectorAll("[data-key]").forEach(el => {
+        const k = el.getAttribute("data-key");
+        if (d[k] != null) el.textContent = d[k];
+      });
+
+      // label + flag
+      const lbl = document.getElementById("lang-label");
+      const flg = document.getElementById("lang-flag");
+      if (lbl) lbl.textContent = d.langLabel;
+      if (flg) flg.src = d.flag;
+
+      localStorage.setItem(KEY, lang);
+
+      if (isInitialLoad) return;
+
+      const pageName = window.location.pathname.replace("/", "");
+      let target = pageName;
+      // depois de calcular "target"
+
+      const pathname = window.location.pathname;
+
+      // HOME: só troca textos, não recarrega
+      if (pathname === "/" || pathname === ""
+        || pathname === "/propostas" || pathname === "/sobre"
+        || pathname === "/contato"
+      ) {
+        renderContent(pathname, lang);
+        return;
+      }
+
+      if (pageName.startsWith("SAL")) {
+        target = lang === "de" ? "SALDODE" :
+          lang === "en" ? "SALDOEN" : "SALDO";
+      }
+
+      if (pageName.startsWith("EXT")) {
+        target = lang === "de" ? "EXTRATODE" :
+          lang === "en" ? "EXTRATOEN" : "EXTRATO";
+      }
+
+      if (pageName.startsWith("zO")) {
+        target = lang === "de" ? "zOA" :
+          lang === "en" ? "zOE" : "zOS";
+      }
+
+      if (pageName.startsWith("json")) {
+        target = lang === "de" ? "jsonDE" :
+          lang === "en" ? "jsonEN" : "json";
+      }
+
+      if (pageName.startsWith("xml")) {
+        target = lang === "de" ? "xmlDE" :
+          lang === "en" ? "xmlEN" : "xml";
+      }
+
+      if (pageName.startsWith("car")) {
+        //       target = lang === "de" ? "cartaoDE" :
+        //        lang === "en" ? "cartaoEN" : "cartao";
+        target = "";
+      }
+
+      if (pageName.startsWith("a")) {
+        //       target = lang === "de" ? "aa01" :
+        //        lang === "en" ? "ae01" : "ai01";
+        target = "";
+      }
+      spaGet("/" + target);
+
+
+    } catch (e) {
+      console.error("Erro no changeLang:", e);
+    }
+  };
+
+  // ==========================
+  // REFRESH SPA (GET)
+  // ==========================
+  window.refreshPage = function () {
+    const endpoint = window.location.pathname;
+
+    if (endpoint.includes("json") || endpoint.includes("xml")) {
+      envio(endpoint.replace("/", ""));
+      return;
+    }
+
+    fetchContent(endpoint, "GET");
+  };
+
+  // ==========================
+  // INIT
+  // ==========================
+  document.addEventListener("DOMContentLoaded", function () {
+    const saved = localStorage.getItem(KEY) || "pt";
+    window.changeLang(saved, true);
+  });
+
+})();
+document.addEventListener('DOMContentLoaded', () => {
+  const resume = sessionStorage.getItem('resumeSubmit');
+  if (!resume) return;
+
+  sessionStorage.removeItem('resumeSubmit');
+
+  const path = sessionStorage.getItem('resumePath');
+  sessionStorage.removeItem('resumePath');
+
+  const form = document.getElementById('cwsForm');
+  if (!form) return;
+
+  form.action = path;
+
+  // chama como se fosse submit SPA
+  formHandler({
+    preventDefault: () => { },
+    target: form
+  });
+});
+function setCursorFromCICS() {
+  var form = document.getElementById("KMM111A");
+  if (!form) {
+    form = document.getElementById("KM0101A");
+  }
+  if (!form) {
+    return;
+  }
+  const cur = form.querySelector('input[name="DFH_CURSOR"]');
+  if (!cur || !cur.value) return;
+
+  const target = form.querySelector(`[name="${cur.value}"]`);
+  if (!target) return;
+
+  target.focus();
+}
+
+

@@ -108,6 +108,47 @@ public class FormController {
 
 		return "spaChamazOS"; // sua view/template
 	}
+	@PostMapping("/")
+	@CrossOrigin(origins = "*")
+	public String soZOSPost(HttpServletResponse servletResp) throws Exception {
+		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATM004P"))
+				.header("Content-Type", "application/x-www-form-urlencoded; charset=ISO-8859-1").header("passo", "1")
+				.GET().build();
+
+		HttpResponse<String> response = client.send(req,
+				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
+
+		// 1) Pegar os headers do mainframe
+		Map<String, List<String>> zosHeaders = response.headers().map();
+
+		// 2) Passar para a view (ex.: Thymeleaf) para exibir no HTML
+		// model.addAttribute("zosHeaders", zosHeaders);
+		// model.addAttribute("zosBody", response.body());
+		// model.addAttribute("zosStatus", response.statusCode());
+
+		// 3) Copiar os headers para a resposta HTTP enviada ao browser,
+		// exceto headers "hop-by-hop" que não devem ser propagados
+		Set<String> skip = Set.of("content-length", "transfer-encoding", "connection", "keep-alive",
+				"proxy-authenticate", "proxy-authorization", "te", "trailer", "upgrade");
+
+		for (Map.Entry<String, List<String>> e : zosHeaders.entrySet()) {
+			String name = e.getKey();
+			if (skip.contains(name.toLowerCase()))
+				continue;
+			for (String value : e.getValue()) {
+				// use addHeader para permitir múltiplos valores
+				servletResp.addHeader(name, value);
+				System.out.println("SOZOS COMEÇO : " + name + "  " + value);
+			}
+		}
+
+		// Opcional: definir status do servlet response igual ao do ZOS (cuidado com
+		// páginas)
+		// servletResp.setStatus(response.statusCode());
+
+		return "spaChamazOS"; // sua view/template
+	}
+
 
 	@GetMapping("/sobre")
 	@CrossOrigin(origins = "*")
@@ -155,29 +196,63 @@ public class FormController {
 		return "contatoOriginal";
 	}
 
-	@CrossOrigin(origins = "*")
-	@GetMapping(value = "/zOS", produces = MediaType.TEXT_HTML_VALUE)
+	@GetMapping(value = "/zOS", produces = "text/html; charset=ISO-8859-1")
 	@ResponseBody
 	public String showZOS() throws IOException, InterruptedException {
-		counter.increment(AATM004P);
-		System.out.println("Dentro de z/OS");
+	    counter.increment(AATM004P);
 
-		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATM004P"))
-				.header("Content-Type", "application/x-www-form-urlencoded; charset=ISO-8859-1").build();
+	    HttpRequest req = HttpRequest.newBuilder()
+	        .uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATM004P"))
+	        .header("Accept", "text/html; charset=ISO-8859-1")
+	        .build();
 
-		HttpResponse<String> response = client.send(req,
-				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
-//				HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+	    HttpResponse<String> response = client.send(
+	        req, HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1)
+	    );
 
-		return response.body();
+	    return response.body();
 	}
+	@PostMapping(value = "/zOS", produces = "text/html; charset=ISO-8859-1")
+	@ResponseBody
+	public String showZOSPost() throws IOException, InterruptedException {
+	    counter.increment(AATM004P);
+
+	    HttpRequest req = HttpRequest.newBuilder()
+	        .uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATM004P"))
+	        .header("Accept", "text/html; charset=ISO-8859-1")
+	        .build();
+
+	    HttpResponse<String> response = client.send(
+	        req, HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1)
+	    );
+
+	    return response.body();
+	}
+
+
+//	@CrossOrigin(origins = "*")
+//	@GetMapping(value = "/zOS", produces = MediaType.TEXT_HTML_VALUE)
+//	@ResponseBody
+//	public String showZOS() throws IOException, InterruptedException {
+//		counter.increment(AATM004P);
+//		System.out.println("Dentro de z/OS");
+//
+//		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATM004P"))
+//				.header("Content-Type", "application/x-www-form-urlencoded; charset=ISO-8859-1").build();
+//
+//		HttpResponse<String> response = client.send(req,
+//				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
+////				HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+//
+//		return response.body();
+//	}
 	@CrossOrigin(origins = "*")
 	@GetMapping(value = "/json", produces = MediaType.TEXT_HTML_VALUE)
 	@ResponseBody
 	public String showjson() throws IOException, InterruptedException {
 	//	counter.increment(AATM004P);
 //		return json.showjson();
-		System.out.println("Dentro de json BUSCAJSO");
+		System.out.println("Dentro de json GET BUSCAJSO");
 
 		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/BUSCAJSO"))
 				.header("Content-Type", "application/x-www-form-urlencoded; charset=ISO-8859-1").build();
@@ -296,7 +371,7 @@ public class FormController {
 	public String showjsonEN() throws IOException, InterruptedException {
 	//	counter.increment(AATM004P);
 //		return json.showjson();
-		System.out.println("Dentro de jsonEN BUSCAJSi");
+		System.out.println("Dentro de jsonEN GET BUSCAJSI");
 
 		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/BUSCAJSI"))
 				.header("Content-Type", "application/x-www-form-urlencoded; charset=ISO-8859-1").build();
@@ -445,7 +520,23 @@ public class FormController {
 	@ResponseBody
 	public String showZOE() throws IOException, InterruptedException {
 		counter.increment(AATM004P);
-		System.out.println("Dentro de original z/OE");
+		System.out.println("Dentro de z/OE");
+
+		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATM004I"))
+				.header("Content-Type", "application/x-www-form-urlencoded; charset=ISO-8859-1").build();
+
+		HttpResponse<String> response = client.send(req,
+				HttpResponse.BodyHandlers.ofString(StandardCharsets.ISO_8859_1));
+//				HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+
+		return response.body();
+	}
+	@PostMapping(value = "/zOE", produces = MediaType.TEXT_HTML_VALUE)
+	@CrossOrigin(origins = "*")
+	@ResponseBody
+	public String showZOEPost() throws IOException, InterruptedException {
+		counter.increment(AATM004P);
+		System.out.println("Dentro de z/OE");
 
 		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATM004I"))
 				.header("Content-Type", "application/x-www-form-urlencoded; charset=ISO-8859-1").build();
@@ -462,7 +553,7 @@ public class FormController {
 	@ResponseBody
 	public String showZOA() throws IOException, InterruptedException {
 		counter.increment(AATM004P);
-		System.out.println("Dentro de original z/OA");
+		System.out.println("Dentro de z/OA");
 
 		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/AATM004A"))
 				.header("Content-Type", "application/x-www-form-urlencoded; charset=ISO-8859-1").build();

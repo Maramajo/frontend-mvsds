@@ -14,7 +14,7 @@ const translations = {
       "/SALDO": "Extrato de Saldos",
       "/EXTRATO": "Extrato Bancário",
       "/json": "Json Demo",
-       "/xml": "Xml Demo"
+      "/xml": "Xml Demo"
     },
     home: "Home",
     propostas: "💼 Propostas",
@@ -680,7 +680,7 @@ async function fetchContent(endpoint, method = 'GET', body = null) {
     if ([
       '/zOS', '/zOE', '/zOA',
       '/SALDO', '/SALDOEN', '/SALDODE',
-      '/EXTRATO', '/EXTRATOEN', '/EXTRATODE', 
+      '/EXTRATO', '/EXTRATOEN', '/EXTRATODE',
       '/json', '/jsonEN', '/jsonDE',
       '/xml', '/xmlEN', '/xmlDE'
     ].includes(endpoint)) {
@@ -753,13 +753,13 @@ async function fetchExternalContent(externalUrl, originalEndpoint, method = 'GET
   }
   contentDiv.innerHTML = `<div class="loading">${t.loading}</div>`;
   try {
-   // console.log(`[fetchExternalContent] Iniciando requisição para: ${externalUrl} com método ${method}`);
+    // console.log(`[fetchExternalContent] Iniciando requisição para: ${externalUrl} com método ${method}`);
 
     let requestBody = null;
     if (method === 'POST') {
       const formData = [];
       for (const [key, value] of Object.entries(body)) {
-       // console.log(`[fetchExternalContent] Adicionando ao formData: ${key}=${value}`);
+        // console.log(`[fetchExternalContent] Adicionando ao formData: ${key}=${value}`);
         // encodeURIComponent gera UTF-8, então precisamos "forçar" ISO-8859-1
         const encodedKey = encodeURIComponent(key);
         const encodedValue = escape(value); // escape mantém ISO-8859-1 seguro
@@ -785,14 +785,14 @@ async function fetchExternalContent(externalUrl, originalEndpoint, method = 'GET
     if (!response2.ok) throw new Error(`[fetchExternalContent] HTTP error! Status: ${response2.status}`);
 
     // força leitura como ISO-8859-1
-    const buffer2 = await response2.arrayBuffer(); 
+    const buffer2 = await response2.arrayBuffer();
     const decoder2 = new TextDecoder('iso-8859-1');
     var text2 = decoder2.decode(buffer2);
     let conv = text2.replace(/\u00DD/g, '[')   // Ý
-                   .replace(/\u00A8/g, ']')   // ¨
-                   .replace(/\uFFFD/g, '')    // � (se existir)
-                   .replace(/\r\n/g, '\n');   // normaliza newlines
-    text2 = conv;             
+      .replace(/\u00A8/g, ']')   // ¨
+      .replace(/\uFFFD/g, '')    // � (se existir)
+      .replace(/\r\n/g, '\n');   // normaliza newlines
+    text2 = conv;
 
     //console.log(`[fetchExternalContent] Resposta recebida: ${text2.substring(0, 200)}...`);
 
@@ -807,7 +807,7 @@ async function fetchExternalContent(externalUrl, originalEndpoint, method = 'GET
       solutionsTitle.textContent = t.solutionsTitle[originalEndpoint] || t.solutionsTitle.default;
       solutionsTitle.className = 'mb-0 ms-2 text-2xl md:text-3xl font-extrabold text-blue-600 titulo';
     } else {
-//console.warn('[fetchExternalContent] Elemento #solutions-title não encontrado, criando novo...');
+      //console.warn('[fetchExternalContent] Elemento #solutions-title não encontrado, criando novo...');
       const dFlexDiv = document.querySelector('.d-flex.align-items-center');
       if (dFlexDiv) {
         solutionsTitle = document.createElement('h2');
@@ -889,16 +889,16 @@ async function fetchExternalContent(externalUrl, originalEndpoint, method = 'GET
                     if (externalUrl.includes('AATMSADE')) {
                       newUrl = externalUrl.replace("http://192.168.0.13:3000/CICS/CWBA/AATMSADE", "/SALDODE");
                       fetchContent(newUrl, 'POST', body);
-                    
+
                     } else
-                    if (externalUrl.includes('buscajso')) {
-                      newUrl = externalUrl.replace("http://192.168.0.13:3000/CICS/CWBA/buscajso", "/json");
-                      fetchContent(newUrl, 'GET', body);
-                    } else 
-                      if (externalUrl.includes('buscaxml')) {
-                      newUrl = externalUrl.replace("http://192.168.0.13:3000/CICS/CWBA/buscajso", "/xml");
-                      fetchContent(newUrl, 'GET', body);
-                    } 
+                      if (externalUrl.includes('buscajso')) {
+                        newUrl = externalUrl.replace("http://192.168.0.13:3000/CICS/CWBA/buscajso", "/json");
+                        fetchContent(newUrl, 'GET', body);
+                      } else
+                        if (externalUrl.includes('buscaxml')) {
+                          newUrl = externalUrl.replace("http://192.168.0.13:3000/CICS/CWBA/buscajso", "/xml");
+                          fetchContent(newUrl, 'GET', body);
+                        }
 
 
 

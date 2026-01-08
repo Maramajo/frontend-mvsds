@@ -94,7 +94,7 @@ public class JsonController {
 	public String showjsonPost(@RequestParam("name") String nome) throws IOException, InterruptedException {
 	//	counter.increment(AATM004P);
 //		return json.showjson();
-		System.out.println("Dentro de json BUSCAJSO");
+		System.out.println("Dentro de json POST BUSCAJSO");
 		cliente = nome + "                              ";
 		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/BUSCAJSO"))
 				.POST(HttpRequest.BodyPublishers.ofString("name=" + cliente))
@@ -231,7 +231,7 @@ public class JsonController {
 	public String showjsonENPost(@RequestParam("name") String nome) throws IOException, InterruptedException {
 	//	counter.increment(AATM004P);
 //		return json.showjson();
-		System.out.println("Dentro de jsonEN BUSCAJSI");
+		System.out.println("Dentro de jsonEN POST BUSCAJSI");
 		clienteEn = nome + "                              ";
 		HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/BUSCAJSI"))
 				.POST(HttpRequest.BodyPublishers.ofString("name=" + clienteEn))

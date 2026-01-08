@@ -1,0 +1,210 @@
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .card {
+        border: 0.08rem solid #000;
+        margin-bottom: 0.25rem;
+    }
+
+    .cacho-uvas {
+        display: inline-block;
+        width: 64px;
+        height: 64px;
+        background-image: url("data:image/svg+xml;base64,PHN2ZyBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgdmlld0JveD0iMCAwIDY0IDY0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxjaXJjbGUgY3g9IjMyIiBjeT0iMTIiIHI9IjgiIGZpbGw9IiM4MGMxMzMiLz48Y2lyY2xlIGN4PSIyNCIgY3k9IjI0IiByPSI4IiBmaWxsPSIjOGMwYjMzIi8+PGNpcmNsZSBjeD0iNDAiIGN5PSIyNCIgcj0iOCIgZmlsbD0iIzgwOTMzMyIvPjxjaXJjbGUgY3g9IjMyIiBjeT0iMzYiIHI9IjgiIGZpbGw9IiM4YzBiMzMiLz48cGF0aCBkPSJNMzIgNGw0LTMiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlPSIjNjk1YzI4Ii8+PHBhdGggZD0iTTM2IDFsNS01IiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZT0iIzY5NWMyOCIvPjwvc3ZnPg==");
+        background-size: contain;
+        background-repeat: no-repeat;
+        position: relative;
+        top: 11px;
+    }
+
+    .marca {
+        font-family: 'UnifrakturCook', cursive;
+        font-size: 1.5rem;
+        color: #a50037 !important;
+    }
+
+    .nav-link {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #0066ff;
+    }
+
+    .nav-link:hover {
+        text-decoration: underline;
+    }
+
+    .coluna {
+        line-height: 1rem !important;
+        font-size: 0.90rem !important;
+    }
+
+    .campo-rem {
+        font-size: 0.80rem;
+        border: 0.025rem solid #000;
+        border-radius: 0.2rem;
+        padding: 0.05rem 0.05rem;
+    }
+
+    .campo-rem:focus {
+        border: 0.1rem solid #0066ff;
+        outline: none;
+        box-shadow: 0 0 0.15rem #66aaff;
+    }
+
+    .btn-pf {
+        padding: 0.20rem 0.45rem !important;
+        font-size: 0.6rem !important;
+        margin: 0.47rem !important;
+        line-height: 1.0 !important;
+        height: 1.4rem;
+        white-space: nowrap;
+        position: relative;
+    }
+
+    .btn-pf:hover::after {
+        content: attr(data-info);
+        position: absolute;
+        top: -32px;
+        right: 0;
+        background: #a50037;
+        color: #fff;
+        padding: 4px 8px;
+        font-size: 0.75rem;
+        white-space: nowrap;
+        border-radius: 4px;
+        z-index: 9999;
+        pointer-events: none;
+    }
+
+    .footer-note {
+        font-size: 0.85rem;
+        color: #666;
+        margin-top: 30px;
+        padding-top: 10px;
+        border-top: 1px solid #eee;
+    }
+
+    .cics-screen {
+        max-width: 100%;
+        /* remove limite */
+        padding: 0;
+        overflow: hidden;
+        /* CRÍTICO */
+        /* remove gordura */
+        font-size: 0.72rem;
+        /* densidade 3270 */
+        line-height: 1.1;
+    }
+
+    .field {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        white-space: nowrap;
+        /* CRÍTICO */
+    }
+
+    input {
+        font-size: 0.72rem;
+        padding: 0.05rem;
+        border: 0.05rem solid #000;
+    }
+
+    .field input {
+        flex: 0 0 auto;
+        /* não estica */
+    }
+
+
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 0.2rem 0.4rem;
+    }
+
+    .grid.head {
+        display: grid;
+        grid-template-columns: 6rem 1fr;
+        gap: 0.2rem 0.6rem;
+        align-items: center;
+    }
+
+
+
+
+    .right {
+        margin-left: auto;
+        flex: 0 0 auto;
+        /* empurra para a direita */
+    }
+
+
+
+    input:focus {
+        outline: none;
+        border-color: #0066ff;
+    }
+
+    .full {
+        grid-column: 1 / -1;
+    }
+
+    .c2 {
+        grid-column: span 2;
+    }
+
+    .c3 {
+        grid-column: span 3;
+    }
+
+    .c4 {
+        grid-column: span 4;
+    }
+
+
+
+    @media (max-width:1000px) {
+        .grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    @media (max-width:600px) {
+        .grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .head-line {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.4rem 0.8rem;
+        font-size: 0.7rem;
+        line-height: 1.05;
+    }
+
+    .item {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.15rem;
+    }
+
+    .label {
+        min-width: auto;
+        /* 🔴 remove trava */
+        font-weight: bold;
+    }
+
+    .value {
+        white-space: nowrap;
+        /* mantém números íntegros */
+        font-family: monospace;
+    }
+
+    .title {
+        flex-basis: 100%;
+        /* título em linha própria */
+    }

@@ -12,6 +12,7 @@ Jose Maria Costa Teixeira           - SALDO
 T - SALDODE
 Rafael - EXTRATODE
 Fábio - EXTRATO
+l - EXTRATO
 Jose - EXTRATODE
 - EXTRATODE
 José Maria Costa Teixeira - SALDO
@@ -19,6 +20,7 @@ T - SALDO
 G - EXTRATO
 José Maria Costa Teixeira - SALDODE
 Joé - EXTRATO
+ç - EXTRATODE
 J - EXTRATODE
 Bill Gates - SALDO
 k - EXTRATODE
@@ -31,6 +33,7 @@ l - SALDO
 Daiane - SALDODE
 josé marisa - SALDO
 a - EXTRATOEN
+nngkjhguyjhgb - SALDO
 José - EXTRATOEN
 F - EXTRATOEN
 Jos� Maria Costa Teixeira - EXTRATO
@@ -42,14 +45,18 @@ Jose maria - EXTRATOEN
 J - SALDOEN
 José - SALDO
 Jose - EXTRATO
+j - EXTRATO
+Jose Maria Costa Teixeira           - EXTRATO
 José Maria Costa Teixeira - EXTRATODE
 - EXTRATO
 Jose  Maria Costa Teixeira - SALDO
 - SALDO
 J - EXTRATO
 jos� - EXTRATO
+Pedrinho - EXTRATO
 José Maria Costa Teixeira - EXTRATO
 Marina C t fernando  - EXTRATO
+Jose Maria Costa Teixeira           - EXTRATODE
 Marina Cabral Teixeira Fernando - SALDO
 Joseggggv - EXTRATO
 k - SALDO
@@ -67,6 +74,7 @@ hkjg - EXTRATODE
 a - EXTRATODE
 k - SALDODE
 Daiane - EXTRATODE
+. - EXTRATO
 Jose - SALDOEN
 a - EXTRATO
 AA - SALDO

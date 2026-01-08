@@ -308,7 +308,7 @@ public class XmlController {
 	@ResponseBody
 	public String showxmlAl(@RequestParam("name") String nome) throws IOException, InterruptedException {
 		clienteAl = nome + "                              ";
-		System.out.println("Dentro de original/xmlDE html POST");
+		System.out.println("Dentro de /xmlDE html POST");
 			HttpRequest req = HttpRequest.newBuilder().uri(URI.create("http://192.168.0.13:3000/CICS/CWBA/BUSCAXMA"))
 				.POST(HttpRequest.BodyPublishers.ofString("name=" + clienteAl))
 				.header("Content-Type", "application/x-www-form-urlencoded; charset=ISO-8859-1").build();

@@ -30,11 +30,13 @@
       font-size: 1.5rem;
       color: #070000 !important;
     }
-	.titul1 {
-	      letter-spacing: 1px;
-	      font-size: 1.5rem;
-	      color: #a50037 !important;
-	    }
+
+    .titul1 {
+      letter-spacing: 1px;
+      font-size: 1.5rem;
+      color: #a50037 !important;
+    }
+
     .cacho-uvas {
       display: inline-block;
       width: 1.8rem;
@@ -65,17 +67,19 @@
     .nav-link.active {
       color: #a50037 !important;
     }
-	#principal-home p {
-	  text-indent: 4ch !important;
-	}
 
-	/* 🔸 SOMENTE CELULAR */
-	@media (max-width: 768px) {
-	  .header-container {
-	    flex-direction: column;
-	    align-items: flex-start;
-	    gap: 0.75rem;
-	  }
+    #principal-home p {
+      text-indent: 4ch !important;
+    }
+
+    /* 🔸 SOMENTE CELULAR */
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+      }
+
       .header-top {
         width: 100%;
         display: flex;
@@ -97,66 +101,74 @@
 
       .titulo {
         font-size: 1.25rem;
-		font-size: 1.5rem;
-		color: #070000 !important;
+        font-size: 1.5rem;
+        color: #070000 !important;
       }
 
       .nav-link {
         font-size: 1rem;
       }
-	  .col-esq {
-	    flex: 1 1 48%;
-	    min-width: 260px;
-	    background-repeat: no-repeat;
-	    background-position: right;
-	    overflow: hidden;
-	  }
-	  h3.section-header {
-	    font-weight: 700 !important;
-	    font-size: 1.25rem !important;
-	    color: #1f2937 !important;
-	    margin-top: 2rem !important;
-	    margin-bottom: 1rem !important;
-	  }
-	  h3.section-header > span {
-	    display: block;          /* força quebra de linha */
-	    font-size: 1rem !important;
-	    font-weight: 400 !important;
-	    color: #4b5563 !important; /* um cinza bonito */
-	    margin-top: 0.25rem;
-	  }
-	  /* garantir que .tag-pill sempre tenha o visual desejado */
-	  .tag-pill {
-	    background: #ebf5ff !important;
-	    color: #1e3a8a !important;
-	    font-size: .875rem !important;
-	    padding: .25rem .5rem !important;
-	    border-radius: .375rem !important;
-	    display: inline-block !important;
-	    margin-right: 0.25rem !important;
-	    margin-bottom: 0.25rem !important;
-	    white-space: nowrap;
-	  } 
-	  .contato {
-	     font-size: 1.2rem;
-	     font-weight: bold;
-	     color: #0066ff;
-	   }
-	   .whatsapp-contact {
-	      text-align: center;
-	      font-size: 24px;
-	      color: #075e54;
-	      /* Cor verde do WhatsApp */
-	      font-weight: bold;
-	    }
 
-	    .whatsapp-logo {
-	      width: 40px;
-	      vertical-align: middle;
-	      margin-right: 10px;
-	    }
+      .col-esq {
+        flex: 1 1 48%;
+        min-width: 260px;
+        background-repeat: no-repeat;
+        background-position: right;
+        overflow: hidden;
+      }
 
-   </style>
+      h3.section-header {
+        font-weight: 700 !important;
+        font-size: 1.25rem !important;
+        color: #1f2937 !important;
+        margin-top: 2rem !important;
+        margin-bottom: 1rem !important;
+      }
+
+      h3.section-header>span {
+        display: block;
+        /* força quebra de linha */
+        font-size: 1rem !important;
+        font-weight: 400 !important;
+        color: #4b5563 !important;
+        /* um cinza bonito */
+        margin-top: 0.25rem;
+      }
+
+      /* garantir que .tag-pill sempre tenha o visual desejado */
+      .tag-pill {
+        background: #ebf5ff !important;
+        color: #1e3a8a !important;
+        font-size: .875rem !important;
+        padding: .25rem .5rem !important;
+        border-radius: .375rem !important;
+        display: inline-block !important;
+        margin-right: 0.25rem !important;
+        margin-bottom: 0.25rem !important;
+        white-space: nowrap;
+      }
+
+      .contato {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #0066ff;
+      }
+
+      .whatsapp-contact {
+        text-align: center;
+        font-size: 24px;
+        color: #075e54;
+        /* Cor verde do WhatsApp */
+        font-weight: bold;
+      }
+
+      .whatsapp-logo {
+        width: 40px;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+    }
+  </style>
 </head>
 
 <body class="container mt-4 bg-gray-100 text-gray-800">
@@ -178,34 +190,30 @@
         <a id="contact-link" class="nav-link" href="/contato" data-route="contato">📬 Contato</a>
       </nav>
 
-	  <div class="dropdown">
-	    <button 
-	      id="langDropdown" 
-	      class="btn btn-outline-primary dropdown-toggle" 
-	      type="button" 
-	      data-bs-toggle="dropdown" 
-	      aria-expanded="false">
-	      🌐
-	    </button>
+      <div class="dropdown">
+        <button id="langDropdown" class="btn btn-outline-primary dropdown-toggle" type="button"
+          data-bs-toggle="dropdown" aria-expanded="false">
+          🌐
+        </button>
 
-		   <ul class="dropdown-menu" aria-labelledby="langDropdown">
-		        <li>
-		            <a class="dropdown-item" href="#" onclick="changeLang('pt'); return false;">
-		                <img src="https://flagcdn.com/w20/br.png" class="flag-icon" alt="BR"> Brasil | PT
-		            </a>
-		        </li>
-		        <li>
-		            <a class="dropdown-item" href="#" onclick="changeLang('en'); return false;">
-		                <img src="https://flagcdn.com/w20/us.png" class="flag-icon" alt="US"> US | EN
-		            </a>
-		        </li>
-		        <li>
-		            <a class="dropdown-item" href="#" onclick="changeLang('de'); return false;">
-		                <img src="https://flagcdn.com/w20/de.png" class="flag-icon" alt="DE"> Germany | DE
-		            </a>
-		        </li>
-		    </ul>
-		</div>
+        <ul class="dropdown-menu" aria-labelledby="langDropdown">
+          <li>
+            <a class="dropdown-item" href="#" onclick="changeLang('pt'); return false;">
+              <img src="https://flagcdn.com/w20/br.png" class="flag-icon" alt="BR"> Brasil | PT
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="#" onclick="changeLang('en'); return false;">
+              <img src="https://flagcdn.com/w20/us.png" class="flag-icon" alt="US"> US | EN
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="#" onclick="changeLang('de'); return false;">
+              <img src="https://flagcdn.com/w20/de.png" class="flag-icon" alt="DE"> Germany | DE
+            </a>
+          </li>
+        </ul>
+      </div>
 
       <div class="text-primary fw-bold marca">MARAMAJO</div>
     </div>
@@ -226,11 +234,13 @@
 
   <script src="http://maramajo.ddns.net:32000/js/aba12v01.js"
     onerror="console.error('Erro ao carregar aba12.js: ', event);"></script>
-	<script src="http://maramajo.ddns.net:32000/js/json0002.js"
-	    onerror="console.error('Erro ao carregar json0001.js: ', event);"></script> 
-	<script src="http://maramajo.ddns.net:32000/js/originalLangZOS.js"
-	    onerror="console.error('Erro ao carregar originalLangZOS.js: ', event);"></script> 
-	
+  <script src="http://maramajo.ddns.net:32000/js/json0002.js"
+    onerror="console.error('Erro ao carregar json0001.js: ', event);"></script>
+  <script src="http://maramajo.ddns.net:32000/js/originalLangZOS.js"
+    onerror="console.error('Erro ao carregar originalLangZOS.js: ', event);"></script>
+  <script src="http://maramajo.ddns.net:32000/js/kmp1101p.js"
+    onerror="console.error('Erro ao carregar kmp1101p.js: ', event);"></script>
+
 </body>
 
 </html>

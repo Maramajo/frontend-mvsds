@@ -1,11 +1,5 @@
 console.log("Início do script de tradução.");
 
-var translations = {
-  pt: { home: "Home", proposals: "Propostas", about: "Sobre", contact: "Contacte-nos", langLabel: "Brasil | PT", flag: "https://flagcdn.com/w20/br.png" },
-  en: { home: "Home", proposals: "Proposals", about: "About", contact: "Contact us", langLabel: "US | EN", flag: "https://flagcdn.com/w20/us.png" },
-  de: { home: "Start", proposals: "Angebote", about: "Über uns", contact: "Kontakt", langLabel: "Germany | DE", flag: "https://flagcdn.com/w20/de.png" }
-};
-
 (function () {
   var KEY = "lang";
   console.log("Definindo window.changeLang...");

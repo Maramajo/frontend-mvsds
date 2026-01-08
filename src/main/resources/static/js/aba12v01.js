@@ -36,7 +36,8 @@ const translations = {
       "/original/SALDO": "Extrato de Saldos",
       "/original/EXTRATO": "Extrato Bancário",
       "/original/json": "Json Demo",
-      "/original/xml": "Xml Demo"
+      "/original/xml": "Xml Demo",
+      "/cartao": "Cartão Demo"
     },
     home: "🏠 Home",
     propostas: "💼 Propostas",
@@ -91,6 +92,7 @@ A experiência acumulada da equipe de Gestão da <span class="marca">Maramajo</s
     extratoLink: "/original/EXTRATO",
     jsonLink: "/original/json",
     xmlLink: "/original/xml",
+    cartaoLink: "/cartao",
     mainTitle: "CWS",
     subTitle: "Simplificação de Middleware em Sistemas Críticos",
     intro: "Eliminando camadas desnecessárias de middleware para arquiteturas empresariais mais simples, rápidas e seguras.",
@@ -149,7 +151,8 @@ A experiência acumulada da equipe de Gestão da <span class="marca">Maramajo</s
       "/original/SALDOEN": "Balance Statement",
       "/original/EXTRATOEN": "Bank statement",
       "/original/jsonEN": "Json Demo",
-      "/original/xmlEN": "Xml Demo"
+      "/original/xmlEN": "Xml Demo",
+      "/cartao": "Cartão Demo"
     },
     home: "🏠 Home",
     propostas: "💼 Proposals",
@@ -205,6 +208,7 @@ The accumulated experience of <span class="marca">Maramajo's</span> management t
     extratoLink: "/original/EXTRATOEN",
     jsonLink: "/original/jsonEN",
     xmlLink: "/original/xmlEN",
+    cartaoLink: "/cartao",
     mainTitle: "CWS",
     subTitle: "Middleware Simplification in Critical Systems",
     intro: "Eliminating unnecessary middleware layers for simpler, faster, and more secure enterprise architectures.",
@@ -264,7 +268,8 @@ The accumulated experience of <span class="marca">Maramajo's</span> management t
       "/original/SALDODE": "Bilanz",
       "/original/EXTRATODE": "Kontoauszug",
       "/original/jsonDE": "JSON-Demo",
-      "/original/xmlDE": "XML-Demo"
+      "/original/xmlDE": "XML-Demo",
+      "/cartao": "Cartao Demo"
     },
     home: "🏠 Startseite",
     propostas: "💼 Vorschläge",
@@ -319,6 +324,7 @@ Die gesammelte Erfahrung des Managementteams von <span class="marca">Maramajo</s
     extratoLink: "/original/EXTRATODE",
     jsonLink: "/original/jsonDE",
     xmlLink: "/original/xmlDE",
+    cartaoLink: "/cartao",
     mainTitle: "CWS",
     subTitle: "Middleware-Vereinfachung in kritischen Systemen",
     intro: "Beseitigung unnötiger Middleware-Schichten für einfachere, schnellere und sicherere Unternehmensarchitekturen.",
@@ -598,7 +604,7 @@ const routes = {
   '/propostas': renderPropostas,
   '/sobre': renderSobre,
   '/contato': renderContato,
-   '/original/zOS': () => '',
+  '/original/zOS': () => '',
   '/original/zOE': () => '',
   '/original/zOA': () => '',
   '/original/SALDO': () => '',
@@ -697,11 +703,20 @@ async function fetchContent(endpoint, method = 'GET', body = null) {
     }
   }
   contentDiv.innerHTML = `<div class="loading">${t.loading}</div>`;
+  if (endpoint === '/original') {
+
+    changeLang(lang);
+    initTooltips();
+    await initializeBootstrap();
+    // updateDoctemplate(lang);
+    reattachEventListeners();
+    return;
+  }
   try {
     let tiraDuplicidade = addBasePath(endpoint);
-    console.log('tiraduplicidade - '+tiraDuplicidade)
-    let replaced = tiraDuplicidade.replace('/original/original/','/original/');
-    console.log('tiraduplicidade - '+replaced)
+    console.log('tiraduplicidade - ' + tiraDuplicidade)
+    let replaced = tiraDuplicidade.replace('/original/original/', '/original/');
+    console.log('tiraduplicidade - ' + replaced)
     const fullEndpoint = replaced; // Garante /original/xxx
     //console.log('Buscando conteúdo para:', fullEndpoint);
     const response = await fetch(`http://maramajo.ddns.net:32000${fullEndpoint}`, {
@@ -714,16 +729,18 @@ async function fetchContent(endpoint, method = 'GET', body = null) {
     });
     if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
     const text = await response.text();
-//    const decoder = new TextDecoder('iso-8859-1');
- //   const text = decoder.decode(buffer);
-
+    //    const decoder = new TextDecoder('iso-8859-1');
+    //   const text = decoder.decode(buffer);
+    var url = new URL(endpoint, window.location.origin);
     if ([
       '/original/zOS', '/original/zOE', '/original/zOA',
       '/original/SALDO', '/original/SALDOEN', '/original/SALDODE',
       '/original/EXTRATO', '/original/EXTRATOEN', '/original/EXTRATODE',
       '/original/json', '/original/jsonEN', '/original/jsonDE',
-      '/original/xml', '/original/xmlEN', '/original/xmlDE'
-    ].includes(fullEndpoint)) {
+      '/original/xml', '/original/xmlEN', '/original/xmlDE',
+      '/original/cartao', '/original/cartaoEN', '/original/cartaoDE',
+      '/original/ai01'
+    ].includes(url.pathname)) {
       const parser = new DOMParser();
       const doc = parser.parseFromString(text, 'text/html');
       const targetDiv = doc.querySelector('div.vazia');
@@ -851,7 +868,7 @@ function renderContent(path, lang) {
   try {
     contentDiv.innerHTML = routeFunction(lang);
     // 🔥 ALTERAÇÃO AQUI: reinicializa tooltips sempre que conteúdo externo for injetado
-      initTooltips();
+    initTooltips();
 
     const filesTitleEl = document.getElementById('files-title');
     if (filesTitleEl) {
@@ -980,7 +997,8 @@ function changeLang(lang) {
     '/jsonDE': t.jsonLink,
     '/xml': () => '',
     '/xmlEN': () => '',
-    '/xmlDE': () => ''
+    '/xmlDE': () => '',
+    '/cartao': t.cartaoLink
   };
   if (endpointMap[routeKey]) {
     const endpoint = endpointMap[routeKey];
@@ -1011,25 +1029,26 @@ function reattachEventListeners() {
     link.removeEventListener('click', navLinkHandler);
     link.addEventListener('click', navLinkHandler);
   });
- // document.querySelectorAll('a[href="/original/zOS"], a[href="/original/zOE"], a[href="/original/zOA"], a[href="/original/SALDO"], a[href="/original/SALDOEN"], a[href="/original/SALDODE"], a[href="/original/EXTRATO"], a[href="/original/EXTRATOEN"], a[href="/original/EXTRATODE"], a[href="/original/json"], a[href="/original/jsonEN"], a[href="/original/jsonDE"], a[href="/original/xml"], a[href="/original/xmlEN"], a[href="/original/xmlDE"]').forEach(link => {
+  // document.querySelectorAll('a[href="/original/zOS"], a[href="/original/zOE"], a[href="/original/zOA"], a[href="/original/SALDO"], a[href="/original/SALDOEN"], a[href="/original/SALDODE"], a[href="/original/EXTRATO"], a[href="/original/EXTRATOEN"], a[href="/original/EXTRATODE"], a[href="/original/json"], a[href="/original/jsonEN"], a[href="/original/jsonDE"], a[href="/original/xml"], a[href="/original/xmlEN"], a[href="/original/xmlDE"]').forEach(link => {
   document.querySelectorAll(
-  'a[href="/original/zOS"], ' +
-  'a[href="/original/zOE"], ' +
-  'a[href="/original/zOA"], ' +
-  'a[href="/original/SALDO"], ' +
-  'a[href="/original/SALDOEN"], ' +
-  'a[href="/original/SALDODE"], ' +
-  'a[href="/original/EXTRATO"], ' +
-  'a[href="/original/EXTRATOEN"], ' +
-  'a[href="/original/EXTRATODE"], ' +
-  'a[href="/original/json"], ' +
-  'a[href="/original/jsonEN"], ' +
-  'a[href="/original/jsonDE"], ' +
-  'a[href="/original/xml"], ' +
-  'a[href="/original/xmlEN"], ' +
-  'a[href="/original/xmlDE"]'
-).forEach(link => {
-   link.removeEventListener('click', endpointLinkHandler);
+    'a[href="/cartao"], ' +
+    'a[href="/original/zOS"], ' +
+    'a[href="/original/zOE"], ' +
+    'a[href="/original/zOA"], ' +
+    'a[href="/original/SALDO"], ' +
+    'a[href="/original/SALDOEN"], ' +
+    'a[href="/original/SALDODE"], ' +
+    'a[href="/original/EXTRATO"], ' +
+    'a[href="/original/EXTRATOEN"], ' +
+    'a[href="/original/EXTRATODE"], ' +
+    'a[href="/original/json"], ' +
+    'a[href="/original/jsonEN"], ' +
+    'a[href="/original/jsonDE"], ' +
+    'a[href="/original/xml"], ' +
+    'a[href="/original/xmlEN"], ' +
+    'a[href="/original/xmlDE"]'
+  ).forEach(link => {
+    link.removeEventListener('click', endpointLinkHandler);
     link.addEventListener('click', endpointLinkHandler);
     //console.log('Evento anexado para link:', link.getAttribute('href'));
   });
@@ -1097,29 +1116,45 @@ function dropdownItemHandler(event) {
 function formHandler(event) {
   const form = event.target;
   const endpoint = form.action ? form.action.replace('http://maramajo.ddns.net:32000', '') : '';
- // if (['/original/SALDO', '/original/json', '/original/jsonEN', '/original/jsonDE', '/original/SALDOEN', '/original/SALDODE', '/original/EXTRATO', '/original/EXTRATOEN', '/original/EXTRATODE'].includes(endpoint)) {
- if ([
-  '/original/SALDO',
-  '/original/json',
-  '/original/jsonEN',
-  '/original/jsonDE',
-  '/original/SALDOEN',
-  '/original/SALDODE',
-  '/original/EXTRATO',
-  '/original/EXTRATOEN',
-  '/original/EXTRATODE',
-  '/original/xml',
-  '/original/xmlEN',
-  '/original/xmlDE',
-].includes(endpoint)) {
-  
- event.preventDefault();
+  // if (['/original/SALDO', '/original/json', '/original/jsonEN', '/original/jsonDE', '/original/SALDOEN', '/original/SALDODE', '/original/EXTRATO', '/original/EXTRATOEN', '/original/EXTRATODE'].includes(endpoint)) {
+  var url = new URL(endpoint, window.location.origin);
+  if (url.pathname === '/') {
+    url.pathname = '/original';
+  }
+  if (url.pathname === '/ai01') {
+    url.pathname = '/original/ai01';
+  }
+  if (url.pathname === '/zOS') {
+    url.pathname = '/original/zOS';
+  }
+
+  if ([
+    '/original/cartao',
+    '/original/SALDO',
+    '/original/json',
+    '/original/jsonEN',
+    '/original/jsonDE',
+    '/original/SALDOEN',
+    '/original/SALDODE',
+    '/original/EXTRATO',
+    '/original/EXTRATOEN',
+    '/original/EXTRATODE',
+    '/original/xml',
+    '/original/xmlEN',
+    '/original/xmlDE',
+    '/original/ai01'
+  ].includes(url.pathname)) {
+
+    event.preventDefault();
     const formData = new FormData(form);
     const body = Object.fromEntries(formData);
     const fullEndpoint = addBasePath(endpoint); // Garante /original/xxx
     //console.log('Formulário enviado para:', fullEndpoint, body);
     history.pushState(null, null, fullEndpoint);
     fetchContent(fullEndpoint, 'POST', body);
+  } else {
+     history.pushState(null, null, url.pathname);
+    fetchContent(url.pathname, 'GET');
   }
 }
 
@@ -1266,25 +1301,26 @@ window.addEventListener('popstate', () => {
   }
   initializeBootstrap().then(() => {
     //console.log('Bootstrap inicializado, renderizando conteúdo para:', rawPath);
-  //  if (['/original/json', '/original/jsonEN', '/original/jsonDE','/original/zOS', '/original/zOE', '/original/zOA', '/original/SALDO', '/original/SALDOEN', '/original/SALDODE', '/original/EXTRATO', '/original/EXTRATOEN', '/original/EXTRATODE'].includes(pathForRender)) {
-  if ([
-  '/original/json',
-  '/original/jsonEN',
-  '/original/jsonDE',
-  '/original/zOS',
-  '/original/zOE',
-  '/original/zOA',
-  '/original/SALDO',
-  '/original/SALDOEN',
-  '/original/SALDODE',
-  '/original/EXTRATO',
-  '/original/EXTRATOEN',
-  '/original/EXTRATODE',
-  '/original/xml',
-  '/original/xmlEN',
-  '/original/xmlDE',
-].includes(pathForRender)) { 
-  fetchContent(pathForRender);
+    //  if (['/original/json', '/original/jsonEN', '/original/jsonDE','/original/zOS', '/original/zOE', '/original/zOA', '/original/SALDO', '/original/SALDOEN', '/original/SALDODE', '/original/EXTRATO', '/original/EXTRATOEN', '/original/EXTRATODE'].includes(pathForRender)) {
+    if ([
+      '/cartao',
+      '/original/json',
+      '/original/jsonEN',
+      '/original/jsonDE',
+      '/original/zOS',
+      '/original/zOE',
+      '/original/zOA',
+      '/original/SALDO',
+      '/original/SALDOEN',
+      '/original/SALDODE',
+      '/original/EXTRATO',
+      '/original/EXTRATOEN',
+      '/original/EXTRATODE',
+      '/original/xml',
+      '/original/xmlEN',
+      '/original/xmlDE',
+    ].includes(pathForRender)) {
+      fetchContent(pathForRender);
     } else {
       renderContent(stripBasePath(pathForRender), localStorage.getItem('lang') || 'pt');
     }
@@ -1301,8 +1337,8 @@ function initTooltips() {
   document.querySelectorAll(".hover-info").forEach(btn => {
 
     // EVITA adicionar eventos duplicados
-    if (btn.dataset.tooltipBound === "1") return;  
-    btn.dataset.tooltipBound = "1";               
+    if (btn.dataset.tooltipBound === "1") return;
+    btn.dataset.tooltipBound = "1";
 
     btn.addEventListener("mouseenter", () => {
       floating.textContent = btn.dataset.info || "";
@@ -1323,3 +1359,154 @@ function initTooltips() {
     });
   });
 }
+//=========Tirar???
+(function () {
+  const KEY = "lang";
+
+  // ==========================
+  // HELPER: navegação SPA (GET)
+  // ==========================
+  function spaGet(endpoint) {
+    history.pushState(null, "", endpoint);
+
+    if (endpoint.includes("json") || endpoint.includes("xml")) {
+      envio(endpoint.replace("/", ""));
+      return;
+    }
+
+    fetchContent(endpoint, "GET");
+  }
+
+  // ==========================
+  // TROCA DE IDIOMA (GET / SPA)
+  // ==========================
+  window.changeLang = function (lang, isInitialLoad = false) {
+    try {
+      const d = translations[lang] || translations.pt;
+
+      // textos
+      document.querySelectorAll("[data-key]").forEach(el => {
+        const k = el.getAttribute("data-key");
+        if (d[k] != null) el.textContent = d[k];
+      });
+
+      // label + flag
+      const lbl = document.getElementById("lang-label");
+      const flg = document.getElementById("lang-flag");
+      if (lbl) lbl.textContent = d.langLabel;
+      if (flg) flg.src = d.flag;
+
+      localStorage.setItem(KEY, lang);
+
+      if (isInitialLoad) return;
+
+      const pageName = window.location.pathname.replace("/", "");
+      let target = pageName;
+      // depois de calcular "target"
+
+      const pathname = window.location.pathname;
+
+      // HOME: só troca textos, não recarrega
+      if (pathname === "/" || pathname === ""
+        || pathname === "/propostas" || pathname === "/sobre"
+        || pathname === "/contato"
+      ) {
+        renderContent(pathname, lang);
+        return;
+      }
+
+      if (pageName.startsWith("SAL")) {
+        target = lang === "de" ? "SALDODE" :
+          lang === "en" ? "SALDOEN" : "SALDO";
+      }
+
+      if (pageName.startsWith("EXT")) {
+        target = lang === "de" ? "EXTRATODE" :
+          lang === "en" ? "EXTRATOEN" : "EXTRATO";
+      }
+
+      if (pageName.startsWith("zO")) {
+        target = lang === "de" ? "zOA" :
+          lang === "en" ? "zOE" : "zOS";
+      }
+
+      if (pageName.startsWith("json")) {
+        target = lang === "de" ? "jsonDE" :
+          lang === "en" ? "jsonEN" : "json";
+      }
+
+      if (pageName.startsWith("xml")) {
+        target = lang === "de" ? "xmlDE" :
+          lang === "en" ? "xmlEN" : "xml";
+      }
+
+      if (pageName.startsWith("car")) {
+        target = lang === "de" ? "cartaoDE" :
+          lang === "en" ? "cartaoEN" : "cartao";
+      }
+
+
+      spaGet("/" + target);
+
+
+    } catch (e) {
+      console.error("Erro no changeLang:", e);
+    }
+  };
+
+  // ==========================
+  // REFRESH SPA (GET)
+  // ==========================
+  window.refreshPage = function () {
+    const endpoint = window.location.pathname;
+
+    if (endpoint.includes("json") || endpoint.includes("xml")) {
+      envio(endpoint.replace("/", ""));
+      return;
+    }
+
+    fetchContent(endpoint, "GET");
+  };
+
+  // ==========================
+  // INIT
+  // ==========================
+  document.addEventListener("DOMContentLoaded", function () {
+    const saved = localStorage.getItem(KEY) || "pt";
+    window.changeLang(saved, true);
+  });
+
+})();
+document.addEventListener('DOMContentLoaded', () => {
+  const resume = sessionStorage.getItem('resumeSubmit');
+  if (!resume) return;
+
+  sessionStorage.removeItem('resumeSubmit');
+
+  const path = sessionStorage.getItem('resumePath');
+  sessionStorage.removeItem('resumePath');
+
+  const form = document.getElementById('cwsForm');
+  if (!form) return;
+
+  form.action = path;
+
+  // chama como se fosse submit SPA
+  formHandler({
+    preventDefault: () => { },
+    target: form
+  });
+});
+function setCursorFromCICS() {
+  const form = document.getElementById("KMM111A");
+  if (!form) return;
+
+  const cur = form.querySelector('input[name="DFH_CURSOR"]');
+  if (!cur || !cur.value) return;
+
+  const target = form.querySelector(`[name="${cur.value}"]`);
+  if (!target) return;
+
+  target.focus();
+}
+
